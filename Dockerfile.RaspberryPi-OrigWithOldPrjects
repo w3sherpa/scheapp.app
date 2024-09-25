@@ -1,0 +1,33 @@
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/runtime:7.0.10-jammy-arm64v8 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["./SherpaTicket/SherpaTicket.csproj", "SherpaTicket/"]
+COPY ["./Common/SherpaTicket.Common.APIModels/SherpaTicket.Common.APIModels.csproj", "Common/SherpaTicket.Common.APIModels/"]
+COPY ["./Sabre/SherpaTicket.Sabre.Serialization/SherpaTicket.Sabre.Serialization.csproj", "Sabre/SherpaTicket.Sabre.Serialization/"]
+COPY ["./Common/SherpaTicket.Common.Convertors/SherpaTicket.Common.Convertors.csproj", "Common/SherpaTicket.Common.Convertors/"]
+COPY ["./Data/SherpaTicket.Data.AirportAirline/SherpaTicket.Data.AirportAirline.csproj", "Data/SherpaTicket.Data.AirportAirline/"]
+COPY ["./NugetPackages/EntityFramework/EntityFramework.csproj", "NugetPackages/EntityFramework/"]
+COPY ["./Data/SherpaTicket.Data.AppConfig/SherpaTicket.Data.AppConfig.csproj", "Data/SherpaTicket.Data.AppConfig/"]
+COPY ["./Data/SherpaTicket.Data.FlightInfo/SherpaTicket.Data.FlightInfo.csproj", "Data/SherpaTicket.Data.FlightInfo/"]
+COPY ["./Data/SherpaTicket.Data.Team/SherpaTicket.Data.Team.csproj", "Data/SherpaTicket.Data.Team/"]
+COPY ["./Data/SherpaTicket.Data.UserSubscription/SherpaTicket.Data.UserSubscription.csproj", "Data/SherpaTicket.Data.UserSubscription/"]
+COPY ["./Sabre/SherpaTicket.Sabre.ApiHelpers/SherpaTicket.Sabre.ApiHelpers.csproj", "Sabre/SherpaTicket.Sabre.ApiHelpers/"]
+COPY ["./Sabre/SherpaTicket.Sabre.Workflow/SherpaTicket.Sabre.Workflow.csproj", "Sabre/SherpaTicket.Sabre.Workflow/"]
+RUN dotnet restore "SherpaTicket/SherpaTicket.csproj"
+COPY . .
+WORKDIR "/src/SherpaTicket"
+RUN dotnet build "SherpaTicket.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish  --runtime linux-arm64 --self-contained  "SherpaTicket.csproj" -c Release -o /app/publish /p:UseAppHost=true
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "SherpaTicket.dll"]
