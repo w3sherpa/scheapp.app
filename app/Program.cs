@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using scheapp.app.Data;
+using scheapp.app.DataServices;
+using scheapp.app.DataServices.Interfaces;
+using scheapp.app.Helpers;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? throw new InvalidOperationException("Connection string 'scheappappContextConnection' not found.");
 
@@ -9,7 +13,19 @@ builder.Services.AddDbContext<ScheAppIdentityContext>(options => options.UseSqlS
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ScheAppIdentityContext>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
+builder.Services.AddHttpClient("ScheduleAppointmentApi", client =>
+{
+    string authUser = builder.Configuration["ScheduleAppointmentApi:BasicAuthUid"]!;
+    string authPwd = builder.Configuration["ScheduleAppointmentApi:BasicAuthPwd"]!;
+    string authToken = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{authUser}:{authPwd}"));
+    client.BaseAddress = new Uri(builder.Configuration["ScheduleAppointmentApi:BaseURL"]!);
+    client.DefaultRequestHeaders.Authorization = null;
+    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authToken);
+});
+
+builder.Services.AddScoped<IApiHelper, ApiHelper>();
+builder.Services.AddScoped<IContactsDataService, ContactsDataService>();
 
 var app = builder.Build();
 

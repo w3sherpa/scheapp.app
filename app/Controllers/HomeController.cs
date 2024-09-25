@@ -1,6 +1,7 @@
 using app.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using scheapp.app.DataServices.Interfaces;
 using System.Diagnostics;
 
 namespace app.Controllers
@@ -9,14 +10,16 @@ namespace app.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IContactsDataService _contactsDataService;
+        public HomeController(ILogger<HomeController> logger,IContactsDataService contactsDataService)
         {
             _logger = logger;
+            _contactsDataService = contactsDataService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var test = await _contactsDataService.GetContactTypes();
             return View();
         }
 
