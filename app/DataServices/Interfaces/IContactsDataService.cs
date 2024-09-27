@@ -1,5 +1,4 @@
-﻿using scheapp.app.Models.Data;
-using System.Threading.Tasks;
+﻿using scheapp.app.Models.Data.Contacts;
 
 namespace scheapp.app.DataServices.Interfaces
 {

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data;
+using scheapp.app.Models.Data.Communication;
 
 namespace scheapp.app.DataServices
 {
-    public class CommunicationDataService 
+    public class CommunicationDataService : ICommunicationDataService
     {
         private readonly ILogger _logger;
         private readonly IApiHelper _apiHelper;

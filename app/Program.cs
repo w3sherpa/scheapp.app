@@ -26,6 +26,7 @@ builder.Services.AddHttpClient("ScheduleAppointmentApi", client =>
 
 builder.Services.AddScoped<IApiHelper, ApiHelper>();
 builder.Services.AddScoped<IContactsDataService, ContactsDataService>();
+builder.Services.AddScoped<ICommunicationDataService, CommunicationDataService>();
 
 var app = builder.Build();
 

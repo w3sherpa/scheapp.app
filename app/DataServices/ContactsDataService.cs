@@ -1,8 +1,6 @@
-﻿using Elastic.Transport;
-using Microsoft.EntityFrameworkCore;
-using scheapp.app.DataServices.Interfaces;
+﻿using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data;
+using scheapp.app.Models.Data.Contacts;
 
 namespace scheapp.app.DataServices
 {
