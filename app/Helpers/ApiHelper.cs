@@ -46,6 +46,10 @@ namespace scheapp.app.Helpers
                     string responseJson = await apiResponse.Content.ReadAsStringAsync();
                     responseModel = JsonConvert.DeserializeObject<T>(responseJson);
                 }
+                else
+                {
+                    throw new Exception($"Get data failed for {endpointPathWithParameters} with status code of {apiResponse.StatusCode}. View api logs for details.");
+                }
                 return responseModel;
             }
             catch (Exception ex)

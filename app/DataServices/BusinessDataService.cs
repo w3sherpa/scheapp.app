@@ -15,7 +15,7 @@ namespace scheapp.app.DataServices
             _apiHelper = apiHelper;
         }
 
-        public async Task<List<Business>> GetBusinesses() => await _apiHelper.CallGetApi<List<Business>>("/Business/GetBusinesss");
-        public async Task SaveBusinesses(Business business) => await _apiHelper.CallPostApi<Business>("/Business/SaveBusinesss", business);
+        public async Task<List<Business>> GetBusinesses() => await _apiHelper.CallGetApi<List<Business>>("/Business/GetBusinesses");
+        public async Task SaveBusinesses(Business business) => await _apiHelper.CallPostApi<Business>("/Business/SaveBusinesses", business);
     }
 }
