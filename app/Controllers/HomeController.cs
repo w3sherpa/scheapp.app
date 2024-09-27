@@ -11,15 +11,22 @@ namespace app.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IContactsDataService _contactsDataService;
-        public HomeController(ILogger<HomeController> logger,IContactsDataService contactsDataService)
+        private readonly IBusinessDataService _businessesDataService;
+        public HomeController(ILogger<HomeController> logger
+            ,IContactsDataService contactsDataService
+            , IBusinessDataService businessesDataService
+            )
         {
             _logger = logger;
             _contactsDataService = contactsDataService;
+            _businessesDataService = businessesDataService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var test = await _contactsDataService.GetContactTypes();
+            ///api tests
+            var contacts = await _contactsDataService.GetContactTypes();
+            var businesses = await _businessesDataService.GetBusinesses();
             return View();
         }
 
