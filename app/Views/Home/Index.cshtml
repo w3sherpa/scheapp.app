@@ -4,5 +4,55 @@
 
 <div class="text-center">
     <h1 class="display-4">Today's Appointments</h1>
-    
+    <button class="btn btn-primary" onclick="SaveProfessionalScheduleAppointmentRequests();">Save</button>
 </div>
+<script src="~/lib//microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script>
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub").build();
+    connection.on("UpdateAppointmentsView", function (name, status) {
+        console.log(name + "" + status);
+    });
+    connection.start();
+
+
+function SaveProfessionalScheduleAppointmentRequests() {
+    var requestBody = {};
+    requestBody.ProfessionalId = 1;
+    requestBody.CustomerId = 1;
+    requestBody.ServiceTypeId = 1;
+    requestBody.StartDT = new Date('2024-12-25 12:30:00');
+    requestBody.EndDT = new Date('2024-12-25 13:30:00');
+    requestBody.ProfessionalConfirmed = true;
+    requestBody.CustomerConfirmed = false;
+    requestBody.BusinessId = 1;
+    $.ajax({
+        'url': '/ProfessionalsData/SaveProfessionalScheduleAppointmentRequests',
+        'contentType': "application/json",
+        'type': 'POST',
+        'data': JSON.stringify(requestBody),
+        'success': function () {
+        },
+        'error': function (request, error) {
+            alert("Request: " + JSON.stringify(request));
+        }
+    });
+}
+function getUserPrefsSettings(username) {
+    $.ajax({
+        'url': '/Admin/GetUserPrefsSettings?username=' + username,
+        'contentType': "application/json",
+        'type': 'GET',
+        'success': function (data) {
+            $('#divDisplayUserSettings').html(createPrefDispalyHtml(data));
+            $('#displayUserInfos').html(userInfosDisplay(data.userInfos, data.userName));
+            console.log(data)
+        },
+        'error': function (request, error) {
+            alert("Request: " + JSON.stringify(request));
+        }
+    });
+}
+
+
+</script>

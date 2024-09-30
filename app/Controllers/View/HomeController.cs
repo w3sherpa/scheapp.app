@@ -1,16 +1,21 @@
 using app.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using scheapp.app.DataServices.Interfaces;
+using scheapp.app.Helpers;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-namespace app.Controllers
+namespace scheapp.app.Controllers.View
 {
     [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHubContext<ScheAppViewUpdateHub> _signalRScheAppHub;
+
+
         private readonly IContactsDataService _contactsDataService;
         private readonly IBusinessDataService _businessesDataService;
         private readonly ICustomerDataService _customersDataService;
@@ -18,7 +23,8 @@ namespace app.Controllers
         private readonly ICommunicationDataService _communicationsDataService;
         private readonly IServiceDataService _servicesDataService;
         public HomeController(ILogger<HomeController> logger
-            ,IContactsDataService contactsDataService
+            , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub
+            , IContactsDataService contactsDataService
             , IBusinessDataService businessesDataService
             , ICustomerDataService customersDataService
             , IProfessionalDataService professionalsDataService
@@ -27,9 +33,11 @@ namespace app.Controllers
             )
         {
             _logger = logger;
+            _signalRScheAppHub = signalRScheAppHub;
+
             _contactsDataService = contactsDataService;
             _businessesDataService = businessesDataService;
-            _customersDataService= customersDataService;
+            _customersDataService = customersDataService;
             _professionalsDataService = professionalsDataService;
             _communicationsDataService = communicationsDataService;
             _servicesDataService = servicesDataService;
@@ -44,12 +52,15 @@ namespace app.Controllers
                 var businesses = await _businessesDataService.GetBusinesses();
                 var customers = await _customersDataService.GetCustomers();
                 var professionals = await _professionalsDataService.GetProfessionals();
+                var professionalConfirmedSchedules = _professionalsDataService.GetProfessionalScheduleAppointmentRequests();
                 var customerCalls = await _communicationsDataService.GetCustomerCalls();
                 var professionalCalls = await _communicationsDataService.GetProfessionalCalls();
                 var serviceTypes = await _servicesDataService.GetServiceTypes();
                 var serviceDurations = await _servicesDataService.GetServiceDurations();
+
+                await _signalRScheAppHub.Clients.All.SendAsync("UpdateAppointmentsView", "padat", "12132");
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 _logger.LogError("{@Exception}", ex);
             }
