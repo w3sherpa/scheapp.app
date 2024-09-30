@@ -1,13 +1,3 @@
 {
-  "dependencies": {
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:scheappappContextConnection"
-    },
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:ScheApp",
-      "dynamicId": null
-    }
-  }
+  "dependencies": {}
 }

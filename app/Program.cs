@@ -40,7 +40,12 @@ var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? t
 
 builder.Services.AddDbContext<ScheAppIdentityContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ScheAppIdentityContext>();
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ScheAppIdentityContext>();
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddDefaultTokenProviders()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ScheAppIdentityContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
