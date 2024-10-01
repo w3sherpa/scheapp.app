@@ -10,5 +10,6 @@ namespace scheapp.app.Models.Data.Professionals
         public string? MiddleName { get; set; }
         public string LastName { get; set; } = "";
         public int BusinessId { get; set; }
+        public string AspNetUserId { get; set; } = "";
     }
 }
