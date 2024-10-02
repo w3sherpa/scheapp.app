@@ -67,6 +67,11 @@ namespace scheapp.app.Controllers.View
             return View();
         }
 
+        public IActionResult CssExamples()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

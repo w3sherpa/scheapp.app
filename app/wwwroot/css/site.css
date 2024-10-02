@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+    body.dark-mode {
+        background-color: #343a40;
+        color: #ffffff;
+    }

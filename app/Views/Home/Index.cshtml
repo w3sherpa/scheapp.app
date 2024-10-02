@@ -3,11 +3,20 @@
 }
 
 <div class="text-center">
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="darkModeToggle">
+        <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
+    </div>
     <h1 class="display-4">Today's Appointments</h1>
     <button class="btn btn-primary" onclick="SaveProfessionalScheduleAppointmentRequests();">Save</button>
 </div>
 <script src="~/lib//microsoft/signalr/dist/browser/signalr.min.js"></script>
 <script>
+
+    document.getElementById('darkModeToggle').addEventListener('change', function () {
+        document.body.classList.toggle('dark-mode');
+    });
+
 
     var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub").build();
     connection.on("UpdateAppointmentsView", function (name, status) {
@@ -28,10 +37,10 @@ function SaveProfessionalScheduleAppointmentRequests() {
     requestBody.BusinessId = 1;
     $.ajax({
             'url': '/ScheduleAppointment/SaveProfessionalScheduleAppointmentRequests',
-        'contentType': "application/json",
-        'type': 'POST',
-        'data': JSON.stringify(requestBody),
-        'success': function () {
+            'contentType': "application/json",
+            'type': 'POST',
+            'data': JSON.stringify(requestBody),
+            'success': function () {
         },
         'error': function (request, error) {
             alert("Request: " + JSON.stringify(request));
