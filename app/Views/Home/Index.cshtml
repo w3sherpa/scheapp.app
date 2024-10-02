@@ -27,7 +27,7 @@ function SaveProfessionalScheduleAppointmentRequests() {
     requestBody.CustomerConfirmed = false;
     requestBody.BusinessId = 1;
     $.ajax({
-        'url': '/ProfessionalsData/SaveProfessionalScheduleAppointmentRequests',
+            'url': '/ScheduleAppointment/SaveProfessionalScheduleAppointmentRequests',
         'contentType': "application/json",
         'type': 'POST',
         'data': JSON.stringify(requestBody),

@@ -29,7 +29,7 @@ namespace scheapp.app.Controllers.Data
         {
             try
             {
-               
+                var professionals = ( await _professionalsDataService.GetProfessionals() ).Where(p=>p.BusinessId == professionalInfoRequest.BusinessId);
                 return Ok();
             }
             catch (Exception ex)

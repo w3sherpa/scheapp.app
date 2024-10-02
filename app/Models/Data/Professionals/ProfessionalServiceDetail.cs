@@ -7,7 +7,7 @@ namespace scheapp.app.Models.Data.Professionals
 
         public int Id { get; set; }
         public int ProfessionalId { get; set; }
-        public int ServiceTypeId { get; set; }
+        public int ServiceId { get; set; }
         public int ServiceDurationId { get; set; }
         public decimal Price { get; set; }
     }

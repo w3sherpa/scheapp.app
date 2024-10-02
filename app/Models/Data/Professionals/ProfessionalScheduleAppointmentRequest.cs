@@ -8,7 +8,7 @@ namespace scheapp.app.Models.Data.Professionals
         public int Id { get; set; }
         public int ProfessionalId { get; set; }
         public int CustomerId { get; set; }
-        public int ServiceTypeId { get; set; }
+        public int ServiceId { get; set; }
         public DateTime StartDT { get; set; } = DateTime.MinValue;
         public DateTime EndDT { get; set; } = DateTime.MinValue;
         public bool ProfessionalConfirmed { get; set; }

@@ -18,7 +18,7 @@ namespace scheapp.app.Controllers.Data
         private readonly IProfessionalDataService _professionalsDataService;
 
         public ScheduleAppointmentController(
-             Logger<ScheduleAppointmentController> logger
+             ILogger<ScheduleAppointmentController> logger
             , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub
             , IProfessionalDataService professionalsDataService)
         {
