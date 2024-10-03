@@ -6,16 +6,18 @@ EXPOSE 8080
 EXPOSE 8002
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["./app/scheapp.csproj", "scheapp.app/"]
+COPY ["./app/scheapp.app.csproj", "app/"]
 
-RUN dotnet restore "scheapp.app/scheapp.csproj"
+RUN dotnet restore "./app/./scheapp.app.csproj"
 COPY . .
-WORKDIR "/src/scheapp.app"
-RUN dotnet build "scheapp.csproj" -c Release -o /app/build
+WORKDIR "/src/app"
+RUN dotnet build "./scheapp.app.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "scheapp.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./scheapp.app.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
