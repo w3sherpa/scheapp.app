@@ -7,7 +7,7 @@ pipeline {
     JENKINS_CREDENTIAL_VARIABLE = "dockerhubpwd"
     SERVICE_NAME = "scheapp"
     SERVICE_NAME_DOCKER_RUN = "scheapp_app"
-    SEVICE_PORT = 8090
+    SEVICE_PORT = 8002
     HOST_IP = "192.168.1.19"
     registryCredential = 'dockerhub'
     dockerImage = ''
