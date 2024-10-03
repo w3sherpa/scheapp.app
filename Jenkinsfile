@@ -4,7 +4,7 @@ pipeline {
     DOCKER_ACCOUNT_EMAIL = "lonheeti@gmail.com"
     JENKINS_CREDENTIAL_ID = "dockerhub"
     JENKINS_CREDENTIAL_VARIABLE = "dockerhubpwd"
-    JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER = 'websehrpa'
+    JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER = 'websherpa'
     SERVICE_NAME = "scheapp"
     SERVICE_NAME_DOCKER_RUN = "scheapp_app"
     SEVICE_PORT = 8002
