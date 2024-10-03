@@ -5,8 +5,8 @@ namespace scheapp.app.DataServices.Interfaces
     public interface IServiceDataService
     {
         Task<List<ServiceDuration>> GetServiceDurations();
-        Task<List<ServiceType>> GetServiceTypes();
+        Task<List<Service>> GetServices();
         Task SaveServiceDurations(ServiceDuration serviceDuration);
-        Task SaveServiceTypes(ServiceType serviceType);
+        Task SaveServices(Service serviceType);
     }
 }

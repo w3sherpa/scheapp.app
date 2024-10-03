@@ -2,11 +2,11 @@ pipeline {
   environment {
     DOCKER_ACCOUNT_NAME = "w3sherpa"
     DOCKER_ACCOUNT_EMAIL = "lonheeti@gmail.com"
-    DOCKER_NETWORK_NAME = "sherpaticket"
+    DOCKER_NETWORK_NAME = "scheapp"
     JENKINS_CREDENTIAL_ID = "dockerhub"
     JENKINS_CREDENTIAL_VARIABLE = "dockerhubpwd"
-    SERVICE_NAME = "sherpa-ticket"
-    SERVICE_NAME_DOCKER_RUN = "sherpaticket_app"
+    SERVICE_NAME = "scheapp"
+    SERVICE_NAME_DOCKER_RUN = "scheapp_app"
     SEVICE_PORT = 8090
     HOST_IP = "192.168.1.19"
     registryCredential = 'dockerhub'

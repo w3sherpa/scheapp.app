@@ -55,7 +55,7 @@ namespace scheapp.app.Controllers.View
                 var professionalConfirmedSchedules = _professionalsDataService.GetProfessionalScheduleAppointmentRequests();
                 var customerCalls = await _communicationsDataService.GetCustomerCalls();
                 var professionalCalls = await _communicationsDataService.GetProfessionalCalls();
-                var serviceTypes = await _servicesDataService.GetServiceTypes();
+                var serviceTypes = await _servicesDataService.GetServices();
                 var serviceDurations = await _servicesDataService.GetServiceDurations();
 
                 await _signalRScheAppHub.Clients.All.SendAsync("UpdateAppointmentsView", "padat", "12132");

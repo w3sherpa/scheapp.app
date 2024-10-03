@@ -13,8 +13,8 @@ namespace scheapp.app.DataServices
             _logger = logger;
             _apiHelper = apiHelper;
         }
-        public async Task<List<ServiceType>> GetServiceTypes() => await _apiHelper.CallGetApi<List<ServiceType>>("/Service/GetServiceTypes");
-        public async Task SaveServiceTypes(ServiceType serviceType) => await _apiHelper.CallPostApi<ServiceType>("/Service/SaveServiceTypes", serviceType);
+        public async Task<List<Service>> GetServices() => await _apiHelper.CallGetApi<List<Service>>("/Service/GetServices");
+        public async Task SaveServices(Service serviceType) => await _apiHelper.CallPostApi<Service>("/Service/SaveServices", serviceType);
         public async Task<List<ServiceDuration>> GetServiceDurations() => await _apiHelper.CallGetApi<List<ServiceDuration>>("/Service/GetServiceDurations");
         public async Task SaveServiceDurations(ServiceDuration serviceDuration) => await _apiHelper.CallPostApi<ServiceDuration>("/Service/SaveServiceDurations", serviceDuration);
     }
