@@ -2,9 +2,9 @@ pipeline {
   environment {
     DOCKER_ACCOUNT_NAME = "w3sherpa"
     DOCKER_ACCOUNT_EMAIL = "lonheeti@gmail.com"
-    DOCKER_NETWORK_NAME = "scheapp"
     JENKINS_CREDENTIAL_ID = "dockerhub"
     JENKINS_CREDENTIAL_VARIABLE = "dockerhubpwd"
+    JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER = 'websehrpa'
     SERVICE_NAME = "scheapp"
     SERVICE_NAME_DOCKER_RUN = "scheapp_app"
     SEVICE_PORT = 8002
@@ -41,16 +41,16 @@ pipeline {
     stage('Deploy App to Webserver') {
       steps {
        script{
-          sshagent(['sshwebserver']) {
-              def containerId = sh(script: 'ssh -o StrictHostKeyChecking=no -l websherpa ${HOST_IP} sudo docker ps -q --filter ancestor=${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest', returnStdout: true).trim()
+         sshagent(['sshwebserver']) {
+              def containerId = sh(script: 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker ps -q --filter ancestor=${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest', returnStdout: true).trim()
               if(containerId != ""){
-                  def command = 'ssh -o StrictHostKeyChecking=no -l websherpa ${HOST_IP} sudo docker stop '+ containerId
+                  def command = 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker stop '+ containerId
                   sh(script: command, returnStdout: true)
               }
               withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhubpwd')]) {
                 sh 'docker login -u ${DOCKER_ACCOUNT_EMAIL} -p ${dockerhubpwd}'
-                sh 'ssh -o StrictHostKeyChecking=no -l websherpa ${HOST_IP} sudo docker image pull ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest'
-                sh 'ssh -o StrictHostKeyChecking=no -l websherpa ${HOST_IP} sudo docker run --rm -d --name=${SERVICE_NAME_DOCKER_RUN} --net=${DOCKER_NETWORK_NAME} -p ${SEVICE_PORT}:8080 ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest'
+                sh 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker image pull ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest'
+                sh 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker run --rm -d --name=${SERVICE_NAME_DOCKER_RUN} -p ${SEVICE_PORT}:8080 ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest'
               }
               
           }
