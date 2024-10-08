@@ -1,6 +1,7 @@
 ﻿using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data.Professionals;
+using scheapp.app.Models.Data.DspModels;
+using scheapp.app.Models.Data.TableModels.Professionals;
 
 namespace scheapp.app.DataServices
 {
@@ -22,5 +23,10 @@ namespace scheapp.app.DataServices
         public async Task SaveProfessionalScheduleAppointmentRequests(ProfessionalScheduleAppointmentRequest professional) => await _apiHelper.CallPostApi<ProfessionalScheduleAppointmentRequest>("/Professional/SaveProfessionalScheduleAppointmentRequests", professional);
         public async Task<List<ProfessionalService>> GetProfessionalServices() => await _apiHelper.CallGetApi<List<ProfessionalService>>("/Professional/GetProfessionalServices");
         public async Task SaveProfessionalServices(ProfessionalService professional) => await _apiHelper.CallPostApi<ProfessionalService>("/Professional/SaveProfessionalServices", professional);
+
+        public async Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId)
+        {
+            return await _apiHelper.CallGetApi<List<ProfessionalScheduleAppointmentRequestsDetailDsp>>($"/Professional/GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId?businessId={businessId}");
+        }
     }
 }

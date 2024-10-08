@@ -1,4 +1,4 @@
-﻿using scheapp.app.Models.Data.Contacts;
+﻿using scheapp.app.Models.Data.TableModels.Contacts;
 
 namespace scheapp.app.DataServices.Interfaces
 {

@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Models\View\" />
+    <Folder Include="wwwroot\lib\jquery\datatables\" />
   </ItemGroup>
 
 </Project>

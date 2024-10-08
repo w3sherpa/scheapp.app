@@ -48,6 +48,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ScheAppIdentityContext>();
 
 // Add services to the container.
+
+
+
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
 builder.Services.AddHttpClient("ScheduleAppointmentApi", client =>
 {

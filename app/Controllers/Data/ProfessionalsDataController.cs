@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Mvc;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.app.Helpers;
 using scheapp.app.Models.Data;
-using scheapp.app.Models.Data.Businesses;
-using scheapp.app.Models.Data.Professionals;
 
 namespace scheapp.app.Controllers.Data
 {

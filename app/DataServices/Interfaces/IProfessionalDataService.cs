@@ -1,4 +1,5 @@
-﻿using scheapp.app.Models.Data.Professionals;
+﻿using scheapp.app.Models.Data.DspModels;
+using scheapp.app.Models.Data.TableModels.Professionals;
 
 namespace scheapp.app.DataServices.Interfaces
 {
@@ -12,5 +13,6 @@ namespace scheapp.app.DataServices.Interfaces
         Task SaveProfessionalScheduleAppointmentRequests(ProfessionalScheduleAppointmentRequest professional);
         Task SaveProfessionalSchedules(ProfessionalSchedule professional);
         Task SaveProfessionalServices(ProfessionalService professional);
+        Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId);
     }
 }
