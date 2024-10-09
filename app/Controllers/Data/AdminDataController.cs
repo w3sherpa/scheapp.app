@@ -4,10 +4,11 @@ using Newtonsoft.Json;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
 using scheapp.app.Models.Data;
+using scheapp.app.Models.Data.DspModels;
 
 namespace scheapp.app.Controllers.Data
 {
-    [Route("[controller]/[action]")]
+    [Route("[controller]/[Action]")]
     [ApiController]
     public class AdminDataController : ControllerBase
     {
@@ -27,12 +28,12 @@ namespace scheapp.app.Controllers.Data
             return Ok($"CommunicationController: Namaste {name}!");
         }
         [HttpPost]
-        public async Task<IActionResult> GetProfessionalScheduleAppointmentRequestsDetails(BusinessAppointmentRQ requestByBusinesId)
+        public async Task<IActionResult> GetProfessionalScheduleAppointmentRequestsDetails([FromBody]BusinessAppointmentRQ requestByBusinesId)
         {
             try
             {
                 var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2);
-                return Ok();
+                return Ok(new AppointmentListRS { RecordsCount = scheduledAppoitments.Count, Records = scheduledAppoitments});
             }
             catch (Exception ex)
             {
@@ -42,17 +43,17 @@ namespace scheapp.app.Controllers.Data
         }
 
     }
-
+    public class AppointmentListRS
+    {
+        public int RecordsCount { get; set; }
+        public List<ProfessionalScheduleAppointmentRequestsDetailDsp> Records { get; set; } = new ();
+    }
     public class BusinessAppointmentRQ
     {
         public int BusinessId { get; set; }
-        [JsonProperty("sortColumn")]
         public string SortColumn { get; set; }
-        [JsonProperty("sortOrder")]
         public string SortOrder { get; set; }
-        [JsonProperty("pageSize")]
         public int PageSize { get; set; }
-        [JsonProperty("pageNumber")]
         public int PageNumber { get; set; } 
 
     }

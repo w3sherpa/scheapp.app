@@ -35,7 +35,7 @@ namespace scheapp.app.Controllers.View
             try
             {
                 var scheduledAppoitments = await _professionalsDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2);
-                return Ok();
+                return Ok(scheduledAppoitments);
             }
             catch (Exception ex)
             {
