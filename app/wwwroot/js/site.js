@@ -1,4 +1,36 @@
-﻿var scheappadmin = scheappadmin || {};
+﻿
+var scheappadmin = scheappadmin || {};
+
+//NAVS
+
+$(".sidebar-dropdown > a").click(function () {
+    $(".sidebar-submenu").slideUp(200);
+    if (
+        $(this)
+            .parent()
+            .hasClass("active")
+    ) {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+            .parent()
+            .removeClass("active");
+    } else {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+            .next(".sidebar-submenu")
+            .slideDown(200);
+        $(this)
+            .parent()
+            .addClass("active");
+    }
+});
+
+scheappadmin.showSideBar = function () {
+    $("#divSidebarNavMain").addClass("toggled");
+}
+scheappadmin.hideSideBar = function () {
+    $("#divSidebarNavMain").removeClass("toggled");
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     scheappadmin.LoadScheduledAppointments(2);
@@ -16,6 +48,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+scheappadmin.loadView = function (controller, action) {
+    $("#divSidebarNavMain").removeClass("toggled");
+    $.ajax({
+        type: "GET",
+        url: '/'+controller+'/'+action,
+        success: function (data) {
+            $('#divScheAppContentDisplay').html(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("Sorry something went wrong. Please contact IT.")
+        }
+    });
+}
+
 scheappadmin.LoadScheduledAppointments = function (businessId) {
 
     var isAdminView = true;
@@ -89,7 +136,7 @@ scheappadmin.LoadScheduledAppointments = function (businessId) {
                     "name": "Professional"
                 },
                 {
-                    "data": "service",
+                    "data": "serviceName",
                     "name": "Service"
                 },
                 {

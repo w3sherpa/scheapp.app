@@ -27,6 +27,11 @@ namespace scheapp.app.Controllers.View
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult UserRoles()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(IdentityRole model)

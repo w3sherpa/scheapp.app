@@ -5,6 +5,7 @@ using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
 using scheapp.app.Models.Data;
 using scheapp.app.Models.Data.DspModels;
+using scheapp.app.Models.View;
 
 namespace scheapp.app.Controllers.Data
 {
@@ -14,9 +15,12 @@ namespace scheapp.app.Controllers.Data
     {
         private readonly ILogger _logger;
         private readonly IProfessionalDataService _professionalDataService;
+        
         public AdminDataController(
             ILogger<AdminDataController> logger
-            , IProfessionalDataService professionalDataService)
+            , IProfessionalDataService professionalDataService
+            , IBusinessDataService businessDataService
+            )
         {
             _logger = logger;
             _professionalDataService = professionalDataService;
@@ -33,7 +37,20 @@ namespace scheapp.app.Controllers.Data
             try
             {
                 var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2);
-                return Ok(new AppointmentListRS { RecordsCount = scheduledAppoitments.Count, Records = scheduledAppoitments});
+
+                List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM 
+                                                                                                        { StartDT = s.StartDT
+                                                                                                        , EndDT = s.EndDT 
+                                                                                                        , CustomerConfirmed = s.CustomerConfirmed
+                                                                                                        , ProfessionalConfirmed = s.ProfessionalConfirmed
+                                                                                                        , RequestDate = s.RequestDate
+                                                                                                        , ServiceName = s.ServiceName
+                                                                                                        , ScheduleAppointmentId = s.ScheduleAppointmentId
+                                                                                                        , Customer = $"{s.CustFrist} {s.CustLast}"
+                                                                                                        , Professional = $"{s.ProFirst} {s.ProLast}"
+                }).ToList();
+
+                return Ok(new AppointmentListRS { RecordsCount = scheduledAppoitments.Count, Records = prosche });
             }
             catch (Exception ex)
             {
@@ -46,7 +63,7 @@ namespace scheapp.app.Controllers.Data
     public class AppointmentListRS
     {
         public int RecordsCount { get; set; }
-        public List<ProfessionalScheduleAppointmentRequestsDetailDsp> Records { get; set; } = new ();
+        public List<ProfessionalScheduleAppointmentVM> Records { get; set; } = new ();
     }
     public class BusinessAppointmentRQ
     {

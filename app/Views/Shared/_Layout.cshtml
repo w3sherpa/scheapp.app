@@ -16,22 +16,20 @@
     <link href="~/lib/font-awesome/all.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="page-wrapper chiller-theme toggled">
+    <!--Add toggled class to show the nav expanded by default-->
+    <div id="divSidebarNavMain" class="page-wrapper chiller-theme"> 
 
         @{
             if (User.Identity.IsAuthenticated)
             {
-
-
-            
-                    <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+                <a id="show-sidebar" class="btn btn-sm btn-dark" onclick="scheappadmin.showSideBar();">
                         <i class="fas fa-bars"></i>
                     </a>
                     <nav id="sidebar" class="sidebar-wrapper">
                         <div class="sidebar-content">
                             <div class="sidebar-brand">
                                 <a href="#">MENU</a>
-                                <div id="close-sidebar">
+                            <div id="close-sidebar" onclick="scheappadmin.hideSideBar();">
                                     <i class="fas fa-times"></i>
                                 </div>
                             </div>
@@ -57,7 +55,7 @@
                                     <li class="header-menu">
                                         <span>General</span>
                                     </li>
-                                    <li class="sidebar-dropdown">
+                                    <li class="sidebar-dropdown" onclick="scheappadmin.sideBarDropdown();">
                                         <a href="#">
                                             <i class="fa fa-calendar-days"></i>
                                             <span>Schedules</span>
@@ -66,7 +64,7 @@
                                         <div class="sidebar-submenu">
                                             <ul>
                                                 <li>
-                                                    <a href="#">Todays Schedules</a>
+                                                    <a href="/BusinessAdmin/Index">Todays Schedules</a>
                                                 </li>
                                                 <li>
                                                     <a href="#">All Schedules</a>
@@ -100,9 +98,8 @@
                                         <div class="sidebar-submenu">
                                             <ul>
                                                 <li>
-                                                    <a href="#">
-                                                        Products
-
+                                                <a onClick="scheappadmin.loadView('Admin','Businesses')">
+                                                        Businesses
                                                     </a>
                                                 </li>
                                                 <li>
@@ -181,7 +178,7 @@
                                         <span>Extra</span>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                    <a onClick="scheappadmin.loadView('UserRoles','Index')">
                                             <i class="fa fa-book"></i>
                                             <span>Security</span>
                                             <span class="badge badge-pill badge-primary">Beta</span>
@@ -229,7 +226,9 @@
         }
         <main class="page-content">
             <div class="container-fluid">
-                @RenderBody()
+                <div id="divScheAppContentDisplay">
+                    @RenderBody()
+                </div>
             </div>
         </main>
     </div>
@@ -246,6 +245,7 @@
         </div>
     </footer>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/nav.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/admin.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
