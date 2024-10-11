@@ -1,4 +1,5 @@
-﻿using scheapp.app.Models.Data.TableModels.Communication;
+﻿using scheapp.app.Models.Data;
+using scheapp.app.Models.Data.TableModels.Communication;
 
 namespace scheapp.app.DataServices.Interfaces
 {
@@ -6,5 +7,6 @@ namespace scheapp.app.DataServices.Interfaces
     {
         Task<List<CustomerCall>> GetCustomerCalls();
         Task<List<ProfessionalCall>> GetProfessionalCalls();
+        Task UpdateTwilioCallStatus(TwilioStatusCallback statusCallback);
     }
 }
