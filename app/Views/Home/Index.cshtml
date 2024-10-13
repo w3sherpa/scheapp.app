@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<scheapp.app.Models.View.ProfessionalScheduleAppointmentVM>
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -8,7 +9,9 @@
         <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
     </div>
     <h1 class="display-4">Schedule Service Appointment System</h1>
-    <button class="btn btn-primary" onclick="SaveProfessionalScheduleAppointmentRequests();">Test SignalR</button>
+    @* <button class="btn btn-primary" onclick="SaveProfessionalScheduleAppointmentRequests();">Test SignalR</button> *@
+    <hr/>
+    @await Html.PartialAsync("_ScheAppCard",Model)
 </div>
 <script src="~/lib//microsoft/signalr/dist/browser/signalr.min.js"></script>
 <script>

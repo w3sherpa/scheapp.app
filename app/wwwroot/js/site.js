@@ -158,3 +158,7 @@ scheappadmin.LoadScheduledAppointments = function (businessId) {
             ]
         });
 }
+
+scheappadmin.NotifyCustomer = function (scheAppId) {
+    alert(scheAppId)
+}

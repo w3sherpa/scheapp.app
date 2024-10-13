@@ -1,0 +1,35 @@
+﻿@model List<scheapp.app.Models.View.ProfessionalScheduleAppointmentVM>
+
+<div class="row">
+    @{
+        foreach(var app in Model)
+        {
+            <div class="col-md-6 col-lg-4 column">
+                <div class="card gr-1">
+                    <div class="txt">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="user-pic">
+                                    <img class="img-responsive img-rounded" src="~/images/user-01.jpg" alt="User picture">
+                                </div>
+                                <div> <h6>@app.Customer</h6></div>
+                               
+                            </div>
+                            <div class="col-8">
+                                <h1>
+                                    @app.ServiceName
+                                </h1>
+                                <h3>@app.StartDT</h3>
+                                <P>Note for a professional goes here</P>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" onclick="scheappadmin.NotifyCustomer(@app.ScheduleAppointmentId)">I am ready</a>
+                    <div class="ico-card">
+                        <i class="fa fa-cut"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
