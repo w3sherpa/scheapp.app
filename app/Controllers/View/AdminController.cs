@@ -6,7 +6,7 @@ using scheapp.app.DataServices.Interfaces;
 namespace scheapp.app.Controllers.View
 {
     [Route("[controller]/[action]")]
-    //[Authorize(Roles = "scheappadmin")]
+    [Authorize(Roles = "scheapp_admin")]
     public class AdminController : Controller
     {
         private readonly ILogger _logger;

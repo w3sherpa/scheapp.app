@@ -20,12 +20,15 @@ namespace scheapp.app.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<LoginModel> _logger;
-
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        private readonly IConfiguration _config;
+        public LoginModel(IConfiguration config, SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
+            _config = config;
         }
 
         /// <summary>
@@ -115,6 +118,14 @@ namespace scheapp.app.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    // redirect user based on role
+                    var signInUser = await _signInManager.UserManager.FindByNameAsync(Input.Email);
+                    var userRoles = await _signInManager.UserManager.GetRolesAsync(signInUser);
+                    //var allRoles = _roleManager.Roles.Select(R=>R.Name).ToList();
+                    if ( userRoles.Where(ur=>ur.StartsWith("scheapp")).FirstOrDefault() != null ) returnUrl = "/Admin/Index";
+                    else if (userRoles.Where(ur => ur.StartsWith("business")).FirstOrDefault() != null) returnUrl = "/BusinessAdmin/Index";
+                    
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

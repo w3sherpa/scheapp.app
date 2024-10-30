@@ -1,4 +1,11 @@
-﻿<table id="tblScheApp_BusinessAdminAppointments" class="display nowrap" style="width:100%">
+﻿@model List<scheapp.app.Models.View.ProfessionalScheduleAppointmentVM>
+@{
+    Layout = "_BusinessLayout";
+}
+<div class="text-center">
+    @await Html.PartialAsync("_ScheAppCard", Model)
+</div>
+@* <table id="tblScheApp_BusinessAdminAppointments" class="display nowrap" style="width:100%">
     <thead>
         <tr>
             <th>Id</th>
@@ -13,3 +20,8 @@
         </tr>
     </thead>
 </table>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        scheappadmin.LoadScheduledAppointments(2);
+    });
+</script> *@

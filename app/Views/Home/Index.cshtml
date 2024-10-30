@@ -1,4 +1,4 @@
-﻿@model List<scheapp.app.Models.View.ProfessionalScheduleAppointmentVM>
+﻿
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -11,7 +11,6 @@
     <h1 class="display-4">Schedule Service Appointment System</h1>
     @* <button class="btn btn-primary" onclick="SaveProfessionalScheduleAppointmentRequests();">Test SignalR</button> *@
     <hr/>
-    @await Html.PartialAsync("_ScheAppCard",Model)
 </div>
 <script src="~/lib//microsoft/signalr/dist/browser/signalr.min.js"></script>
 <script>
@@ -50,21 +49,4 @@ function SaveProfessionalScheduleAppointmentRequests() {
         }
     });
 }
-function getUserPrefsSettings(username) {
-    $.ajax({
-        'url': '/Admin/GetUserPrefsSettings?username=' + username,
-        'contentType': "application/json",
-        'type': 'GET',
-        'success': function (data) {
-            $('#divDisplayUserSettings').html(createPrefDispalyHtml(data));
-            $('#displayUserInfos').html(userInfosDisplay(data.userInfos, data.userName));
-            console.log(data)
-        },
-        'error': function (request, error) {
-            alert("Request: " + JSON.stringify(request));
-        }
-    });
-}
-
-
 </script>

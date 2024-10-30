@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using scheapp.app.DataServices.Interfaces;
@@ -11,6 +12,7 @@ namespace scheapp.app.Controllers.Data
 {
     [Route("[controller]/[Action]")]
     [ApiController]
+    [Authorize(Roles = "business_admin,scheapp_admin")]
     public class AdminDataController : ControllerBase
     {
         private readonly ILogger _logger;

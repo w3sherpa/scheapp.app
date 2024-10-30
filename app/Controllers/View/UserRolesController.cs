@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace scheapp.app.Controllers.View
 {
-    [Authorize(Roles = "scheappadmin")]
+    [Authorize(Roles = "scheapp_admin")]
     public class UserRolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

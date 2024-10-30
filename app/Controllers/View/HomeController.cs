@@ -46,46 +46,6 @@ namespace scheapp.app.Controllers.View
 
         public async Task<IActionResult> Index()
         {
-            try
-            {
-                try
-                {
-                    var scheduledAppoitments = await _professionalsDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2);
-
-                    List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM
-                    {
-                        StartDT = s.StartDT
-                                                                                                            ,
-                        EndDT = s.EndDT
-                                                                                                            ,
-                        CustomerConfirmed = s.CustomerConfirmed
-                                                                                                            ,
-                        ProfessionalConfirmed = s.ProfessionalConfirmed
-                                                                                                            ,
-                        RequestDate = s.RequestDate
-                                                                                                            ,
-                        ServiceName = s.ServiceName
-                                                                                                            ,
-                        ScheduleAppointmentId = s.ScheduleAppointmentId
-                                                                                                            ,
-                        Customer = $"{s.CustFrist} {s.CustLast}"
-                                                                                                            ,
-                        Professional = $"{s.ProFirst} {s.ProLast}"
-                    }).ToList();
-
-                    return View(prosche);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError("{@Exception}", ex);
-                    return StatusCode(500, "Error Occured.");
-                }
-                //await _signalRScheAppHub.Clients.All.SendAsync("UpdateAppointmentsView", "padat", "12132");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("{@Exception}", ex);
-            }
             return View();
         }
 

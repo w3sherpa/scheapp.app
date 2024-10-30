@@ -14,5 +14,6 @@ namespace scheapp.app.DataServices.Interfaces
         Task SaveProfessionalSchedules(ProfessionalSchedule professional);
         Task SaveProfessionalServices(ProfessionalService professional);
         Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId);
+        Task<List<ProfessionalBusinessDetailDsp>> GetProfessionalBusinessDetailDsp(int? professionaId, int? businessId);
     }
 }

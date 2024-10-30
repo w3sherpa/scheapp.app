@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+@using Microsoft.AspNetCore.Identity
+@using scheapp.app.Models.Data.DspModels
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
+    string professionalAvatar = $"professional-{businessProfessional.ProfessionalId}.jpg";
+}
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - app</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/app.styles.css" asp-append-version="true" />
+    <link href="~/lib/jquery/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/all.min.css" rel="stylesheet" />
+    <link href="~/css/admin.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/all.css" rel="stylesheet" />
+</head>
+<body>
+    <!--Add toggled class to show the nav expanded by default-->
+    
+    <div id="divSidebarNavMain" class="page-wrapper chiller-theme"> 
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <a id="show-sidebar" class="btn btn-sm btn-dark" onclick="scheappadmin.showSideBar();">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                    <nav id="sidebar" class="sidebar-wrapper">
+                        <div class="sidebar-content">
+                            <div class="sidebar-brand">
+                                <a href="#">MENU</a>
+                            <div id="close-sidebar" onclick="scheappadmin.hideSideBar();">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="sidebar-header">
+                                <div class="user-pic">
+                                <img class="img-responsive img-rounded" src="~/images/@professionalAvatar" alt="User picture">
+                                </div>
+                                <div class="user-info">
+                                    <span class="user-name">
+                                    @businessProfessional.FirstName
+                                    <strong>@businessProfessional.LastName</strong>
+                                    </span>
+                                    <span class="user-role">Administrator</span>
+                                    <span class="user-status">
+                                        <i class="fa fa-circle"></i>
+                                        <span>Online</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- sidebar-header  -->
+                            <div class="sidebar-menu">
+                                <ul>
+                                    <li class="header-menu">
+                                        <span>General</span>
+                                    </li>
+                                    <li class="sidebar-dropdown" >
+                                        <a href="#">
+                                            <i class="fa fa-calendar-days"></i>
+                                            <span>Appointments</span>
+                                            @* <span class="badge badge-pill badge-warning">New</span> *@
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Index/@businessProfessional.BusinessId">Todays Appointments</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">All Schedules</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="fa fa-user-tie"></i>
+                                            <span>Professionals</span>
+                                            @* <span class="badge badge-pill badge-warning">New</span> *@
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Professionals/@ViewBag.BusinessId">All Professionals</a>
+                                                </li>
+                                                <!--
+                                                <li>
+                                                    <a href="#">Call Logs</a>
+                                                </li> 
+                                                <li>
+                                                    <a href="#">History</a>
+                                                </li>
+                                                -->
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <!--
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            <span>Businesses</span>
+                                            <span class="badge badge-pill badge-danger">3</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a onClick="scheappadmin.loadView('Admin','Businesses')">
+                                                        Businesses
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Profile</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Security Roles</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Configurations</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    -->
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="far fa-gem"></i>
+                                            <span>Customers</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Customers/@ViewBag.BusinessId">Customer List</a>
+                                                </li>
+                                                <!--
+                                                <li>
+                                                    <a href="#">Reports</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Call Logs</a>
+                                                </li>
+                                                -->
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="fa fa-chart-line"></i>
+                                            <span>Services</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Services/@ViewBag.BusinessId">Serives List</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Service Durations</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="fa fa-globe"></i>
+                                            <span>Business Locations</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">Google maps</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Open street map</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <!--
+                                    <li class="header-menu">
+                                        <span>Extra</span>
+                                    </li>
+                                    <li>
+                                    <a onClick="scheappadmin.loadView('UserRoles','Index')">
+                                            <i class="fa fa-book"></i>
+                                            <span>Security</span>
+                                            <span class="badge badge-pill badge-primary">Beta</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-calendar"></i>
+                                            <span>Reports</span>
+                                        </a>
+                                    </li>
+                                    -->
+                                </ul>
+                            </div>
+                            <!-- sidebar-menu  -->
+                        </div>
+                        <!-- sidebar-content  -->
+                        <div class="sidebar-footer">
+                            <a href="#">
+                                <i class="fa fa-bell"></i>
+                                <span class="badge badge-pill badge-warning notification">3</span>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-envelope"></i>
+                                <span class="badge badge-pill badge-success notification">7</span>
+                            </a>
+                            <a href="#">
+                                <i class="fa fa-cog"></i>
+                                <span class="badge-sonar"></span>
+                            </a>
+                            <a href="/Identity/Account/Logout">
+                                <i class="fa fa-power-off"></i>
+                            </a>
+                        </div>
+                    </nav>
+                    <!-- sidebar-wrapper  -->
+               
+                    <!-- page-content" -->
+            
+                <!-- page-wrapper -->
+            }
+            else
+            {
+                <h5 class="m-5 text-danger">You are currently logged out.</h5>
+            }
+        }
+        <main class="page-content">
+            <div class="container-fluid">
+                <div id="divScheAppContentDisplay">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/lib/jquery/datatables/datatables.min.js"></script>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - ScheApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/nav.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,10 +1,15 @@
 ﻿
+$(function () {
+    if (window.screen.width >= 1024) {
+        $("#divSidebarNavMain").addClass("toggled");
+    }
+});
+
 var scheappadmin = scheappadmin || {};
 
 //NAVS
-
 $(".sidebar-dropdown > a").click(function () {
-    $(".sidebar-submenu").slideUp(200);
+    $(".sidebar-submenu").slideUp(100);
     if (
         $(this)
             .parent()
@@ -18,12 +23,13 @@ $(".sidebar-dropdown > a").click(function () {
         $(".sidebar-dropdown").removeClass("active");
         $(this)
             .next(".sidebar-submenu")
-            .slideDown(200);
+            .slideDown(100);
         $(this)
             .parent()
             .addClass("active");
     }
 });
+
 
 scheappadmin.showSideBar = function () {
     $("#divSidebarNavMain").addClass("toggled");
@@ -32,30 +38,20 @@ scheappadmin.hideSideBar = function () {
     $("#divSidebarNavMain").removeClass("toggled");
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    scheappadmin.LoadScheduledAppointments(2);
 
 
-    $.ajax({
-        'url': '/AdminData/GetMessage?name=padat',
-        'type': 'GET',
-        'contentType': 'application/json',
-        'success': function (response) {
-            console.log(response);
-        },
-        'error': function (request, error) {
-            console.log(error)
-        }
-    });
-});
-
-scheappadmin.loadView = function (controller, action) {
-    $("#divSidebarNavMain").removeClass("toggled");
+scheappadmin.loadView = function (controller, action, callBackAfterViewLoad) {
+    if (window.screen.width < 1024) {
+        $("#divSidebarNavMain").removeClass("toggled");
+    }
     $.ajax({
         type: "GET",
         url: '/'+controller+'/'+action,
         success: function (data) {
             $('#divScheAppContentDisplay').html(data);
+            if (callBackAfterViewLoad != undefined) {
+                callBackAfterViewLoad();
+            }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert("Sorry something went wrong. Please contact IT.")
@@ -119,7 +115,7 @@ scheappadmin.LoadScheduledAppointments = function (businessId) {
                     "data": "scheduleAppointmentId",
                     "name": "Id",
                     "render": function (data) {
-                        return '<a id="' + data + '" class="btn btn-link" href="/Admin/UserPrefsAndLogs?username=' + data + '"' + '>' + data + '</a>'
+                        return '<a id="' + data + '" class="btn btn-link" href="/Admin/GetAppointmentDetails?id=' + data + '"' + '>' + data + '</a>'
                     },
                     visible: isAdminView
                 },

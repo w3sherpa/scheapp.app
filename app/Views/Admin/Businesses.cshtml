@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<scheapp.app.Models.Data.TableModels.Businesses.Business>
 
 @{
+    Layout = null;
     ViewData["Title"] = "Businesses";
 }
 
@@ -92,7 +93,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Index", "BusinessAdmin",new { Id = item.Id}, new { target = "_blank"   }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>

@@ -27,6 +27,10 @@ namespace scheapp.app.DataServices
         public async Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId)
         {
             return await _apiHelper.CallGetApi<List<ProfessionalScheduleAppointmentRequestsDetailDsp>>($"/Professional/GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId?businessId={businessId}");
+        } 
+        public async Task<List<ProfessionalBusinessDetailDsp>> GetProfessionalBusinessDetailDsp(int? professionaId, int? businessId)
+        {
+            return await _apiHelper.CallGetApi<List<ProfessionalBusinessDetailDsp>>($"/Professional/GetProfessionalBusinessDetails?professionalId={professionaId}&businessId={businessId}");
         }
     }
 }
