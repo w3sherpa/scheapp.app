@@ -26,6 +26,7 @@ namespace scheapp.app.Models.Data.DspModels
         public string FirstName { get; set; } = "";
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string ProfessionalRole { get; set; }
         public bool EmailConfirmed { get; set; }
         public int? BusinessId { get; set; }
         public string? BusinessName { get; set; } = "";

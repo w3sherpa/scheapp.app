@@ -1,4 +1,72 @@
-﻿@{
+﻿@model IEnumerable<scheapp.app.Models.Data.DspModels.ProfessionalBusinessDetailDsp>
+
+@{
+    ViewData["Title"] = "Professionals";
     Layout = "_BusinessLayout";
 }
-<h1> display list here</h1>
+
+<h1>Professionals</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AspNetUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AspNetUserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfessionalId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfessionalRole)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfessionalId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfessionalRole)
+            </th>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Schedules", "Schedules", "Professionals", new { businessId = item.BusinessId, professionalId = item.ProfessionalId }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

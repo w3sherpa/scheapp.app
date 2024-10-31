@@ -93,7 +93,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Index", "BusinessAdmin", new { businessId = item.Id }, new { target = "_blank" }) |
+                    @Html.ActionLink("Details", "BusinessDetails", "Admin", new { businessId = item.Id },null) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>

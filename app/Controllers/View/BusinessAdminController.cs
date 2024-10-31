@@ -11,9 +11,11 @@ namespace scheapp.app.Controllers.View
     [Authorize(Roles = "business_admin,scheapp_admin")]
     public class BusinessAdminController : Controller
     {
+        private readonly ILogger _logger;
         private readonly IProfessionalDataService _professionalDataService;
-        public BusinessAdminController(IProfessionalDataService professionalDataService)
+        public BusinessAdminController(ILogger<BusinessAdminController> logger,IProfessionalDataService professionalDataService)
         {
+            _logger = logger;
             _professionalDataService = professionalDataService;
         }
         private async Task<ProfessionalBusinessDetailDsp?> GetLoggedInProfessionalBusinessDetails(int? businessId)
@@ -34,78 +36,111 @@ namespace scheapp.app.Controllers.View
         }
         public async Task<IActionResult> Index(int? businessId)
         {
-            var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
-            //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
-            if (verifiedBusinessProfessional == null)
+            try
             {
-                return Content("ACCESS DENIED!.");
+                var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
+                //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+                if (verifiedBusinessProfessional == null)
+                {
+                    return Content("ACCESS DENIED!.");
+                }
+                else
+                {
+                    var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
+
+                    List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM
+                    {
+                        StartDT = s.StartDT
+                                                                                                            ,
+                        EndDT = s.EndDT
+                                                                                                            ,
+                        CustomerConfirmed = s.CustomerConfirmed
+                                                                                                            ,
+                        ProfessionalConfirmed = s.ProfessionalConfirmed
+                                                                                                            ,
+                        RequestDate = s.RequestDate
+                                                                                                            ,
+                        ServiceName = s.ServiceName
+                                                                                                            ,
+                        ScheduleAppointmentId = s.ScheduleAppointmentId
+                                                                                                            ,
+                        Customer = $"{s.CustFrist} {s.CustLast}"
+                                                                                                            ,
+                        Professional = $"{s.ProFirst} {s.ProLast}"
+                    }).ToList();
+                    ViewBag.BusinessProfessional = verifiedBusinessProfessional;
+                    return View(prosche);
+                }
             }
-
-            var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
-
-            List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM
+            catch (Exception ex)
             {
-                StartDT = s.StartDT
-                                                                                                    ,
-                EndDT = s.EndDT
-                                                                                                    ,
-                CustomerConfirmed = s.CustomerConfirmed
-                                                                                                    ,
-                ProfessionalConfirmed = s.ProfessionalConfirmed
-                                                                                                    ,
-                RequestDate = s.RequestDate
-                                                                                                    ,
-                ServiceName = s.ServiceName
-                                                                                                    ,
-                ScheduleAppointmentId = s.ScheduleAppointmentId
-                                                                                                    ,
-                Customer = $"{s.CustFrist} {s.CustLast}"
-                                                                                                    ,
-                Professional = $"{s.ProFirst} {s.ProLast}"
-            }).ToList();
-            ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-            return View(prosche);
+                _logger.LogError("{@Exception}", ex);
+                return Content("SORRY, ERROR OCCURED!.");
+            }
         }
         public async Task<IActionResult> Professionals(int? businessId)
         {
-            var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
-            //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
-            if (verifiedBusinessProfessional == null)
-            {
-                return Content("ACCESS DENIED!.");
+            try 
+            { 
+                var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
+                //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+                if (verifiedBusinessProfessional == null)
+                {
+                    return Content("ACCESS DENIED!.");
+                }
+                else
+                {
+                    List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, businessId);
+
+                    ViewBag.BusinessProfessional = verifiedBusinessProfessional;
+                    return View(allProfessionalBusinessDetails);
+                }
             }
-
-
-            ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-            return View();
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Content("SORRY, ERROR OCCURED!.");
+            }
         }
 
         public async Task<IActionResult> Customers(int? businessId)
         {
-            var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
-            //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
-            if (verifiedBusinessProfessional == null)
+            try
             {
-                return Content("ACCESS DENIED!.");
+                var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
+                //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+                if (verifiedBusinessProfessional == null)
+                {
+                    return Content("ACCESS DENIED!.");
+                }
+                ViewBag.BusinessProfessional = verifiedBusinessProfessional;
+                return View();
             }
-
-
-            ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-            return View();
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Content("SORRY, ERROR OCCURED!.");
+            }
         }
         
         public async Task<IActionResult> Services(int? businessId)
         {
-            var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
-            //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
-            if (verifiedBusinessProfessional == null)
+            try
             {
-                return Content("ACCESS DENIED!.");
+                var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
+                //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+                if (verifiedBusinessProfessional == null)
+                {
+                    return Content("ACCESS DENIED!.");
+                }
+                ViewBag.BusinessProfessional = verifiedBusinessProfessional;
+                return View();
             }
-
-
-            ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-            return View();
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Content("SORRY, ERROR OCCURED!.");
+            }
         }
     }
 }

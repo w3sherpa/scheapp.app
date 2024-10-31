@@ -1,0 +1,68 @@
+﻿@model IEnumerable<scheapp.app.Models.Data.TableModels.Professionals.ProfessionalSchedule>
+@using scheapp.app.Models.Data.DspModels
+@{
+    ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
+    ViewData["Title"] = "Schedules";
+    if (businessProfessional.ProfessionalRole == "business_admin")
+    {
+        Layout = "_BusinessLayout";
+    }
+    else
+    {
+        Layout = "_ProfessionalLayout";
+    }
+}
+
+<h1>Schedules</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfessionalId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BusinessId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfessionalId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusinessId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,7 +1,13 @@
 ﻿<!DOCTYPE html>
 @using Microsoft.AspNetCore.Identity
+@using scheapp.app.Models.Data.DspModels
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
+@{
+    ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
+    string professionalAvatar = $"professional-{businessProfessional.ProfessionalId}.jpg";
+}
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,6 +23,7 @@
 </head>
 <body>
     <!--Add toggled class to show the nav expanded by default-->
+    
     <div id="divSidebarNavMain" class="page-wrapper chiller-theme"> 
 
         @{
@@ -35,12 +42,12 @@
                             </div>
                             <div class="sidebar-header">
                                 <div class="user-pic">
-                                    <img class="img-responsive img-rounded" src="~/images/user-01.jpg" alt="User picture">
+                                <img class="img-responsive img-rounded" src="~/images/@professionalAvatar" alt="User picture">
                                 </div>
                                 <div class="user-info">
                                     <span class="user-name">
-                                        Padat
-                                        <strong>Shrestha</strong>
+                                    @businessProfessional.FirstName
+                                    <strong>@businessProfessional.LastName</strong>
                                     </span>
                                     <span class="user-role">Administrator</span>
                                     <span class="user-status">
@@ -52,62 +59,65 @@
                             <!-- sidebar-header  -->
                             <div class="sidebar-menu">
                                 <ul>
-                                    <li class="sidebar-dropdown">
-                                        <a href="#">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span>Businesses</span>
-                                            <span class="badge badge-pill badge-danger">3</span>
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                <a onClick="scheappadmin.loadView('Admin','Businesses')">
-                                                        Businesses
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Profile</a>
-                                                </li>
-                                                <li>
-                                                <a onClick="scheappadmin.loadView('Admin','Roles')">Security Roles</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Configurations</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="sidebar-dropdown">
-                                        <a href="#">
-                                            <i class="fa fa-globe"></i>
-                                            <span>Business Locations</span>
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">Google maps</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Open street map</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
                                     <li class="header-menu">
-                                        <span>Tools</span>
+                                        <span>General</span>
                                     </li>
-                                    <li>
-                                    <a onClick="scheappadmin.loadView('UserRoles','Index')">
-                                            <i class="fa fa-book"></i>
-                                            <span>Security</span>
-                                            <span class="badge badge-pill badge-primary">Beta</span>
-                                        </a>
-                                    </li>
-                                    <li>
+                                    <li class="sidebar-dropdown" >
                                         <a href="#">
-                                            <i class="fa fa-calendar"></i>
-                                            <span>Reports</span>
+                                            <i class="fa fa-calendar-days"></i>
+                                            <span>Appointments</span>
+                                            @* <span class="badge badge-pill badge-warning">New</span> *@
                                         </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Index?businessId=@businessProfessional.BusinessId">Todays Appointments</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">All Schedules</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="fa fa-user-tie"></i>
+                                            <span>Professionals</span>
+                                            @* <span class="badge badge-pill badge-warning">New</span> *@
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Professionals?businessId=@businessProfessional.BusinessId">All Professionals</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="far fa-gem"></i>
+                                            <span>Customers</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Customers?businessId=@businessProfessional.BusinessId">Customer List</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="sidebar-dropdown">
+                                        <a href="#">
+                                            <i class="fa fa-chart-line"></i>
+                                            <span>Services</span>
+                                        </a>
+                                        <div class="sidebar-submenu">
+                                            <ul>
+                                                <li>
+                                                <a href="/BusinessAdmin/Services?businessId=@businessProfessional.BusinessId">Serives List</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>

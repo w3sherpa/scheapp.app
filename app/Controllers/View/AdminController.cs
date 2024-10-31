@@ -24,7 +24,6 @@ namespace scheapp.app.Controllers.View
         {
             _logger = logger;
             _professionalsDataService = professionalsDataService;
-
             _businessDataService = businessDataService;
             _roleManager = roleManager;
             _userManager = userManager;
@@ -39,7 +38,11 @@ namespace scheapp.app.Controllers.View
             var businesses = _businessDataService.GetBusinesses().Result;
             return View(businesses);
         }
-
+        public IActionResult BusinessDetails(int businessId)
+        {
+            
+            return View();
+        }
         public IActionResult Roles()
         {
             var roles = _roleManager.Roles;
