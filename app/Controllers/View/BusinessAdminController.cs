@@ -28,7 +28,7 @@ namespace scheapp.app.Controllers.View
             }
             else
             {
-                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername && p.BusinessId == businessId).First();
+                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername && p.BusinessId == businessId).FirstOrDefault();
             }
             return professionalBusinessDetailDsp;
         }
@@ -38,7 +38,7 @@ namespace scheapp.app.Controllers.View
             //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
             if (verifiedBusinessProfessional == null)
             {
-                return Content("Either user is scheapp admin who passed no id param or business admin who's permission is not set.");
+                return Content("ACCESS DENIED!.");
             }
 
             var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
@@ -72,7 +72,7 @@ namespace scheapp.app.Controllers.View
             //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
             if (verifiedBusinessProfessional == null)
             {
-                return Content("Either user is scheapp admin who passed no id param or business admin who's permission is not set.");
+                return Content("ACCESS DENIED!.");
             }
 
 
@@ -86,7 +86,7 @@ namespace scheapp.app.Controllers.View
             //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
             if (verifiedBusinessProfessional == null)
             {
-                return Content("Either user is scheapp admin who passed no id param or business admin who's permission is not set.");
+                return Content("ACCESS DENIED!.");
             }
 
 
@@ -100,7 +100,7 @@ namespace scheapp.app.Controllers.View
             //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
             if (verifiedBusinessProfessional == null)
             {
-                return Content("Either user is scheapp admin who passed no id param or business admin who's permission is not set.");
+                return Content("ACCESS DENIED!.");
             }
 
 

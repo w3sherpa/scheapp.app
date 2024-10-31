@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using scheapp.app.Controllers.Data;
 using scheapp.app.DataServices.Interfaces;
@@ -12,15 +13,21 @@ namespace scheapp.app.Controllers.View
         private readonly ILogger _logger;
         private readonly IProfessionalDataService _professionalsDataService;
         private readonly IBusinessDataService _businessDataService;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityUser> _userManager;
         public AdminController(ILogger<AdminController> logger
-            ,IProfessionalDataService professionalsDataService
+            , IProfessionalDataService professionalsDataService
             , IBusinessDataService businessDataService
+            , RoleManager<IdentityRole> roleManager
+            , UserManager<IdentityUser> userManager
             )
         {
             _logger = logger;
             _professionalsDataService = professionalsDataService;
 
             _businessDataService = businessDataService;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -31,6 +38,31 @@ namespace scheapp.app.Controllers.View
         {
             var businesses = _businessDataService.GetBusinesses().Result;
             return View(businesses);
+        }
+
+        public IActionResult Roles()
+        {
+            var roles = _roleManager.Roles;
+            return View(roles);
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        public IActionResult UserRoles()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(IdentityRole model)
+        {
+            //avoid duplicacy
+            if (!_roleManager.RoleExistsAsync(model.Name).GetAwaiter().GetResult())
+            {
+                _roleManager.CreateAsync(new IdentityRole(model.Name)).GetAwaiter().GetResult();
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
