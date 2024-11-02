@@ -13,10 +13,15 @@ namespace scheapp.app.Controllers.View
     {
         private readonly ILogger _logger;
         private readonly IProfessionalDataService _professionalDataService;
-        public BusinessAdminController(ILogger<BusinessAdminController> logger,IProfessionalDataService professionalDataService)
+        private readonly IBusinessDataService _businessDataService;
+        public BusinessAdminController(
+            ILogger<BusinessAdminController> logger
+            , IProfessionalDataService professionalDataService
+            , IBusinessDataService businessDataService)
         {
             _logger = logger;
             _professionalDataService = professionalDataService;
+            _businessDataService = businessDataService;
         }
         private async Task<ProfessionalBusinessDetailDsp?> GetLoggedInProfessionalBusinessDetails(int? businessId)
         {
@@ -103,6 +108,29 @@ namespace scheapp.app.Controllers.View
             }
         }
 
+        public async Task<IActionResult> EdidProfessional(int? businessId, int? professinalId)
+        {
+            try
+            {
+                var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
+                //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+                if (verifiedBusinessProfessional == null)
+                {
+                    return Content("ACCESS DENIED!.");
+                }
+                else
+                {
+                    List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, businessId);
+                    ViewBag.BusinessProfessional = verifiedBusinessProfessional;
+                    return View(allProfessionalBusinessDetails);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Content("SORRY, ERROR OCCURED!.");
+            }
+        }
         public async Task<IActionResult> Customers(int? businessId)
         {
             try

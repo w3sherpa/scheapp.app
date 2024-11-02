@@ -49,7 +49,7 @@
                                     @businessProfessional.FirstName
                                     <strong>@businessProfessional.LastName</strong>
                                     </span>
-                                    <span class="user-role">Administrator</span>
+                                    <span class="user-role">@businessProfessional.ProfessionalRole.ToUpper()</span>
                                     <span class="user-status">
                                         <i class="fa fa-circle"></i>
                                         <span>Online</span>
@@ -82,7 +82,7 @@
                                     <li class="sidebar-dropdown">
                                         <a href="#">
                                             <i class="fa fa-user-tie"></i>
-                                            <span>Professionals</span>
+                                            <span>Team</span>
                                             @* <span class="badge badge-pill badge-warning">New</span> *@
                                         </a>
                                         <div class="sidebar-submenu">

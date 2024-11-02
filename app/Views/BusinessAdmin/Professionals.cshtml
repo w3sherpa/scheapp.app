@@ -8,20 +8,21 @@
 <h1>Professionals</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="/ScheApp/BusinessAdmin/ProfessionalsRegister">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
+          @*   <th>
                 @Html.DisplayNameFor(model => model.AspNetUserId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AspNetUserName)
-            </th>
+            </th> 
             <th>
                 @Html.DisplayNameFor(model => model.ProfessionalId)
             </th>
+            *@
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -31,16 +32,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th>
+           @*  <th>
                 @Html.DisplayNameFor(model => model.ProfessionalRole)
-            </th>
+            </th> *@
             <th></th>
         </tr>
-    </thead>
+    </thead> 
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @* <td>
                 @Html.DisplayFor(modelItem => item.AspNetUserId)
             </td>
             <td>
@@ -48,7 +49,7 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProfessionalId)
-            </td>
+            </td> *@
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -58,13 +59,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <th>
+          @*   <th>
                 @Html.DisplayNameFor(model => model.ProfessionalRole)
-            </th>
+            </th> *@
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Schedules", "Schedules", "Professionals", new { businessId = item.BusinessId, professionalId = item.ProfessionalId }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
+                    @* @Html.ActionLink("Schedules", "Schedules", "Professionals", new { businessId = item.BusinessId, professionalId = item.ProfessionalId }) *@
+                    <a class="btn btn-outline-info" href="/Professionals/Schedules?businessId=@item.BusinessId&professionalId=@item.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
+                @* @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
             </td>
         </tr>
 }

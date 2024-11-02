@@ -1,4 +1,4 @@
-﻿@model IEnumerable<scheapp.app.Models.Data.TableModels.Professionals.ProfessionalSchedule>
+﻿@model scheapp.app.Models.View.ProfessionalScheduleVM
 @using scheapp.app.Models.Data.DspModels
 @{
     ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
@@ -7,47 +7,29 @@
     {
         Layout = "_BusinessLayout";
     }
-    else
+    else if (businessProfessional.ProfessionalRole == "business_professional")
     {
         Layout = "_ProfessionalLayout";
     }
 }
 
 <h1>Schedules</h1>
-
+<hr/>
+<h3>@Model.FirstName @Model.LastName</h3>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-outline-secondary" href="/Professionals/CreateSchedule?businessId=@Model.BusinessId&professionalId=@Model.ProfessionalId"> <i class="fa fa-add"></i> Add Schedule</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProfessionalId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDT)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDT)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BusinessId)
-            </th>
+            <th>Start Datetime</th>
+            <th>End Datetime</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Schedules) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfessionalId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDT)
             </td>
@@ -55,14 +37,30 @@
                 @Html.DisplayFor(modelItem => item.EndDT)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BusinessId)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a class="btn btn-outline-danger" onclick="ConfirmAndDelete('item.ProfessionalScheduleId')"> <i class="fa fa-trash"></i></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<script>
+    function ConfirmAndDelete(proScheId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
+    }    
+</script>

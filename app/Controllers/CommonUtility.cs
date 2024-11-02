@@ -4,7 +4,7 @@ using scheapp.app.Models.Data.DspModels;
 
 namespace scheapp.app.Controllers
 {
-    public static class CommonUtility
+    public static class CommonControllerUtility
     {
         public static async Task<ProfessionalBusinessDetailDsp?> GetLoggedInProfessionalBusinessDetails(IProfessionalDataService _professionalDataService,string loggedInUserName, int? businessId)
         {

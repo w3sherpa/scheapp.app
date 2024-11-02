@@ -49,7 +49,7 @@
                                     @businessProfessional.FirstName
                                     <strong>@businessProfessional.LastName</strong>
                                     </span>
-                                    <span class="user-role">Administrator</span>
+                                <span class="user-role">@businessProfessional.ProfessionalRole.ToUpper()</span>
                                     <span class="user-status">
                                         <i class="fa fa-circle"></i>
                                         <span>Online</span>
@@ -90,10 +90,11 @@
                                                 <li>
                                                 <a href="/BusinessAdmin/Professionals?businessId=@businessProfessional.BusinessId">All Professionals</a>
                                                 </li>
-                                                <!--
+                                               
                                                 <li>
-                                                    <a href="#">Call Logs</a>
-                                                </li> 
+                                                <a href="/ScheApp/BusinessAdmin/ProfessionalsRegister">Create Professional</a>
+                                                </li>
+                                                <!--
                                                 <li>
                                                     <a href="#">History</a>
                                                 </li>
@@ -249,6 +250,7 @@
             &copy; 2024 - ScheApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/nav.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -124,7 +124,8 @@ namespace scheapp.app.Areas.Identity.Pages.Account
                     var userRoles = await _signInManager.UserManager.GetRolesAsync(signInUser);
                     //var allRoles = _roleManager.Roles.Select(R=>R.Name).ToList();
                     if ( userRoles.Where(ur=>ur.StartsWith("scheapp")).FirstOrDefault() != null ) returnUrl = "/Admin/Index";
-                    else if (userRoles.Where(ur => ur.StartsWith("business")).FirstOrDefault() != null) returnUrl = "/BusinessAdmin/Index";
+                    else if (userRoles.Where(ur => ur.Equals("business_admin")).FirstOrDefault() != null) returnUrl = "/BusinessAdmin/Index";
+                    else if (userRoles.Where(ur => ur.Equals("business_professional")).FirstOrDefault() != null) returnUrl = "/Professionals/Schedules";
                     
                     return LocalRedirect(returnUrl);
                 }

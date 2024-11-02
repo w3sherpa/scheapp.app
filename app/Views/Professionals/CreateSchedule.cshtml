@@ -1,0 +1,55 @@
+﻿@model scheapp.app.Models.View.CreateProfessionalScheduleVM
+@using scheapp.app.Models.Data.DspModels
+@{
+    ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
+    ViewData["Title"] = "Schedules";
+    if (businessProfessional.ProfessionalRole == "business_admin")
+    {
+        Layout = "_BusinessLayout";
+    }
+    else if (businessProfessional.ProfessionalRole == "business_professional")
+    {
+        Layout = "_ProfessionalLayout";
+    }
+}
+
+<h1>Create Schedule For</h1>
+
+<h4>@Model.FirstName @Model.LastName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group mb-2">
+            <label asp-for="StartDT" class="control-label"></label>
+            <input asp-for="StartDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+        </div>
+        <div class="form-group mb-2">
+            <label asp-for="EndDT" class="control-label"></label>
+            <input asp-for="EndDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" onclick="ConfirmAndCreate();" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+<script>
+    function ConfirmAndCreate(proScheId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be adding new availability to schedule appointment system!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, create it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Create!",
+                    text: "Your new shedule has been added",
+                    icon: "success"
+                });
+            }
+        });
+    }
+</script>

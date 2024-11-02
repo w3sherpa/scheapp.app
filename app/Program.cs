@@ -52,6 +52,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
+builder.Services.AddRazorPages();
 builder.Services.AddHttpClient("ScheduleAppointmentApi", client =>
 {
     string authUser = builder.Configuration["ScheduleAppointmentApi:BasicAuthUid"]!;
