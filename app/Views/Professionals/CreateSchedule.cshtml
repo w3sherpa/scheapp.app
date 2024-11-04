@@ -1,4 +1,4 @@
-﻿@model scheapp.app.Models.View.CreateProfessionalScheduleVM
+﻿@model scheapp.app.Models.View.CreateProfessionalSchedule
 @using scheapp.app.Models.Data.DspModels
 @{
     ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
@@ -19,20 +19,36 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        @Html.HiddenFor(Model => Model.BusinessId,new { Id="hdnBusinessId_CreateSchedule"})
+        @Html.HiddenFor(Model => Model.ProfessionalId, new { Id = "hdnProfessionalId_CreateSchedule" })
         <div class="form-group mb-2">
             <label asp-for="StartDT" class="control-label"></label>
-            <input asp-for="StartDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+            <input asp-for="StartDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" id="txtbxStartDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
         </div>
         <div class="form-group mb-2">
             <label asp-for="EndDT" class="control-label"></label>
-            <input asp-for="EndDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+            <input asp-for="EndDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" id="txtbxEndDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
         </div>
         <div class="form-group">
-            <input type="submit" value="Create" onclick="ConfirmAndCreate();" class="btn btn-primary" />
+            <input type="submit" id="btnSubmit_CreateSchedule" value="Create" onclick="ConfirmAndCreate();" class="btn btn-primary" disabled />
         </div>
     </div>
 </div>
 <script>
+    function Validate_CreateSchedule() {
+        let stDt = $("#txtbxStartDT_CreateSchedule").val();
+        let enDt = $("#txtbxEndDT_CreateSchedule").val();
+        if (stDt < enDt)
+            $("#btnSubmit_CreateSchedule").removeAttr("disabled");
+        else {
+            Swal.fire({
+                title: "Start date cannot be after end date.",
+                text: "Please enter start date before end date.",
+                icon: "error"
+            });
+            $("#btnSubmit_CreateSchedule").prop('disabled', true);
+        }
+    }
     function ConfirmAndCreate(proScheId) {
         Swal.fire({
             title: "Are you sure?",
@@ -44,11 +60,28 @@
             confirmButtonText: "Yes, create it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Create!",
-                    text: "Your new shedule has been added",
-                    icon: "success"
-                });
+                var reqObj = new Object();
+                reqObj.BusinessId = $("#hdnBusinessId_CreateSchedule").val();
+                reqObj.ProfessionalId = $("#hdnProfessionalId_CreateSchedule").val();
+                reqObj.StartDT = $("#txtbxStartDT_CreateSchedule").val();
+                reqObj.EndDT = $("#txtbxEndDT_CreateSchedule").val();
+                console.log(reqObj)
+                $.ajax({
+                        'url': '/ProfessionalsData/SaveProfessionalSchedules',
+                        'contentType': "application/json",
+                        'type': 'POST',
+                        'data': JSON.stringify(reqObj),
+                        'success': function () {
+                                         Swal.fire({
+                                        title: "Created!",
+                                        text: "Your new shedule has been added",
+                                        icon: "success"
+                                    });
+                                 },
+                        'error': function (request, error) {
+                            alert("Request: " + JSON.stringify(request));
+                        }
+                    });
             }
         });
     }

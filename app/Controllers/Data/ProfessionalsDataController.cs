@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.Data;
+using scheapp.app.Models.View;
+using scheapp.app.Models.Data.TableModels.Professionals;
 
 namespace scheapp.app.Controllers.Data
 {
-    [Route("[controller]/[action]")]
+    [Route("[controller]/[Action]")]
     [ApiController]
     public class ProfessionalsDataController : ControllerBase
     {
@@ -12,7 +14,7 @@ namespace scheapp.app.Controllers.Data
         private readonly IProfessionalDataService _professionalsDataService;
 
         public ProfessionalsDataController(
-            Logger<ProfessionalsDataController> logger
+            ILogger<ProfessionalsDataController> logger
             , IProfessionalDataService professionalsDataService)
         {
             _logger = logger;
@@ -68,6 +70,27 @@ namespace scheapp.app.Controllers.Data
             try
             {
 
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError("{@Exception}", ex);
+                return StatusCode(500, "Error Occured.");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveProfessionalSchedules([FromBody] CreateProfessionalSchedule req)
+        {
+            try
+            {
+                await _professionalsDataService.SaveProfessionalSchedules(new ProfessionalSchedule
+                {
+                    ProfessionalId = req.ProfessionalId.GetValueOrDefault()
+                   ,StartDT = req.StartDT
+                   ,EndDT = req.EndDT
+                   , BusinessId = req.BusinessId.GetValueOrDefault()
+                });
                 return Ok();
             }
             catch (Exception ex)

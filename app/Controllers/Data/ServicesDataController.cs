@@ -6,7 +6,7 @@ using scheapp.app.Models.Data;
 
 namespace scheapp.app.Controllers.Data
 {
-    [Route("[controller]/[action]")]
+    [Route("[controller]/[Action]")]
     [ApiController]
     public class ServicesDataController : ControllerBase
     {
@@ -14,7 +14,7 @@ namespace scheapp.app.Controllers.Data
         private readonly IServiceDataService _servicesDataService;
 
         public ServicesDataController(
-            Logger<ServicesDataController> logger
+            ILogger<ServicesDataController> logger
             , IServiceDataService servicesDataService)
         {
             _logger = logger;
