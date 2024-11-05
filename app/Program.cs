@@ -56,10 +56,8 @@ try
     builder.Services.AddAuthentication()
                     .AddGoogle(options =>
                     {
-                        //options.ClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"];
-                        //options.ClientSecret = builder.Configuration["AuthenticationScheme:Google:ClientSecret"];
-                        options.ClientId = "734573623571-jtv5vqe42ve4n6g5a8bcsdqpvhlhk339.apps.googleusercontent.com";
-                        options.ClientSecret = "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";
+                        options.ClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"];
+                        options.ClientSecret = builder.Configuration["AuthenticationScheme:Google:ClientSecret"];
                     });
 
     builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
