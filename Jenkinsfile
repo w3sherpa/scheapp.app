@@ -25,7 +25,8 @@ pipeline {
                          , string(credentialsId: 'scheapp-google-clientsecrete', variable: 'GoogleClientSecret')
                         ])
         script {
-          sh "docker build -t ${SERVICE_NAME}:latest --build-arg GoogleClientId='${GoogleClientId}' --build-arg GoogleClientSecret='${GoogleClientSecret}' ."          
+          echo '${GoogleClientId}'
+          sh "docker build -t ${SERVICE_NAME}:latest --build-arg GoogleClientId='tEST' --build-arg GoogleClientSecret='TEST' ."          
         }
       }
     }
