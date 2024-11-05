@@ -23,11 +23,11 @@ pipeline {
       steps{
         withCredentials([string(credentialsId: 'scheapp-google-clientid', variable: 'GoogleClientId')
                          , string(credentialsId: 'scheapp-google-clientsecrete', variable: 'GoogleClientSecret')
-                        ])
-        script {
-          echo '${GoogleClientId}'
-          sh "docker build -t ${SERVICE_NAME}:latest ."          
-        }
+                        ]) {
+                          script {
+                            sh "docker build -t ${SERVICE_NAME}:latest --build-arg GoogleClientId='${GoogleClientId}' --build-arg GoogleClientSecret='${GoogleClientSecret} ."          
+                          }
+                      }
       }
     }
     stage('Deploy our image') {
