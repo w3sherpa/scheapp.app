@@ -39,7 +39,7 @@ try
             });
     });
 
-    StaticClass.GoogleClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"].ToString();
+    StaticClass.GoogleAuthUri = builder.Configuration["AuthenticationScheme:Google:AuthUri"].ToString();
 
     builder.Configuration.AddJsonFile("appsettings.json").AddEnvironmentVariables();
     var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? throw new InvalidOperationException("Connection string 'scheappappContextConnection' not found.");
@@ -56,7 +56,7 @@ try
     builder.Services.AddAuthentication()
                     .AddGoogle(options =>
                     {
-                        options.ClientId = "734573623571-jtv5vqe42ve4n6g5a8bcsdqpvhlhk339.apps.googleusercontent.com";
+                        options.ClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"];
                         options.ClientSecret = builder.Configuration["AuthenticationScheme:Google:ClientSecret"];
                     });
 

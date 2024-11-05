@@ -2,6 +2,6 @@
 {
     public static class StaticClass
     {
-        public static string GoogleClientId { get; set; }
+        public static string GoogleAuthUri { get; set; }
     }
 }
