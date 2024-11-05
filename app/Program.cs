@@ -39,7 +39,14 @@ try
             });
     });
 
-    StaticClass.TestEnvDocker = builder.Configuration["AuthenticationScheme:Google:TestEnvDocker"].ToString();
+
+    ///this is a test code
+
+    var testEnvSettings = builder.Configuration["AuthenticationScheme:Google:TestEnvDocker"];
+    if (testEnvSettings != null) StaticClass.TestEnvDocker = testEnvSettings;
+    else StaticClass.TestEnvDocker = "TestEnvDocker Field not set.";
+
+    ///END test code
 
     builder.Configuration.AddJsonFile("appsettings.json").AddEnvironmentVariables();
     var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? throw new InvalidOperationException("Connection string 'scheappappContextConnection' not found.");
