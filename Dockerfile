@@ -9,8 +9,9 @@ EXPOSE 8002
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
-ARG GoogleClientId
-ARG GoogleClientSecret
+
+ARG GoogleClientId=TEST
+ARG GoogleClientSecret=TEST
 
 ENV AuthenticationScheme__Google__ClientId=$GoogleClientId
 ENV AuthenticationScheme__Google__ClientSecret=$GoogleClientSecret

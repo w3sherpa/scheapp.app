@@ -26,7 +26,7 @@ pipeline {
                         ])
         script {
           echo '${GoogleClientId}'
-          sh "docker build -t ${SERVICE_NAME}:latest --build-arg GoogleClientId='tEST' --build-arg GoogleClientSecret='TEST' ."          
+          sh "docker build -t ${SERVICE_NAME}:latest ."          
         }
       }
     }
