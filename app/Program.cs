@@ -56,7 +56,7 @@ try
     builder.Services.AddAuthentication()
                     .AddGoogle(options =>
                     {
-                        options.ClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"];
+                        options.ClientId = "734573623571-jtv5vqe42ve4n6g5a8bcsdqpvhlhk339.apps.googleusercontent.com";
                         options.ClientSecret = builder.Configuration["AuthenticationScheme:Google:ClientSecret"];
                     });
 
