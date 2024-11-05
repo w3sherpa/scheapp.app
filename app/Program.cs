@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using scheapp.app;
 using scheapp.app.Data;
 using scheapp.app.DataServices;
 using scheapp.app.DataServices.Interfaces;
@@ -38,7 +39,7 @@ try
             });
     });
 
-    Log.Logger.Warning($"{builder.Configuration["AuthenticationScheme:Google:ClientId"]}");
+    StaticClass.GoogleClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"].ToString();
 
     builder.Configuration.AddJsonFile("appsettings.json").AddEnvironmentVariables();
     var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? throw new InvalidOperationException("Connection string 'scheappappContextConnection' not found.");

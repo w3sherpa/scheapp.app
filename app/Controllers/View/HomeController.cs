@@ -46,6 +46,7 @@ namespace scheapp.app.Controllers.View
 
         public async Task<IActionResult> Index()
         {
+            ViewBag.GoggleId = StaticClass.GoogleClientId;
             return View();
         }
 
