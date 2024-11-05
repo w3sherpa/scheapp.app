@@ -99,5 +99,25 @@ namespace scheapp.app.Controllers.Data
                 return StatusCode(500, "Error Occured.");
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteProfessionalSchedules([FromBody] DeleteProfessionalScheduleRQ req)
+        {
+            try
+            {
+                //await _professionalsDataService.SaveProfessionalSchedules(new ProfessionalSchedule
+                //{
+                //    ProfessionalId = req.ProfessionalId.GetValueOrDefault()
+                //   ,StartDT = req.StartDT
+                //   ,EndDT = req.EndDT
+                //   , BusinessId = req.BusinessId.GetValueOrDefault()
+                //});
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError("{@Exception}", ex);
+                return StatusCode(500, "Error Occured.");
+            }
+        }
     }
 }

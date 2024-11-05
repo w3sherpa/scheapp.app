@@ -49,4 +49,11 @@
         public string FromZip { get; set; } = "";
         public string FromState { get; set; } = "";
     }
+
+    public class DeleteProfessionalScheduleRQ
+    {
+        public int? BusinessId { get; set; }
+        public int? ProfessionalScheduleId { get; set; }
+
+    }
 }

@@ -66,3 +66,4 @@ baseline.json
 /sherpaticket.shared.library/sherpaticket.shared.csproj.user
 /sherpaticket.shared.library/Properties/PublishProfiles/ServiceBusPublish.pubxml.user
 /sherpaticket.shared.library/Properties/PublishProfiles/ApiPublishProfile.pubxml.user
+/app/appsettings.Development.json

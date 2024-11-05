@@ -11,6 +11,8 @@ pipeline {
     HOST_IP = "192.168.1.19"
     registryCredential = 'dockerhub'
     dockerImage = ''
+    AuthenticationScheme__Google__ClientId = credentials('scheapp-google-clientid')
+    AuthenticationScheme__Google__ClientSecret = credentials('scheapp-google-clientsecrete')
   }
   agent any
   stages {
@@ -21,8 +23,10 @@ pipeline {
     }
     stage('Build Image') {
       steps{
+        withCredentials([string(credentialsId: 'scheapp-google-clientid', variable: 'GoogleClientId')
+                         string(credentialsId: 'scheapp-google-clientsecrete', variable: 'GoogleClientSecret')])
         script {
-          sh "docker build -t ${SERVICE_NAME}:latest ."
+          sh "docker buildx -t ${SERVICE_NAME}:latest . --build-arg GoogleClientId=${GoogleClientId} --build-arg GoogleClientSecret=${GoogleClientSecret}"
         }
       }
     }

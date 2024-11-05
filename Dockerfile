@@ -5,6 +5,12 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8002
 
+ARG GoogleClientId
+ARG GoogleClientSecret
+
+ENV AuthenticationScheme__Google__ClientId=GoogleClientId
+ENV AuthenticationScheme__Google__ClientSecret=GoogleClientSecret
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -22,6 +28,7 @@ RUN dotnet publish "./scheapp.app.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
 
 ENV TZ=America/Chicago
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

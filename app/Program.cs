@@ -8,7 +8,6 @@ using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System.Text;
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Logging.ClearProviders();
 // Add serilog
 builder.Host.UseSerilog((context, configuration) => {
@@ -35,7 +34,7 @@ builder.Host.UseSerilog((context, configuration) => {
         });
 
 });
-
+builder.Configuration.AddJsonFile("appsettings.json").AddEnvironmentVariables();
 var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? throw new InvalidOperationException("Connection string 'scheappappContextConnection' not found.");
 
 builder.Services.AddDbContext<ScheAppIdentityContext>(options => options.UseSqlServer(connectionString));
@@ -47,6 +46,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ScheAppIdentityContext>();
 
+builder.Services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"];
+                    options.ClientSecret =  builder.Configuration["AuthenticationScheme:Google:ClientSecret"];
+                });
 // Add services to the container.
 
 

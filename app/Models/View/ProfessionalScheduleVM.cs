@@ -13,6 +13,7 @@ namespace scheapp.app.Models.View
         public int? BusinessId { get; set; }
     }
     
+    
     public class ProfessionalScheduleVM
     {
         public int? BusinessId { get; set; }

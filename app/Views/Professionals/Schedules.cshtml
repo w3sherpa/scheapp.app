@@ -37,14 +37,14 @@
                 @Html.DisplayFor(modelItem => item.EndDT)
             </td>
             <td>
-                    <a class="btn btn-outline-danger" onclick="ConfirmAndDelete('item.ProfessionalScheduleId')"> <i class="fa fa-trash"></i></a>
+                    <a class="btn btn-outline-danger" onclick="ConfirmAndDelete(@Model.BusinessId,@item.Id)"> <i class="fa fa-trash"></i></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
 <script>
-    function ConfirmAndDelete(proScheId) {
+    function ConfirmAndDelete(businessId,proScheId) {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -55,10 +55,25 @@
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
-                    icon: "success"
+                var reqObj = new Object();
+                reqObj.BusinessId = businessId;
+                reqObj.ProfessionalScheduleId = proScheId;
+                console.log(reqObj)
+                $.ajax({
+                    'url': '/ProfessionalsData/DeleteProfessionalSchedules',
+                    'contentType': "application/json",
+                    'type': 'POST',
+                    'data': JSON.stringify(reqObj),
+                    'success': function () {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The schedule has been deleted.",
+                            icon: "success"
+                        });
+                    },
+                    'error': function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
+                    }
                 });
             }
         });
