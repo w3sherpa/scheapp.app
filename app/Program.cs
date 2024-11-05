@@ -52,9 +52,6 @@ builder.Services.AddAuthentication()
                     options.ClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"];
                     options.ClientSecret =  builder.Configuration["AuthenticationScheme:Google:ClientSecret"];
                 });
-// Add services to the container.
-
-
 
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
 builder.Services.AddRazorPages();
