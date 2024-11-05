@@ -2,6 +2,6 @@
 {
     public static class StaticClass
     {
-        public static string GoogleAuthUri { get; set; }
+        public static string TestEnvDocker { get; set; }
     }
 }

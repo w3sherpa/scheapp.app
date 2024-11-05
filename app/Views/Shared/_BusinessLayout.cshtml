@@ -34,10 +34,9 @@
                     </a>
                     <nav id="sidebar" class="sidebar-wrapper">
                         <div class="sidebar-content">
-                            <div class="sidebar-brand">
-                                <a href="#">MENU</a>
-                            <div id="close-sidebar" onclick="scheappadmin.hideSideBar();">
-                                    <i class="fas fa-times"></i>
+                            <div class="sidebar-brand" style="display:block;">
+                                <div id="close-sidebar" onclick="scheappadmin.hideSideBar();" style="float:right;">
+                                    <i class="fas fa-times float-start"></i>
                                 </div>
                             </div>
                             <div class="sidebar-header">
@@ -60,6 +59,9 @@
                             <div class="sidebar-menu">
                                 <ul>
                                     <li class="header-menu">
+                                    <a href="/"> <i class="fa fa-home"></i>Home</a>
+                                    </li>
+                                    <li class="header-menu">
                                         <span>General</span>
                                     </li>
                                     <li class="sidebar-dropdown" >
@@ -74,7 +76,7 @@
                                                 <a href="/BusinessAdmin/Index?businessId=@businessProfessional.BusinessId">Todays Appointments</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">All Schedules</a>
+                                                <a href="#">All Appointments</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -183,22 +185,7 @@
                                         </div>
                                     </li>
                                     <!--
-                                    <li class="header-menu">
-                                        <span>Extra</span>
-                                    </li>
-                                    <li>
-                                    <a onClick="scheappadmin.loadView('UserRoles','Index')">
-                                            <i class="fa fa-book"></i>
-                                            <span>Security</span>
-                                            <span class="badge badge-pill badge-primary">Beta</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-calendar"></i>
-                                            <span>Reports</span>
-                                        </a>
-                                    </li>
+                                   
                                     -->
                                 </ul>
                             </div>

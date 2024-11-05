@@ -46,7 +46,7 @@ namespace scheapp.app.Controllers.View
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.GoogleAuthUri = StaticClass.GoogleAuthUri;
+            ViewBag.TestEnvDocker = StaticClass.TestEnvDocker;
             return View();
         }
 

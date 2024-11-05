@@ -72,12 +72,16 @@
                         'type': 'POST',
                         'data': JSON.stringify(reqObj),
                         'success': function () {
-                                         Swal.fire({
-                                        title: "Created!",
-                                        text: "Your new shedule has been added",
-                                        icon: "success"
-                                    });
-                                 },
+                                        Swal.fire({
+                                            position: "top-end",
+                                            icon: "success",
+                                            title: "New schedule created",
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        }).then(function () {
+                                            window.location.href = "/Professionals/Schedules?businessId=" + reqObj.BusinessId + "&professionalId=" + reqObj.ProfessionalId + ""
+                                        });
+                                    },
                         'error': function (request, error) {
                             alert("Request: " + JSON.stringify(request));
                         }
