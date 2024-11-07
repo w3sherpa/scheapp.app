@@ -1,5 +1,4 @@
-﻿using Elastic.CommonSchema;
-using scheapp.app.DataServices.Interfaces;
+﻿using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.Data.DspModels;
 
 namespace scheapp.app.Controllers
