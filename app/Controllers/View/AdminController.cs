@@ -73,20 +73,5 @@ namespace scheapp.app.Controllers.View
         {
             return Ok($"CommunicationController: Namaste {name}!");
         }
-        //[HttpPost]
-        //public async Task<IActionResult> GetProfessionalScheduleAppointmentRequestsDetails(BusinessAppointmentRQ requestByBusinesId)
-        //{
-        //    try
-        //    {
-        //        var scheduledAppoitments = await _professionalsDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2);
-        //        return Ok(scheduledAppoitments);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError("{@Exception}", ex);
-        //        return StatusCode(500, "Error Occured.");
-        //    }
-        //}
-
     }
 }

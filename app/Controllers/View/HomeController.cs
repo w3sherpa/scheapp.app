@@ -15,33 +15,15 @@ namespace scheapp.app.Controllers.View
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHubContext<ScheAppViewUpdateHub> _signalRScheAppHub;
-
-
-        //private readonly IContactsDataService _contactsDataService;
-        //private readonly IBusinessDataService _businessesDataService;
-        //private readonly ICustomerDataService _customersDataService;
         private readonly IProfessionalDataService _professionalsDataService;
-        //private readonly ICommunicationDataService _communicationsDataService;
-        //private readonly IServiceDataService _servicesDataService;
         public HomeController(ILogger<HomeController> logger
             , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub
-            //, IContactsDataService contactsDataService
-            //, IBusinessDataService businessesDataService
-            //, ICustomerDataService customersDataService
             , IProfessionalDataService professionalsDataService
-            //, ICommunicationDataService communicationsDataService
-            //, IServiceDataService servicesDataService
             )
         {
             _logger = logger;
             _signalRScheAppHub = signalRScheAppHub;
-
-            //_contactsDataService = contactsDataService;
-            //_businessesDataService = businessesDataService;
-            //_customersDataService = customersDataService;
             _professionalsDataService = professionalsDataService;
-            //_communicationsDataService = communicationsDataService;
-            //_servicesDataService = servicesDataService;
         }
 
         public async Task<IActionResult> Index()

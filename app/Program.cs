@@ -33,9 +33,9 @@ try
                 //				   EmitEventFailureHandling.RaiseCallback,
                 //////Following setting are needed if the elastic search is configured for security with client login and sll. 
                 ////// We are disabling that for faster communicationa and the hosting server will be internal not exposed
-                //ModifyConnectionSettings = x => 
-                //    x.BasicAuthentication(context.Configuration["ElasticSearch:User"], context.Configuration["ElasticSearch:Password"])
-                //    .CertificateFingerprint("4E:45:89:B7:6D:A2:6B:74:E0:49:1C:98:5B:A5:E2:D2:8C:BA:BE:AE:D7:84:9E:2B:31:8F:9E:CD:64:AE:B0:27")
+                ModifyConnectionSettings = x =>
+                x.BasicAuthentication(context.Configuration["ElasticSearch:User"], context.Configuration["ElasticSearch:Password"])
+                .CertificateFingerprint("7E:28:57:5E:5F:A2:3C:D7:BC:DF:10:4D:DA:61:4F:42:40:66:E7:E8:89:30:AB:AC:CB:87:54:31:AF:57:1E:64")
             });
     });
 
