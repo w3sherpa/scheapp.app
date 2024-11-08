@@ -1,4 +1,5 @@
-﻿using scheapp.app.Models.Data.TableModels.Contacts;
+﻿using scheapp.app.Models.API;
+using scheapp.app.Models.Data.TableModels.Contacts;
 
 namespace scheapp.app.DataServices.Interfaces
 {
@@ -10,5 +11,6 @@ namespace scheapp.app.DataServices.Interfaces
         Task<HttpResponseMessage> SaveContactTypes(ContactType contactType);
         Task<HttpResponseMessage> SaveCustomerContact(CustomerContact contact);
         Task<HttpResponseMessage> SaveProfessionalContact(ProfessionalContact contact);
+        Task<HttpResponseMessage> CustomerConfirmScheduleAppointment(CustomerConfirmationRQ confirmation);
     }
 }

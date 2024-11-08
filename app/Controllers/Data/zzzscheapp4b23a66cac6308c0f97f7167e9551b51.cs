@@ -13,13 +13,17 @@ namespace scheapp.app.Controllers.Data
     {
         private readonly ILogger _logger;
         private readonly ICommunicationDataService _communicationDataService;
+        private readonly IContactsDataService _contactsDataService;
         public zzzscheapp4b23a66cac6308c0f97f7167e9551b51Controller(
             ILogger<zzzscheapp4b23a66cac6308c0f97f7167e9551b51Controller> logger
             , ICommunicationDataService communicationDataService
+            , IContactsDataService contactsDataService
+
             )
         {
             _logger = logger;
             _communicationDataService = communicationDataService;
+            _contactsDataService = contactsDataService;
         }
         [HttpGet]
         public IActionResult GetMessage()
@@ -83,6 +87,10 @@ namespace scheapp.app.Controllers.Data
                 }
                 else
                 {
+                    if(Digits == "1")
+                    {
+                        await _contactsDataService.CustomerConfirmScheduleAppointment(new Models.API.CustomerConfirmationRQ { VoiceApiConversationId = CallSid, CustomerConfirmed = true });
+                    }
                     _logger.LogWarning($"dtmf digits pressed are: {Digits} and call sid is {CallSid}");
                 }
                 OkObjectResult result = Ok(new Response());
