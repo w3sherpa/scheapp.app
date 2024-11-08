@@ -76,7 +76,6 @@ namespace scheapp.app.Controllers.Data
         {
             try
             {
-                ////Timeout magic string is set to the Digits value in TwiML in Robocall Project
                 ////Time out url only gets called if dtmf time out occur in twilio
                 if (Digits == "TIMEOUT")
                 {
@@ -86,7 +85,7 @@ namespace scheapp.app.Controllers.Data
                 {
                     _logger.LogWarning($"dtmf digits pressed are: {Digits} and call sid is {CallSid}");
                 }
-                OkObjectResult result = Ok(new TwilioXmlresponse());
+                OkObjectResult result = Ok(new Response());
                 result.Formatters.Clear();
                 result.Formatters.Add(new Microsoft.AspNetCore.Mvc.Formatters.XmlSerializerOutputFormatter());
                 return result;
@@ -99,7 +98,7 @@ namespace scheapp.app.Controllers.Data
             }
         }
     }
-    public class TwilioXmlresponse { }
+    public class Response { }
     public class VonageVoiceApiEvent
     {
         public string start_time { get; set; } = string.Empty;
