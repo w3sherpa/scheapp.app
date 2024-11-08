@@ -49,13 +49,15 @@ namespace scheapp.app.Controllers.Data
                 var breaParamKV = param.Split('=');
                 statusCallbackKeyValues.Add(breaParamKV[0], breaParamKV[1]);
             }
-            _logger.LogWarning($"{JsonConvert.SerializeObject(statusCallbackKeyValues)}");
+            if (statusCallbackKeyValues["CallStatus"]== "completed") _logger.LogWarning($"{JsonConvert.SerializeObject(statusCallbackKeyValues)}");
 
-            if (statusCallbackKeyValues.Count > 0)
-            {
-                var statusCallBackData = JsonConvert.DeserializeObject<TwilioStatusCallback>(JsonConvert.SerializeObject(statusCallbackKeyValues));
-                await _communicationDataService.UpdateTwilioCallStatus(statusCallBackData);
-            }
+
+            ////Use following code to log call status. The API is not implemented yet
+            ////if (statusCallbackKeyValues.Count > 0)
+            ////{
+            ////    var statusCallBackData = JsonConvert.DeserializeObject<TwilioStatusCallback>(JsonConvert.SerializeObject(statusCallbackKeyValues));
+            ////    await _communicationDataService.UpdateTwilioCallStatus(statusCallBackData);
+            ////}
 
             //twilio expected format of response
             //https://www.twilio.com/docs/messaging/twiml#twilios-request-to-your-application
