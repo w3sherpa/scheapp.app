@@ -1,4 +1,4 @@
-﻿@model scheapp.app.Models.View.CreateProfessionalSchedule
+﻿@model scheapp.app.Models.View.CreateProfessionalScheduleVM
 @using scheapp.app.Models.Data.DspModels
 @{
     ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
@@ -21,13 +21,18 @@
     <div class="col-md-4">
         @Html.HiddenFor(Model => Model.BusinessId,new { Id="hdnBusinessId_CreateSchedule"})
         @Html.HiddenFor(Model => Model.ProfessionalId, new { Id = "hdnProfessionalId_CreateSchedule" })
-        <div class="form-group mb-2">
-            <label asp-for="StartDT" class="control-label"></label>
-            <input asp-for="StartDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" id="txtbxStartDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
+        <div class="form-group mb-4">
+            <label>Start Date</label>
+            <input type="date" class="form-control" id="txtbxStartDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
+            <label>Start Time</label>
+            @Html.DropDownList("Select Time", Model.TimeSelectList, "Select Time", new { @id = "ddlStartTime_CreateSchedule", @class = "form-control", @onchange = "Validate_CreateSchedule();" })
         </div>
-        <div class="form-group mb-2">
-            <label asp-for="EndDT" class="control-label"></label>
-            <input asp-for="EndDT" class="form-control" asp-format="{0:yyyy-MM-ddTHH:mm}" id="txtbxEndDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
+        <div class="form-group mb-4">
+            <label>End Date</label>
+            <input type="date" class="form-control"  id="txtbxEndDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
+            <label>End Time</label>
+            @Html.DropDownList("Select Time", Model.TimeSelectList, "Select Time", new { @id = "ddlEndTime_CreateSchedule", @class = "form-control", @onchange = "Validate_CreateSchedule();" })
+        </div>
         </div>
         <div class="form-group">
             <input type="submit" id="btnSubmit_CreateSchedule" value="Create" onclick="ConfirmAndCreate();" class="btn btn-primary" disabled />
@@ -35,18 +40,28 @@
     </div>
 </div>
 <script>
+    var startDateTime;
+    var endDateTime;
     function Validate_CreateSchedule() {
-        let stDt = $("#txtbxStartDT_CreateSchedule").val();
-        let enDt = $("#txtbxEndDT_CreateSchedule").val();
-        if (stDt < enDt)
-            $("#btnSubmit_CreateSchedule").removeAttr("disabled");
-        else {
-            Swal.fire({
-                title: "Start date cannot be after end date.",
-                text: "Please enter start date before end date.",
-                icon: "error"
-            });
-            $("#btnSubmit_CreateSchedule").prop('disabled', true);
+        let stDate = $("#txtbxStartDT_CreateSchedule").val();
+        let enDate = $("#txtbxEndDT_CreateSchedule").val();
+        let startTime = $("#ddlStartTime_CreateSchedule").val();
+        let endTime = $("#ddlEndTime_CreateSchedule").val();
+        if (stDate !== "" && enDate != "" && startTime != "" && endTime!="") {
+
+            startDateTime = stDate  + startTime;
+            endDateTime = enDate  + endTime;
+
+            if (new Date(startDateTime) < new Date(endDateTime))
+                $("#btnSubmit_CreateSchedule").removeAttr("disabled");
+            else {
+                Swal.fire({
+                    title: "Start datetime cannot be equal or after end datetime.",
+                    text: "Please enter start datetime before end datetime.",
+                    icon: "error"
+                });
+                $("#btnSubmit_CreateSchedule").prop('disabled', true);
+            }
         }
     }
     function ConfirmAndCreate(proScheId) {
@@ -63,8 +78,8 @@
                 var reqObj = new Object();
                 reqObj.BusinessId = $("#hdnBusinessId_CreateSchedule").val();
                 reqObj.ProfessionalId = $("#hdnProfessionalId_CreateSchedule").val();
-                reqObj.StartDT = $("#txtbxStartDT_CreateSchedule").val();
-                reqObj.EndDT = $("#txtbxEndDT_CreateSchedule").val();
+                reqObj.StartDT = startDateTime;
+                reqObj.EndDT = endDateTime;
                 console.log(reqObj)
                 $.ajax({
                         'url': '/ProfessionalsData/SaveProfessionalSchedules',

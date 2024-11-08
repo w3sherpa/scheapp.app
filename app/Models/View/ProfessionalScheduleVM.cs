@@ -1,4 +1,5 @@
-﻿using scheapp.app.Models.Data.TableModels.Professionals;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using scheapp.app.Models.Data.TableModels.Professionals;
 using System.ComponentModel.DataAnnotations;
 
 namespace scheapp.app.Models.View
@@ -12,8 +13,15 @@ namespace scheapp.app.Models.View
         public DateTime EndDT { get; set; } = new();
         public int? BusinessId { get; set; }
     }
-    
-    
+
+    public class CreateProfessionalScheduleVM
+    {
+        public int? ProfessionalId { get; set; }
+        public string? FirstName { get; set; } = "";
+        public string? LastName { get; set; } = "";
+        public int? BusinessId { get; set; }
+        public List<SelectListItem> TimeSelectList { get; set; }
+    }
     public class ProfessionalScheduleVM
     {
         public int? BusinessId { get; set; }

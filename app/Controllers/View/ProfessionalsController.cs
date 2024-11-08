@@ -80,15 +80,14 @@ namespace scheapp.app.Controllers.View
                             }
                         }
                         var professionalsDetails = (await _professionalDataService.GetProfessionalBusinessDetailDsp(professionalId, businessId)).FirstOrDefault();
-                        CreateProfessionalSchedule professionalScheduleVM = new CreateProfessionalSchedule();
-                        professionalScheduleVM.FirstName = professionalsDetails.FirstName;
-                        professionalScheduleVM.LastName = professionalsDetails.LastName;
-                        professionalScheduleVM.ProfessionalId = professionalId;
-                        professionalScheduleVM.StartDT = DateTime.Now;
-                        professionalScheduleVM.EndDT = DateTime.Now;
-                        professionalScheduleVM.BusinessId = businessId;
+                        CreateProfessionalScheduleVM createScheduleVM = new CreateProfessionalScheduleVM();
+                        createScheduleVM.FirstName = professionalsDetails.FirstName;
+                        createScheduleVM.LastName = professionalsDetails.LastName;
+                        createScheduleVM.ProfessionalId = professionalId;
+                        createScheduleVM.BusinessId = businessId;
+                        createScheduleVM.TimeSelectList = CommonControllerUtility.GetTimeList();
                         ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-                        return View(professionalScheduleVM); 
+                        return View(createScheduleVM); 
                     }
                     else
                     {
