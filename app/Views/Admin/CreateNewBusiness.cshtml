@@ -1,0 +1,81 @@
+﻿@model scheapp.app.Models.Data.TableModels.Businesses.Business
+
+@{
+    ViewData["Title"] = "CreateNewBusiness";
+}
+
+<h1>CreateNewBusiness</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateNewBusiness">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
+            <div class="form-group mb-2">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Website" class="control-label"></label>
+                <input asp-for="Website" class="form-control" />
+                <span asp-validation-for="Website" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="StreetOne" class="control-label"></label>
+                <input asp-for="StreetOne" class="form-control" />
+                <span asp-validation-for="StreetOne" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="StreetTwo" class="control-label"></label>
+                <input asp-for="StreetTwo" class="form-control" />
+                <span asp-validation-for="StreetTwo" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="State" class="control-label"></label>
+                <input asp-for="State" class="form-control" />
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="ZipCode" class="control-label"></label>
+                <input asp-for="ZipCode" class="form-control" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Lat" class="control-label"></label>
+                <input asp-for="Lat" class="form-control" />
+                <span asp-validation-for="Lat" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Long" class="control-label"></label>
+                <input asp-for="Long" class="form-control" />
+                <span asp-validation-for="Long" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2 form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group mb-2">
+                <input type="submit" value="CreateNewBusiness" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

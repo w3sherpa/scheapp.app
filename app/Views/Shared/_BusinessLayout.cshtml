@@ -73,10 +73,10 @@
                                         <div class="sidebar-submenu">
                                             <ul>
                                                 <li>
-                                                <a href="/BusinessAdmin/Index?businessId=@businessProfessional.BusinessId">Todays Appointments</a>
+                                                <a href="/BusinessAdmin/Appointments?businessId=@businessProfessional.BusinessId">Appointments List</a>
                                                 </li>
                                                 <li>
-                                                <a href="#">All Appointments</a>
+                                                <a href="#">Set Up Appointment</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -221,6 +221,7 @@
                 <h5 class="m-5 text-danger">You are currently logged out.</h5>
             }
         }
+        <script src="~/lib/jquery/jquery.min.js"></script>
         <main class="page-content">
             <div class="container">
                 <div id="divScheAppContentDisplay">
@@ -229,7 +230,7 @@
             </div>
         </main>
     </div>
-    <script src="~/lib/jquery/jquery.min.js"></script>
+   
     <script src="~/js/popper.min.js"></script>
     <script src="~/lib/jquery/datatables/datatables.min.js"></script>
     <footer class="border-top footer text-muted">

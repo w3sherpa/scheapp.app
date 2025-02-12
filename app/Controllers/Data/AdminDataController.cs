@@ -38,7 +38,7 @@ namespace scheapp.app.Controllers.Data
         {
             try
             {
-                var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2);
+                var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2,null);
 
                 List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM 
                                                                                                         { StartDT = s.StartDT

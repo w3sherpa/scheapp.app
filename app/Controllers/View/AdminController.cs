@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using scheapp.app.Controllers.Data;
 using scheapp.app.DataServices.Interfaces;
+using scheapp.app.Models.Data.TableModels.Businesses;
 
 namespace scheapp.app.Controllers.View
 {
@@ -48,7 +49,11 @@ namespace scheapp.app.Controllers.View
             var roles = _roleManager.Roles;
             return View(roles);
         }
-        public IActionResult Create()
+        public IActionResult CreateNewRole()
+        {
+            return View();
+        }
+        public IActionResult CreateNewBusiness()
         {
             return View();
         }
@@ -65,6 +70,13 @@ namespace scheapp.app.Controllers.View
             {
                 _roleManager.CreateAsync(new IdentityRole(model.Name)).GetAwaiter().GetResult();
             }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewBusiness(Business newBusiness)
+        {
+            await _businessDataService.SaveBusinesses(newBusiness);
             return RedirectToAction("Index");
         }
 

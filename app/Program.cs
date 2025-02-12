@@ -48,7 +48,8 @@ try
 
     ///END test code
 
-    builder.Configuration.AddJsonFile("appsettings.json").AddEnvironmentVariables();
+    //builder.Configuration.AddJsonFile("appsettings.json").AddEnvironmentVariables();
+    builder.Configuration.AddEnvironmentVariables();
     var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? throw new InvalidOperationException("Connection string 'scheappappContextConnection' not found.");
 
     builder.Services.AddDbContext<ScheAppIdentityContext>(options => options.UseSqlServer(connectionString));

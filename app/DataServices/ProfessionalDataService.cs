@@ -25,9 +25,9 @@ namespace scheapp.app.DataServices
         public async Task<List<ProfessionalService>> GetProfessionalServices() => await _apiHelper.CallGetApi<List<ProfessionalService>>("/Professional/GetProfessionalServices");
         public async Task SaveProfessionalServices(ProfessionalService professional) => await _apiHelper.CallPostApi<ProfessionalService>("/Professional/SaveProfessionalServices", professional);
 
-        public async Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId)
+        public async Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId, DateOnly? date)
         {
-            return await _apiHelper.CallGetApi<List<ProfessionalScheduleAppointmentRequestsDetailDsp>>($"/Professional/GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId?businessId={businessId}");
+            return await _apiHelper.CallGetApi<List<ProfessionalScheduleAppointmentRequestsDetailDsp>>($"/Professional/GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId?businessId={businessId}&date={date}");
         } 
         public async Task<List<ProfessionalBusinessDetailDsp>> GetProfessionalBusinessDetailDsp(int? professionaId, int? businessId)
         {

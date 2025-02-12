@@ -1,0 +1,54 @@
+﻿@model scheapp.app.Models.View.AppointmentsVM
+@{
+    Layout = "_BusinessLayout";
+    string TodayChecked = (Model.IsTodaySelected ? "checked" : "");
+    string AllDatesChecked = (Model.IsAllDateSelected ? "checked" : "");
+    string selectedDate = (Model.IsDateSelected ? Model.SelectedDate.ToString() : "");
+}
+<div class="text-center">
+    <div class="row">
+        <div class="col-4">
+            <input id="chkbxAppointmentsToday" class="form-check-input" type="checkbox" value="" @TodayChecked onchange="AppointmentsFilterCheckboxCheck('chkbxAppointmentsToday')">
+            <label class="form-check-label" for="flexCheckDefault">
+               Today
+            </label>
+        </div>
+        <div class="col-4">
+            <input id="chkbxAppointmentsAllDate" class="form-check-input" type="checkbox" value="" @AllDatesChecked onchange="AppointmentsFilterCheckboxCheck('chkbxAppointmentsAllDate')">
+            <label class="form-check-label" for="flexCheckDefault">
+                All Date
+            </label>
+        </div>
+        <div class="col-4">
+            <input id="txtbxAppointmentsSelectedDate" class="form-control" type="date" value="@selectedDate" onchange="AppointmentsFilterByDate()" />
+        </div>
+    </div>
+    @await Html.PartialAsync("_ScheAppCard", Model.Appointments)
+</div>
+
+
+<script>
+    // $(function () {
+    //     // alert('@selectedDate')
+    //     $("#txtbxAppointmentsSelectedDate").val('@selectedDate');
+    // });
+    function AppointmentsFilterCheckboxCheck(chkboxID) {
+        let chkbxFilterChecked = $("#" + chkboxID).attr('checked');
+        if (chkbxFilterChecked == "checked" || chkbxFilterChecked == undefined) {
+            $("#chkbxAppointmentsToday").prop("checked", false);
+            $("#chkbxAppointmentsAllDate").prop("checked", false);
+            $("#txtbxAppointmentsSelectedDate").val("");
+        } 
+        $("#" + chkboxID).prop("checked", true);
+        // console.log()
+        //Make api call to get new view
+        window.location.href = "/BusinessAdmin/Appointments?businessId=2&todayOnly=" + $('#chkbxAppointmentsToday').is(":checked")
+    }
+    function AppointmentsFilterByDate(chkboxID) {
+        $("#chkbxAppointmentsToday").prop("checked", false);
+        $("#chkbxAppointmentsAllDate").prop("checked", false);
+        let selDate = $("#txtbxAppointmentsSelectedDate").val();
+        //Make api call to get new view
+        window.location.href = "/BusinessAdmin/Appointments?businessId=2&todayOnly=false&date=" + selDate;
+    }
+</script> 

@@ -1,5 +1,13 @@
 ﻿namespace scheapp.app.Models.View
 {
+    public class AppointmentsVM
+    {
+        public List<ProfessionalScheduleAppointmentVM> Appointments { get; set; } = new();
+        public bool IsTodaySelected { get; set; }
+        public bool IsAllDateSelected { get; set; }
+        public bool IsDateSelected { get; set; }
+        public string SelectedDate { get; set; }
+    }
     public class ProfessionalScheduleAppointmentVM
     {
         public int ScheduleAppointmentId { get; set; }
