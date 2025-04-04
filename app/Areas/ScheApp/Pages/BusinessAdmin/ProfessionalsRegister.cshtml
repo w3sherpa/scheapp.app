@@ -38,7 +38,7 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <select asp-for="Input.BusinessId" asp-items="@Model.Input.BusinessList" class="form-select" aria-required="true">
+                <select asp-for="Input.BusinessId" style="padding-top:.625rem" asp-items="@Model.Input.BusinessList" class="form-select" aria-required="true">
                     <option disabled selected>Select Business</option>
                 </select>
                 <span asp-validation-for="Input.BusinessId" class="text-danger"></span>

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using Elasticsearch.Net.Specification.WatcherApi;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -33,6 +34,7 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IProfessionalDataService _professionalDataService;
+        private readonly IBusinessDataService _businessDataService;
         public ProfessionalsRegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
@@ -41,6 +43,7 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager
             , IProfessionalDataService professionalDataService
+            , IBusinessDataService businessDataService
             )
         {
             _userManager = userManager;
@@ -51,6 +54,7 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
             _emailSender = emailSender;
             _roleManager = roleManager;
             _professionalDataService = professionalDataService;
+            _businessDataService = businessDataService;
         }
 
         /// <summary>
@@ -120,19 +124,34 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
         }
         public async Task OnGetAsync(string returnUrl = null)
         {
-
-            List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, null);
-            var loggedInUserAffiliatedBusinesses = allProfessionalBusinessDetails.Where(p=>p.AspNetUserName == User.Identity.Name).ToList();
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            Input = new ProfessionalRegistrationModel()
+            if (User.IsInRole("business_admin"))
             {
-                BusinessList = loggedInUserAffiliatedBusinesses.Select(i => new SelectListItem
+                List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, null);
+
+                allProfessionalBusinessDetails = allProfessionalBusinessDetails.Where(p => p.AspNetUserName == User.Identity.Name).ToList();
+                Input = new ProfessionalRegistrationModel()
                 {
-                    Text = i.BusinessName,
-                    Value = i.BusinessId.GetValueOrDefault().ToString()
-                })
-            };
+                    BusinessList = allProfessionalBusinessDetails.Select(i => new SelectListItem
+                    {
+                        Text = i.BusinessName,
+                        Value = i.BusinessId.GetValueOrDefault().ToString()
+                    })
+                };
+            }
+            else
+            {
+                var businesses = await _businessDataService.GetBusinesses();
+                Input = new ProfessionalRegistrationModel()
+                {
+                    BusinessList = businesses.Select(i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString()
+                    })
+                };
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
