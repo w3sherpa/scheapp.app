@@ -80,17 +80,11 @@ namespace scheapp.app.Controllers.Data
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveProfessionalSchedules([FromBody] CreateProfessionalSchedule req)
+        public async Task<IActionResult> SaveProfessionalSchedules([FromBody] ProfessionalSchedule req)
         {
             try
             {
-                await _professionalsDataService.SaveProfessionalSchedules(new ProfessionalSchedule
-                {
-                    ProfessionalId = req.ProfessionalId.GetValueOrDefault()
-                   ,StartDT = req.StartDT
-                   ,EndDT = req.EndDT
-                   , BusinessId = req.BusinessId.GetValueOrDefault()
-                });
+                await _professionalsDataService.SaveProfessionalSchedules(req);
                 return Ok();
             }
             catch (Exception ex)

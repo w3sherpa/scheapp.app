@@ -40,19 +40,18 @@
     </div>
 </div>
 <script>
-    var startDateTime;
-    var endDateTime;
+    var startDate;
+    var endDate;
+    var startTime;
+    var endTime;
     function Validate_CreateSchedule() {
-        let stDate = $("#txtbxStartDT_CreateSchedule").val();
-        let enDate = $("#txtbxEndDT_CreateSchedule").val();
-        let startTime = $("#ddlStartTime_CreateSchedule").val();
-        let endTime = $("#ddlEndTime_CreateSchedule").val();
-        if (stDate !== "" && enDate != "" && startTime != "" && endTime!="") {
+        startDate = $("#txtbxStartDT_CreateSchedule").val();
+        endDate = $("#txtbxEndDT_CreateSchedule").val();
+        startTime = $("#ddlStartTime_CreateSchedule").val();
+        endTime = $("#ddlEndTime_CreateSchedule").val();
+        if (startDate !== "" && endDate != "" && startTime != "" && endTime != "") {
 
-            startDateTime = stDate  + startTime;
-            endDateTime = enDate  + endTime;
-
-            if (new Date(startDateTime) < new Date(endDateTime))
+            if (new Date(startDate + "T"+startTime.substr(0,5)) < new Date(endDate +"T"+ endTime.substring(0,5)))
                 $("#btnSubmit_CreateSchedule").removeAttr("disabled");
             else {
                 Swal.fire({
@@ -78,8 +77,11 @@
                 var reqObj = new Object();
                 reqObj.BusinessId = $("#hdnBusinessId_CreateSchedule").val();
                 reqObj.ProfessionalId = $("#hdnProfessionalId_CreateSchedule").val();
-                reqObj.StartDT = startDateTime;
-                reqObj.EndDT = endDateTime;
+                reqObj.StartDate = startDate;
+                reqObj.EndDate = endDate;
+                reqObj.StartTime = startTime;
+                reqObj.DaysOfWeek = '';
+                reqObj.EndTime = endTime;
                 console.log(reqObj)
                 $.ajax({
                         'url': '/ProfessionalsData/SaveProfessionalSchedules',

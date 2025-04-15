@@ -22,8 +22,10 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Start Datetime</th>
-            <th>End Datetime</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
             <th></th>
         </tr>
     </thead>
@@ -31,11 +33,17 @@
 @foreach (var item in Model.Schedules) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StartDT)
+                @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EndDT)
+                @Html.DisplayFor(modelItem => item.EndDate)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>   
             <td>
                     <a class="btn btn-outline-danger" onclick="ConfirmAndDelete(@Model.BusinessId,@item.Id)"> <i class="fa fa-trash"></i></a>
             </td>

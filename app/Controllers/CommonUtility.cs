@@ -29,13 +29,13 @@ namespace scheapp.app.Controllers
             for (int i = 0; i < 10; i++) 
             {
                 hourString = $"0{i.ToString()}";
-                timeList.Add(new SelectListItem { Text = $"{hourString}:00:00 AM", Value = $"T{hourString}:00" });
-                timeList.Add(new SelectListItem { Text = $"{hourString}:30:00 AM", Value = $"T{hourString}:30" });
+                timeList.Add(new SelectListItem { Text = $"{hourString}:00:00 AM", Value = $"{hourString}:00:00" });
+                timeList.Add(new SelectListItem { Text = $"{hourString}:30:00 AM", Value = $"{hourString}:30:00" });
             }
             for (int i = 10; i < 12; i++)
             {
-                timeList.Add(new SelectListItem { Text = $"{i.ToString()}:00:00 AM", Value = $"T{i.ToString()}:00" });
-                timeList.Add(new SelectListItem { Text = $"{i.ToString()}:30:00 AM", Value = $"T{i.ToString()}:30" });
+                timeList.Add(new SelectListItem { Text = $"{i.ToString()}:00:00 AM", Value = $"{i.ToString()}:00:00" });
+                timeList.Add(new SelectListItem { Text = $"{i.ToString()}:30:00 AM", Value = $"{i.ToString()}:30:00" });
             }
             timeList.Add(new SelectListItem { Text = $"12:00:00 AM", Value = $"T12:00" });
             timeList.Add(new SelectListItem { Text = $"12:30:00 AM", Value = $"T12:30" });
@@ -43,14 +43,14 @@ namespace scheapp.app.Controllers
             for (int i = 13; i < 22; i++)
             {
                 hourString = $"0{(i-12).ToString()}";
-                timeList.Add(new SelectListItem { Text = $"{hourString}:00:00 PM", Value = $"T{i}:00" });
-                timeList.Add(new SelectListItem { Text = $"{hourString}:30:00 PM", Value = $"T{i}:30" });
+                timeList.Add(new SelectListItem { Text = $"{hourString}:00:00 PM", Value = $"{i}:00:00" });
+                timeList.Add(new SelectListItem { Text = $"{hourString}:30:00 PM", Value = $"{i}:30:00" });
             }
             for (int i = 22; i < 24; i++)
             {
                 hourString = $"{(i - 12).ToString()}";
-                timeList.Add(new SelectListItem { Text = $"{hourString}:00:00 PM", Value = $"T{i}:00" });
-                timeList.Add(new SelectListItem { Text = $"{hourString}:30:00 PM", Value = $"T{i}:30" });
+                timeList.Add(new SelectListItem { Text = $"{hourString}:00:00 PM", Value = $"{i}:00:00" });
+                timeList.Add(new SelectListItem { Text = $"{hourString}:30:00 PM", Value = $"{i}:30:00" });
             }
             return timeList;
         }
