@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Memory;
 using scheapp.app.DataServices;
 using scheapp.app.DataServices.Interfaces;
+using scheapp.app.Helpers;
 using scheapp.app.Models.Data.DspModels;
 using scheapp.app.Models.Data.TableModels.Businesses;
 using scheapp.app.Models.View;
@@ -14,14 +17,20 @@ namespace scheapp.app.Controllers.View
         private readonly ILogger _logger;
         private readonly IProfessionalDataService _professionalDataService;
         private readonly IBusinessDataService _businessDataService;
+        private readonly IHubContext<ScheAppViewUpdateHub> _signalRScheAppHub;
+        private readonly IMemoryCache _memoryCache;
         public BusinessAdminController(
             ILogger<BusinessAdminController> logger
+            , IMemoryCache memoryCache
             , IProfessionalDataService professionalDataService
-            , IBusinessDataService businessDataService)
+            , IBusinessDataService businessDataService
+            , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub)
         {
             _logger = logger;
             _professionalDataService = professionalDataService;
             _businessDataService = businessDataService;
+            _memoryCache = memoryCache;
+            _signalRScheAppHub = signalRScheAppHub;
         }
         private async Task<ProfessionalBusinessDetailDsp?> GetLoggedInProfessionalBusinessDetails(int? businessId)
         {
@@ -87,6 +96,19 @@ namespace scheapp.app.Controllers.View
         {
             try
             {
+                //string userId = _signalRScheAppHub.;
+
+                //if (!_memoryCache.TryGetValue(CacheKeys.Entry, out DateTime cacheValue))
+                //{
+                //    cacheValue = CurrentDateTime;
+
+                //    var cacheEntryOptions = new MemoryCacheEntryOptions()
+                //        .SetSlidingExpiration(TimeSpan.FromSeconds(3));
+
+                //    _memoryCache.Set(CacheKeys.Entry, cacheValue, cacheEntryOptions);
+                //}
+
+
                 var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
                 //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
                 if (verifiedBusinessProfessional == null)

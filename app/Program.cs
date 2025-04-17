@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using scheapp.app;
 using scheapp.app.Data;
 using scheapp.app.DataServices;
@@ -79,6 +80,7 @@ try
         client.DefaultRequestHeaders.Authorization = null;
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authToken);
     });
+    builder.Services.AddMemoryCache();
     builder.Services.AddSignalR();
     builder.Services.AddScoped<IApiHelper, ApiHelper>();
     builder.Services.AddScoped<IBusinessDataService, BusinessDataService>();
@@ -105,12 +107,12 @@ try
     app.UseCors();
     app.UseAuthentication();
     app.UseAuthorization();
-
+    app.MapRazorPages();
     app.MapHub<ScheAppViewUpdateHub>("/ScheAppViewUpdateHub");
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
-    app.MapRazorPages();
+
     app.Run();
 }
 catch(Exception ex)

@@ -78,7 +78,7 @@ body {
 
 .column {
     margin-top: 3rem;
-    padding-left: 3rem;
+    /*padding-left: 3rem;*/
 }
 
     .column:hover {
@@ -102,7 +102,7 @@ body {
                 width: 10%;
             }
 
-.card {
+/*.card {
     min-height: 170px;
     margin: 0;
     padding: 1.7rem 1.2rem;
@@ -175,4 +175,4 @@ body {
         opacity: 0.2;
         color: white;
         z-index: 0;
-    }
+    }*/

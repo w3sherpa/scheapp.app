@@ -14,15 +14,12 @@ namespace scheapp.app.Controllers.View
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IHubContext<ScheAppViewUpdateHub> _signalRScheAppHub;
         private readonly IProfessionalDataService _professionalsDataService;
         public HomeController(ILogger<HomeController> logger
-            , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub
             , IProfessionalDataService professionalsDataService
             )
         {
             _logger = logger;
-            _signalRScheAppHub = signalRScheAppHub;
             _professionalsDataService = professionalsDataService;
         }
 

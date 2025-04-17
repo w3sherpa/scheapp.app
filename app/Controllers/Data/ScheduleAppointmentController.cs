@@ -30,7 +30,7 @@ namespace scheapp.app.Controllers.Data
             try
             {
                 var res = _professionalsDataService.GetProfessionalScheduleAppointmentRequests();
-                await _signalRScheAppHub.Clients.All.SendAsync("UpdateAppointmentsView", "padat", "12132");
+                //await _signalRScheAppHub.Clients.All.SendAsync("UpdateAppointmentsView", "padat", "12132");
                 return Ok();
             }
             catch (Exception ex)

@@ -32,6 +32,17 @@
     //     // alert('@selectedDate')
     //     $("#txtbxAppointmentsSelectedDate").val('@selectedDate');
     // });
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub").build();
+    connection.on("UpdateAppointmentsView", function (conversation_uuid, status) {
+        // $('#' + conversation_uuid).html(status);
+        console.log(status)
+        if (status == 'scheapp_client_confirmed') {
+            window.location.reload();
+            console.log(status);
+        }
+    });
+    connection.start();
     function AppointmentsFilterCheckboxCheck(chkboxID) {
         let chkbxFilterChecked = $("#" + chkboxID).attr('checked');
         if (chkbxFilterChecked == "checked" || chkbxFilterChecked == undefined) {

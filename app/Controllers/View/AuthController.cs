@@ -17,8 +17,6 @@ namespace scheapp.app.Controllers.View
         private readonly SignInManager<IdentityUser> _signInManager;
         public AuthController(ILogger<AuthController> logger
             , SignInManager<IdentityUser> signInManager
-            , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub
-           
             )
         {
             _logger = logger;

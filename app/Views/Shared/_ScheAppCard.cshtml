@@ -4,8 +4,8 @@
     @{
         foreach(var app in Model)
         {
-            <div class="col-md-6 col-lg-4 column">
-                <div class="card gr-1">
+            <div class="col-md-6 mt-2 col-lg-4 column">
+                <div class="card p-2 gr-1">
                     <div class="txt">
                         <div class="row">
                             <div class="col-4">
@@ -16,11 +16,11 @@
                                
                             </div>
                             <div class="col-8">
-                                <h1>
+                                <h5>
                                     @app.ServiceName
-                                </h1>
-                                <h3>@app.StartDT</h3>
-                                <P>Note for a professional goes here</P>
+                                </h5>
+                                <h5>@app.StartDT</h5>
+                                <span>Note for a professional goes here</span>
                             </div>
                         </div>
                     </div>

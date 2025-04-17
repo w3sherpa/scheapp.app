@@ -1,9 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using scheapp.app.DataServices.Interfaces;
+using scheapp.app.Helpers;
 using scheapp.app.Models.Data;
+using System.Data.Common;
+using System.Data;
 using System.Text;
 using System.Web;
+using scheapp.app.Models.Data.DspModels;
 
 namespace scheapp.app.Controllers.Data
 {
@@ -14,16 +20,23 @@ namespace scheapp.app.Controllers.Data
         private readonly ILogger _logger;
         private readonly ICommunicationDataService _communicationDataService;
         private readonly IContactsDataService _contactsDataService;
+        private readonly IHubContext<ScheAppViewUpdateHub> _signalRScheAppHub;
+        private readonly IConfiguration _configuration;
         public zzzscheapp4b23a66cac6308c0f97f7167e9551b51Controller(
             ILogger<zzzscheapp4b23a66cac6308c0f97f7167e9551b51Controller> logger
             , ICommunicationDataService communicationDataService
             , IContactsDataService contactsDataService
+            , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub
+,
+IConfiguration configuration
 
             )
         {
             _logger = logger;
+            _signalRScheAppHub = signalRScheAppHub;
             _communicationDataService = communicationDataService;
             _contactsDataService = contactsDataService;
+            _configuration = configuration;
         }
         [HttpGet]
         public IActionResult GetMessage()
@@ -55,6 +68,7 @@ namespace scheapp.app.Controllers.Data
             }
             if (statusCallbackKeyValues["CallStatus"]== "completed") _logger.LogWarning($"{JsonConvert.SerializeObject(statusCallbackKeyValues)}");
 
+            
 
             ////Use following code to log call status. The API is not implemented yet
             ////if (statusCallbackKeyValues.Count > 0)
@@ -90,6 +104,39 @@ namespace scheapp.app.Controllers.Data
                     if(Digits == "1")
                     {
                         await _contactsDataService.CustomerConfirmScheduleAppointment(new Models.API.CustomerConfirmationRQ { VoiceApiConversationId = CallSid, CustomerConfirmed = true });
+                        ProfessionalScheduleAppointmentRequestsDetailDsp scheduleDetail = new();
+                        List<string> businessAdminUsers = new List<string>();
+                        using (SqlConnection srcConn = new SqlConnection(_configuration.GetConnectionString("ScheAppMin")))
+                        using (SqlCommand srcCmd = new SqlCommand($"exec dsp_GetProfessionalUserIdByConversationId '{CallSid}'", srcConn))
+                        {
+                            srcConn.Open();
+                            using (DbDataReader reader = srcCmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    businessAdminUsers.Add(reader.GetString(0));
+                                }
+                                if (reader.NextResult())
+                                {
+                                    reader.Read();
+                                    scheduleDetail.StartDT = DateTime.Parse(reader["StartDT"].ToString());
+                                    scheduleDetail.EndDT = DateTime.Parse(reader["EndDT"].ToString());
+                                    scheduleDetail.RequestDate = DateTime.Parse(reader["RequestDate"].ToString());
+                                    scheduleDetail.ProFirst = reader["ProFirst"].ToString();
+                                    scheduleDetail.ProMiddle = reader["ProMiddle"].ToString();
+                                    scheduleDetail.ProLast = reader["ProLast"].ToString();
+                                    scheduleDetail.CustFrist = reader["CustFrist"].ToString();
+                                    scheduleDetail.CustLast = reader["CustLast"].ToString();
+                                    scheduleDetail.CustMiddle = reader["CustMiddle"].ToString();
+                                }
+                                
+                            }
+                        }
+                        foreach (var bu in businessAdminUsers)
+                        {
+                            await _signalRScheAppHub.Clients.Group(bu).SendAsync("UpdateAppointmentsView", "salemvai", JsonConvert.SerializeObject(scheduleDetail));
+                        }
+                        
                     }
                     _logger.LogWarning($"dtmf digits pressed are: {Digits} and call sid is {CallSid}");
                 }
