@@ -60,30 +60,7 @@ namespace scheapp.app.Controllers.View
                 }
                 else
                 {
-                    var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(),null);
-
-                    List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM
-                    {
-                        StartDT = s.StartDT
-                                                                                                            ,
-                        EndDT = s.EndDT
-                                                                                                            ,
-                        CustomerConfirmed = s.CustomerConfirmed
-                                                                                                            ,
-                        ProfessionalConfirmed = s.ProfessionalConfirmed
-                                                                                                            ,
-                        RequestDate = s.RequestDate
-                                                                                                            ,
-                        ServiceName = s.ServiceName
-                                                                                                            ,
-                        ScheduleAppointmentId = s.ScheduleAppointmentId
-                                                                                                            ,
-                        Customer = $"{s.CustFrist} {s.CustLast}"
-                                                                                                            ,
-                        Professional = $"{s.ProFirst} {s.ProLast}"
-                    }).ToList();
-                    ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-                    return View(prosche);
+                    return Redirect($"/BusinessAdmin/Appointments?businessId={verifiedBusinessProfessional.BusinessId.GetValueOrDefault()}");
                 }
             }
             catch (Exception ex)
@@ -96,19 +73,6 @@ namespace scheapp.app.Controllers.View
         {
             try
             {
-                //string userId = _signalRScheAppHub.;
-
-                //if (!_memoryCache.TryGetValue(CacheKeys.Entry, out DateTime cacheValue))
-                //{
-                //    cacheValue = CurrentDateTime;
-
-                //    var cacheEntryOptions = new MemoryCacheEntryOptions()
-                //        .SetSlidingExpiration(TimeSpan.FromSeconds(3));
-
-                //    _memoryCache.Set(CacheKeys.Entry, cacheValue, cacheEntryOptions);
-                //}
-
-
                 var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
                 //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
                 if (verifiedBusinessProfessional == null)
@@ -118,6 +82,7 @@ namespace scheapp.app.Controllers.View
                 else
                 {
                     AppointmentsVM appointmentsVM = new AppointmentsVM();
+                    appointmentsVM.BusinessId = businessId.GetValueOrDefault();
                     if (todayOnly.GetValueOrDefault()) date = DateOnly.FromDateTime(DateTime.Now);
                     var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(), date);
 

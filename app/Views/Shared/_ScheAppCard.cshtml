@@ -1,11 +1,11 @@
 ﻿@model List<scheapp.app.Models.View.ProfessionalScheduleAppointmentVM>
 
-<div class="row">
+<div id="div_ScheduleAppointmentList" class="row">
     @{
         foreach(var app in Model)
         {
             <div class="col-md-6 mt-2 col-lg-4 column">
-                <div class="card p-2 gr-1">
+                <div class="card p-1 gr-1">
                     <div class="txt">
                         <div class="row">
                             <div class="col-4">
@@ -13,7 +13,6 @@
                                     <img class="img-responsive img-rounded" src="~/images/user-01.jpg" alt="User picture">
                                 </div>
                                 <div> <h6>@app.Customer</h6></div>
-                               
                             </div>
                             <div class="col-8">
                                 <h5>

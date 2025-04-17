@@ -2,6 +2,7 @@
 {
     public class AppointmentsVM
     {
+        public int BusinessId { get; set; }
         public List<ProfessionalScheduleAppointmentVM> Appointments { get; set; } = new();
         public bool IsTodaySelected { get; set; }
         public bool IsAllDateSelected { get; set; }

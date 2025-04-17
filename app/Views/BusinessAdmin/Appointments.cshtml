@@ -36,11 +36,13 @@
     var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub").build();
     connection.on("UpdateAppointmentsView", function (conversation_uuid, status) {
         // $('#' + conversation_uuid).html(status);
-        console.log(status)
-        if (status == 'scheapp_client_confirmed') {
-            window.location.reload();
-            console.log(status);
-        }
+        // console.log(status)
+        // console.log(DisplayNewAppointment(status));
+        $("#div_ScheduleAppointmentList").append(DisplayNewAppointment(status))
+        // if (status == 'scheapp_client_confirmed') {
+        //     window.location.reload();
+        //     console.log(DisplayNewAppointment(status));
+        // }
     });
     connection.start();
     function AppointmentsFilterCheckboxCheck(chkboxID) {
@@ -53,13 +55,46 @@
         $("#" + chkboxID).prop("checked", true);
         // console.log()
         //Make api call to get new view
-        window.location.href = "/BusinessAdmin/Appointments?businessId=2&todayOnly=" + $('#chkbxAppointmentsToday').is(":checked")
+        window.location.href = "/BusinessAdmin/Appointments?businessId="+@Html.Raw(Model.BusinessId)+"&todayOnly=" + $('#chkbxAppointmentsToday').is(":checked")
     }
     function AppointmentsFilterByDate(chkboxID) {
         $("#chkbxAppointmentsToday").prop("checked", false);
         $("#chkbxAppointmentsAllDate").prop("checked", false);
         let selDate = $("#txtbxAppointmentsSelectedDate").val();
         //Make api call to get new view
-        window.location.href = "/BusinessAdmin/Appointments?businessId=2&todayOnly=false&date=" + selDate;
+        window.location.href = "/BusinessAdmin/Appointments?businessId=" + @Html.Raw(Model.BusinessId)+"&todayOnly=false&date=" + selDate;
+    }
+
+    function DisplayNewAppointment(newAppointmentJSON) {
+        var newAppointment = JSON.parse(newAppointmentJSON);
+        
+        var newAppoitmentCardHtml = 
+            '<div class="col-md-6 mt-2 col-lg-4 column">'+
+                '<div class="card p-1 gr-1">'+
+                    '<div class="txt">'+
+                        '<div class="row">'+
+                            '<div class="col-4">'+
+                                '<div class="user-pic">'+
+                                '<img class="img-responsive img-rounded" src="/images/user-01.jpg" alt="User picture">'+
+                                '</div>' +
+                                '<div> ' +
+            '<h6>' + newAppointment.CustFrist + ' ' + newAppointment.CustLast + '</h6>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="col-8">' +
+            '<h5>' + newAppointment.ServiceName + '</h5>' +
+            '<h5>' + newAppointment.StartDT + '</h5>' +
+                                '<span>Note for a professional goes here</span>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+            '<a href="#" onclick="scheappadmin.NotifyCustomer(' + newAppointment.ScheduleAppointmentId + ')">I am ready</a>' +
+                    '<div class="ico-card">' +
+                        '<i class="fa fa-cut"></i>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+        // console.log(newAppoitmentCardHtml);
+        return newAppoitmentCardHtml;
     }
 </script> 

@@ -104,9 +104,9 @@ body {
 
 /*.card {
     min-height: 170px;
-    margin: 0;
-    padding: 1.7rem 1.2rem;
-    border: none;
+    margin: 0;*/
+    /*padding: 1.7rem 1.2rem;*/
+    /*border: none;
     border-radius: 0;
     color: black;
     letter-spacing: 0.05rem;
@@ -170,7 +170,7 @@ body {
         position: relative;
         right: -50%;
         top: 60%;
-        font-size: 12rem;
+        font-size: 6rem;
         line-height: 0;
         opacity: 0.2;
         color: white;
