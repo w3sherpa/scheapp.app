@@ -1,26 +1,26 @@
 ﻿@model scheapp.app.Models.View.AppointmentsVM
 @{
     Layout = "_BusinessLayout";
-    string TodayChecked = (Model.IsTodaySelected ? "checked" : "");
-    string AllDatesChecked = (Model.IsAllDateSelected ? "checked" : "");
-    string selectedDate = (Model.IsDateSelected ? Model.SelectedDate.ToString() : "");
+    // string TodayChecked = (Model.IsTodaySelected ? "checked" : "");
+    // string AllDatesChecked = (Model.IsAllDateSelected ? "checked" : "");
+    // string selectedDate = (Model.IsDateSelected ? Model.SelectedDate.ToString() : "");
 }
 <div class="text-center">
     <div class="row">
         <div class="col-4">
-            <input id="chkbxAppointmentsToday" class="" type="checkbox" value="" @TodayChecked onchange="TodayCheckboxCheck()">
+            <input id="chkbxAppointmentsToday" class="" type="checkbox" value=""  onchange="TodayCheckboxCheck()">
             <label class="form-check-label" for="flexCheckDefault">
                Today
             </label>
         </div>
         <div class="col-4">
-            <input id="chkbxAppointmentsAllDate" class="f" type="checkbox" value="" @AllDatesChecked onchange="AllDateCheckboxCheck()">
+            <input id="chkbxAppointmentsAllDate" class="f" type="checkbox" value=""  onchange="AllDateCheckboxCheck()">
             <label class="form-check-label" for="flexCheckDefault">
                 All Date
             </label>
         </div>
         <div class="col-4">
-            <input id="txtbxAppointmentsSelectedDate" class="form-control" type="date" value="@selectedDate" onchange="AppointmentsFilterByDate()" />
+            <input id="txtbxAppointmentsSelectedDate" class="form-control" type="date" onchange="AppointmentsFilterByDate()" />
         </div>
     </div>
     <div id="div_DisplayAppointmentList"  class="row">
@@ -32,12 +32,13 @@
 
 <script>
     $(function () {
-        LoadScheduledAppointments(@Html.Raw(Model.BusinessId));
+        $("#chkbxAppointmentsToday").prop("checked", true);
+        LoadScheduledAppointments(@Html.Raw(Model.BusinessId),GetToday());
     });
 
     var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub").build();
     connection.on("UpdateAppointmentsView", function (conversation_uuid, status) {
-        LoadScheduledAppointments(@Html.Raw(Model.BusinessId));
+        LoadScheduledAppointments(@Html.Raw(Model.BusinessId),GetToday());
     });
     connection.start();
     function TodayCheckboxCheck() {

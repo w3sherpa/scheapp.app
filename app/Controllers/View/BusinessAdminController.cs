@@ -69,7 +69,7 @@ namespace scheapp.app.Controllers.View
                 return Content("SORRY, ERROR OCCURED!.");
             }
         }
-        public async Task<IActionResult> Appointments(int? businessId,bool? todayOnly,DateOnly? date)
+        public async Task<IActionResult> Appointments(int? businessId)
         {
             try
             {
@@ -83,46 +83,46 @@ namespace scheapp.app.Controllers.View
                 {
                     AppointmentsVM appointmentsVM = new AppointmentsVM();
                     appointmentsVM.BusinessId = businessId.GetValueOrDefault();
-                    if (todayOnly.GetValueOrDefault()) date = DateOnly.FromDateTime(DateTime.Now);
-                    var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(), date);
+                    //if (todayOnly.GetValueOrDefault()) date = DateOnly.FromDateTime(DateTime.Now);
+                    //var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(), date);
 
-                    List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM
-                    {
-                        StartDT = s.StartDT
-                                                                                                            ,
-                        EndDT = s.EndDT
-                                                                                                            ,
-                        CustomerConfirmed = s.CustomerConfirmed
-                                                                                                            ,
-                        ProfessionalConfirmed = s.ProfessionalConfirmed
-                                                                                                            ,
-                        RequestDate = s.RequestDate
-                                                                                                            ,
-                        ServiceName = s.ServiceName
-                                                                                                            ,
-                        ScheduleAppointmentId = s.ScheduleAppointmentId
-                                                                                                            ,
-                        Customer = $"{s.CustFrist} {s.CustLast}"
-                                                                                                            ,
-                        Professional = $"{s.ProFirst} {s.ProLast}"
-                    }).ToList();
+                    //List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM
+                    //{
+                    //    StartDT = s.StartDT
+                    //                                                                                        ,
+                    //    EndDT = s.EndDT
+                    //                                                                                        ,
+                    //    CustomerConfirmed = s.CustomerConfirmed
+                    //                                                                                        ,
+                    //    ProfessionalConfirmed = s.ProfessionalConfirmed
+                    //                                                                                        ,
+                    //    RequestDate = s.RequestDate
+                    //                                                                                        ,
+                    //    ServiceName = s.ServiceName
+                    //                                                                                        ,
+                    //    ScheduleAppointmentId = s.ScheduleAppointmentId
+                    //                                                                                        ,
+                    //    Customer = $"{s.CustFrist} {s.CustLast}"
+                    //                                                                                        ,
+                    //    Professional = $"{s.ProFirst} {s.ProLast}"
+                    //}).ToList();
 
-                    appointmentsVM.Appointments = prosche;
-                    if((todayOnly == null || todayOnly.GetValueOrDefault()) && date == null)
-                    {
-                        appointmentsVM.IsAllDateSelected = true;
-                        appointmentsVM.IsTodaySelected = false;
-                    }
-                    else if (todayOnly.GetValueOrDefault())
-                    {
-                        appointmentsVM.IsAllDateSelected = false;
-                        appointmentsVM.IsTodaySelected = true;
-                    }
-                    else
-                    {
-                        appointmentsVM.IsDateSelected = true;
-                        appointmentsVM.SelectedDate = date.GetValueOrDefault().ToString("yyyy-MM-dd");
-                    }
+                    //appointmentsVM.Appointments = prosche;
+                    //if((todayOnly == null || todayOnly.GetValueOrDefault()) && date == null)
+                    //{
+                    //    appointmentsVM.IsAllDateSelected = true;
+                    //    appointmentsVM.IsTodaySelected = false;
+                    //}
+                    //else if (todayOnly.GetValueOrDefault())
+                    //{
+                    //    appointmentsVM.IsAllDateSelected = false;
+                    //    appointmentsVM.IsTodaySelected = true;
+                    //}
+                    //else
+                    //{
+                    //    appointmentsVM.IsDateSelected = true;
+                    //    appointmentsVM.SelectedDate = date.GetValueOrDefault().ToString("yyyy-MM-dd");
+                    //}
                     
                     ViewBag.BusinessProfessional = verifiedBusinessProfessional;
                     return View(appointmentsVM);
