@@ -14,7 +14,7 @@
             </label>
         </div>
         <div class="col-4">
-            <input id="chkbxAppointmentsAllDate" class="f" type="checkbox" value=""  onchange="AllDateCheckboxCheck()">
+            <input id="chkbxAppointmentsAllDate" class="f" type="checkbox" value="" onchange="AllDateCheckboxCheck()">
             <label class="form-check-label" for="flexCheckDefault">
                 All Date
             </label>
@@ -36,7 +36,10 @@
         LoadScheduledAppointments(@Html.Raw(Model.BusinessId),GetToday());
     });
 
-    var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub").build();
+    var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub",{  
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets
+    }).build();
     connection.on("UpdateAppointmentsView", function (conversation_uuid, status) {
         LoadScheduledAppointments(@Html.Raw(Model.BusinessId),GetToday());
     });
