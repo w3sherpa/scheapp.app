@@ -116,18 +116,25 @@ IConfiguration configuration
                                 {
                                     businessAdminUsers.Add(reader.GetString(0));
                                 }
-                                if (reader.NextResult())
+                                if (businessAdminUsers.Count > 0)
                                 {
-                                    reader.Read();
-                                    scheduleDetail.StartDT = DateTime.Parse(reader["StartDT"].ToString());
-                                    scheduleDetail.EndDT = DateTime.Parse(reader["EndDT"].ToString());
-                                    scheduleDetail.RequestDate = DateTime.Parse(reader["RequestDate"].ToString());
-                                    scheduleDetail.ProFirst = reader["ProFirst"].ToString();
-                                    scheduleDetail.ProMiddle = reader["ProMiddle"].ToString();
-                                    scheduleDetail.ProLast = reader["ProLast"].ToString();
-                                    scheduleDetail.CustFrist = reader["CustFrist"].ToString();
-                                    scheduleDetail.CustLast = reader["CustLast"].ToString();
-                                    scheduleDetail.CustMiddle = reader["CustMiddle"].ToString();
+                                    if (reader.NextResult())
+                                    {
+                                        reader.Read();
+                                        scheduleDetail.StartDT = DateTime.Parse(reader["StartDT"].ToString());
+                                        scheduleDetail.EndDT = DateTime.Parse(reader["EndDT"].ToString());
+                                        scheduleDetail.RequestDate = DateTime.Parse(reader["RequestDate"].ToString());
+                                        scheduleDetail.ProFirst = reader["ProFirst"].ToString();
+                                        scheduleDetail.ProMiddle = reader["ProMiddle"].ToString();
+                                        scheduleDetail.ProLast = reader["ProLast"].ToString();
+                                        scheduleDetail.CustFrist = reader["CustFrist"].ToString();
+                                        scheduleDetail.CustLast = reader["CustLast"].ToString();
+                                        scheduleDetail.CustMiddle = reader["CustMiddle"].ToString();
+                                    }
+                                }
+                                else
+                                {
+                                    _logger.LogError($"dsp_GetProfessionalUserIdByConversationId return 0 business admin users for callsid{CallSid}");
                                 }
                                 
                             }
