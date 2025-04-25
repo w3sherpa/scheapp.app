@@ -23,11 +23,11 @@ body {
   margin-bottom: 60px;
 }
 
-    body.dark-mode {
+/*    body.dark-mode {
         background-color: #343a40;
         color: #ffffff;
     }
-
+*/
 .user-pic {
     /*float: left;*/
     width: 55px;

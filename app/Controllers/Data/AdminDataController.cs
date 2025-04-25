@@ -35,10 +35,10 @@ namespace scheapp.app.Controllers.Data
         }
         [HttpPost]
         public async Task<IActionResult> GetProfessionalScheduleAppointmentRequestsDetails([FromBody]BusinessAppointmentRQ requestByBusinesId)
-        {
+        { 
             try
             {
-                var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(2,null);
+                var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(requestByBusinesId.BusinessId,requestByBusinesId.AppointmentDate);
 
                 List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM 
                                                                                                         { StartDT = s.StartDT
@@ -52,7 +52,7 @@ namespace scheapp.app.Controllers.Data
                                                                                                         , Professional = $"{s.ProFirst} {s.ProLast}"
                 }).ToList();
 
-                return Ok(new AppointmentListRS { RecordsCount = scheduledAppoitments.Count, Records = prosche });
+                return Ok(new AppointmentListRS { AppointmentsCount = scheduledAppoitments.Count, Appointments = prosche });
             }
             catch (Exception ex)
             {
@@ -64,16 +64,17 @@ namespace scheapp.app.Controllers.Data
     }
     public class AppointmentListRS
     {
-        public int RecordsCount { get; set; }
-        public List<ProfessionalScheduleAppointmentVM> Records { get; set; } = new ();
+        public int AppointmentsCount { get; set; }
+        public List<ProfessionalScheduleAppointmentVM> Appointments { get; set; } = new ();
     }
     public class BusinessAppointmentRQ
     {
         public int BusinessId { get; set; }
-        public string SortColumn { get; set; }
-        public string SortOrder { get; set; }
-        public int PageSize { get; set; }
-        public int PageNumber { get; set; } 
+        //public string SortColumn { get; set; }
+        //public string SortOrder { get; set; }
+        //public int PageSize { get; set; }
+        //public int PageNumber { get; set; } 
 
+        public DateOnly? AppointmentDate { get; set; }
     }
 }
