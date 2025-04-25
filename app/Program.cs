@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -91,6 +92,11 @@ try
     builder.Services.AddScoped<ICommunicationDataService, CommunicationDataService>();
 
     var app = builder.Build();
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    });
+
     app.Logger.LogWarning("ScheApp app started.");
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
