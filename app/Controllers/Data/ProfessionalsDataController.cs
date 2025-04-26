@@ -98,13 +98,8 @@ namespace scheapp.app.Controllers.Data
         {
             try
             {
-                //await _professionalsDataService.SaveProfessionalSchedules(new ProfessionalSchedule
-                //{
-                //    ProfessionalId = req.ProfessionalId.GetValueOrDefault()
-                //   ,StartDT = req.StartDT
-                //   ,EndDT = req.EndDT
-                //   , BusinessId = req.BusinessId.GetValueOrDefault()
-                //});
+                // Before deleting, warn user of list of appointments that will be soft deleted, and if confirmed, another api call
+                // to delete the appointments that refs this schedule, and soft delete the shedule.
                 return Ok();
             }
             catch (Exception ex)

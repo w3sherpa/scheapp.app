@@ -12,11 +12,11 @@
     public class ProfessionalScheduleAppointmentVM
     {
         public int ScheduleAppointmentId { get; set; }
-        public DateTime StartDT { get; set; } = new();
-        public DateTime EndDT { get; set; } = new();
+        public string StartDT { get; set; } = "";
+        public string EndDT { get; set; } = "";
         public bool ProfessionalConfirmed { get; set; }
         public bool CustomerConfirmed { get; set; }
-        public DateTime RequestDate { get; set; } = new();
+        public string RequestDate { get; set; } = "";
         public string Professional { get; set; } = "";
         public string ServiceName { get; set; } = "";
         public string Customer { get; set; } = "";

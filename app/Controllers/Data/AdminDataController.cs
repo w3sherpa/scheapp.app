@@ -39,13 +39,13 @@ namespace scheapp.app.Controllers.Data
             try
             {
                 var scheduledAppoitments = await _professionalDataService.GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(requestByBusinesId.BusinessId,requestByBusinesId.AppointmentDate);
-
+                string dateFormat = "hh:mm tt on dd MMM yyyy";
                 List<ProfessionalScheduleAppointmentVM> prosche = scheduledAppoitments.Select(s => new ProfessionalScheduleAppointmentVM 
-                                                                                                        { StartDT = s.StartDT
-                                                                                                        , EndDT = s.EndDT 
+                                                                                                        { StartDT = s.StartDT.ToString(dateFormat)
+                                                                                                        , EndDT = s.EndDT.ToString(dateFormat)
                                                                                                         , CustomerConfirmed = s.CustomerConfirmed
                                                                                                         , ProfessionalConfirmed = s.ProfessionalConfirmed
-                                                                                                        , RequestDate = s.RequestDate
+                                                                                                        , RequestDate = s.RequestDate.ToString(dateFormat)
                                                                                                         , ServiceName = s.ServiceName
                                                                                                         , ScheduleAppointmentId = s.ScheduleAppointmentId
                                                                                                         , Customer = $"{s.CustFrist} {s.CustLast}"
