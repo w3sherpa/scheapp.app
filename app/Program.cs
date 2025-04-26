@@ -82,11 +82,7 @@ try
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authToken);
     });
     builder.Services.AddMemoryCache();
-    builder.Services.AddSignalR(hubOptions => {
-        hubOptions.EnableDetailedErrors = true;
-        hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(10);
-        hubOptions.HandshakeTimeout = TimeSpan.FromSeconds(5);
-    });
+    builder.Services.AddSignalR();
     builder.Services.AddScoped<IApiHelper, ApiHelper>();
     builder.Services.AddScoped<IBusinessDataService, BusinessDataService>();
     builder.Services.AddScoped<ICustomerDataService, CustomerDataService>();
