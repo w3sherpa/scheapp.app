@@ -23,6 +23,13 @@ body {
   margin-bottom: 60px;
 }
 
+
+/*Fonts*/
+
+.scheapp-f6{
+    fon
+}
+
 /*    body.dark-mode {
         background-color: #343a40;
         color: #ffffff;
@@ -81,26 +88,26 @@ body {
     /*padding-left: 3rem;*/
 }
 
-    .column:hover {
-        padding-left: 0;
-    }
+.column:hover {
+    padding-left: 0;
+}
 
-        .column:hover .card .txt {
-            margin-left: 1rem;
-        }
+.column:hover .card .txt {
+    margin-left: 1rem;
+}
 
-            .column:hover .card .txt h1, .column:hover .card .txt p {
-                color: white;
-                opacity: 1;
-            }
+.column:hover .card .txt h1, .column:hover .card .txt p {
+    color: white;
+    opacity: 1;
+}
 
-        .column:hover a {
-            color: white;
-        }
+.column:hover a {
+    color: white;
+}
 
-            .column:hover a:after {
-                width: 10%;
-            }
+.column:hover a:after {
+    width: 10%;
+}
 
 /*.card {
     min-height: 170px;

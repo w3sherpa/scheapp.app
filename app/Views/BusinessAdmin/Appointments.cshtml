@@ -38,8 +38,9 @@
 
     var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub"
     // ,{  
-    //     skipNegotiation: true,
-    //     transport: signalR.HttpTransportType.WebSockets
+    //     // skipNegotiation: true,
+    //     // transport: signalR.HttpTransportType.WebSockets
+    //     transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.ServerSentEvents | signalR.HttpTransportType.LongPolling,
     // }
     ).build();
     connection.on("UpdateAppointmentsView", function (conversation_uuid, status) {
@@ -65,27 +66,33 @@
         var newAppoitmentCardHtml = 
             '<div class="col-md-6 mt-2 col-lg-4 column">'+
                 '<div class="card p-1 gr-1">'+
-                    '<div class="txt">'+
+                    '<div class="txt p-2">'+
+                        '<div class="row mb-2">' +
+                            '<div class="col-12">'+
+                                '<h5 class="float-start">' + appointment.customer+ '</h5>' +
+                            '</div>' +
+                        '</div>' +
                         '<div class="row">'+
-                            '<div class="col-4">'+
+                            '<div class="col-3">'+
                                 '<div class="user-pic">'+
                                 '<img class="img-responsive img-rounded" src="/images/user-01.jpg" alt="User picture">'+
                                 '</div>' +
                                 '<div> ' +
-            '<h6>' + appointment.customer+ '</h6>' +
+            
                                 '</div>' +
                             '</div>' +
-                            '<div class="col-8">' +
-            '<h5>' + appointment.serviceName + '</h5>' +
-            '<h5>' + appointment.startDT + '</h5>' +
-                                '<span>Note for a professional goes here</span>' +
+                            '<div class="col-9 d-flex flex-column">' +
+            '<div class="d-block"><h5 class="float-start">' + appointment.serviceName + '</h5></div>' +
+            '<div class="d-block"><span class="float-start">' + appointment.startDT + '</span></div>' +
+                                '<div class="d-block"><span class="float-end"><i class="fa fa-cut"></i></span></div>' +
                             '</div>' +
                         '</div>' +
+                        '<a class="float-end" href="#" onclick="scheappadmin.NotifyCustomer(' + appointment.scheduleAppointmentId + ')">I am ready</a>' +
                     '</div>' +
-            '<a href="#" onclick="scheappadmin.NotifyCustomer(' + appointment.scheduleAppointmentId + ')">I am ready</a>' +
-                    '<div class="ico-card">' +
-                        '<i class="fa fa-cut"></i>' +
-                    '</div>' +
+           
+                    // '<div class="ico-card">' +
+                    //     '<i class="fa fa-cut"></i>' +
+                    // '</div>' +
                 '</div>' +
             '</div>'
         // console.log(newAppoitmentCardHtml);
