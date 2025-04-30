@@ -11,5 +11,6 @@ namespace scheapp.app.Models.Data.TableModels.Professionals
         public string LastName { get; set; } = "";
         public int BusinessId { get; set; }
         public string AspNetUserId { get; set; } = "";
+        public bool IsActive { get; set; }
     }
 }
