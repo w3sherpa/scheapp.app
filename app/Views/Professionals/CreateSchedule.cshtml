@@ -16,29 +16,71 @@
 <h1>Create Schedule For</h1>
 
 <h4>@Model.FirstName @Model.LastName</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        @Html.HiddenFor(Model => Model.BusinessId,new { Id="hdnBusinessId_CreateSchedule"})
-        @Html.HiddenFor(Model => Model.ProfessionalId, new { Id = "hdnProfessionalId_CreateSchedule" })
-        <div class="form-group mb-4">
-            <label>Start Date</label>
-            <input type="date" class="form-control" id="txtbxStartDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
-            <label>Start Time</label>
-            @Html.DropDownList("Select Time", Model.TimeSelectList, "Select Time", new { @id = "ddlStartTime_CreateSchedule", @class = "form-control", @onchange = "Validate_CreateSchedule();" })
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+<style>
+    #filters {
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="p-3" >
+    <nav>
+        <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Calendar</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Custom</button>
         </div>
-        <div class="form-group mb-4">
-            <label>End Date</label>
-            <input type="date" class="form-control"  id="txtbxEndDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
-            <label>End Time</label>
-            @Html.DropDownList("Select Time", Model.TimeSelectList, "Select Time", new { @id = "ddlEndTime_CreateSchedule", @class = "form-control", @onchange = "Validate_CreateSchedule();" })
+    </nav>
+    <div class="tab-content p-3 border bg-light" id="nav-tabContent">
+        <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div id="filters">
+                <label>Select Date & Time: <input type="text" id="datetime-picker"></label>
+                <br><br>
+                <label>Show Days:</label>
+                <label><input type="checkbox" class="day-toggle" value="0" checked> Sunday</label>
+                <label><input type="checkbox" class="day-toggle" value="1" checked> Monday</label>
+                <label><input type="checkbox" class="day-toggle" value="2" checked> Tuesday</label>
+                <label><input type="checkbox" class="day-toggle" value="3" checked> Wednesday</label>
+                <label><input type="checkbox" class="day-toggle" value="4" checked> Thursday</label>
+                <label><input type="checkbox" class="day-toggle" value="5" checked> Friday</label>
+                <label><input type="checkbox" class="day-toggle" value="6" checked> Saturday</label>
+            </div>
+
+            <div id="calendar"></div>
         </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.HiddenFor(Model => Model.BusinessId, new { Id = "hdnBusinessId_CreateSchedule" })
+                    @Html.HiddenFor(Model => Model.ProfessionalId, new { Id = "hdnProfessionalId_CreateSchedule" })
+                    <div class="form-group mb-4">
+                        <label>Start Date</label>
+                        <input type="date" class="form-control" id="txtbxStartDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
+                        <label>Start Time</label>
+                        @Html.DropDownList("Select Time", Model.TimeSelectList, "Select Time", new { @id = "ddlStartTime_CreateSchedule", @class = "form-control", @onchange = "Validate_CreateSchedule();" })
+                    </div>
+                    <div class="form-group mb-4">
+                        <label>End Date</label>
+                        <input type="date" class="form-control" id="txtbxEndDT_CreateSchedule" onchange="Validate_CreateSchedule()" />
+                        <label>End Time</label>
+                        @Html.DropDownList("Select Time", Model.TimeSelectList, "Select Time", new { @id = "ddlEndTime_CreateSchedule", @class = "form-control", @onchange = "Validate_CreateSchedule();" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" id="btnSubmit_CreateSchedule" value="Create" onclick="ConfirmAndCreate();" class="btn btn-primary" disabled />
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <input type="submit" id="btnSubmit_CreateSchedule" value="Create" onclick="ConfirmAndCreate();" class="btn btn-primary" disabled />
         </div>
     </div>
 </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <script>
     var startDate;
     var endDate;
@@ -106,4 +148,81 @@
             }
         });
     }
+     //full-calendar
+    flatpickr("#datetime-picker", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      defaultDate: new Date(),
+      onChange: function(selectedDates) {
+        if (selectedDates.length > 0) {
+          calendar.gotoDate(selectedDates[0]);
+        }
+      }
+    });
+
+    // Initial visible days
+    let visibleDays = [0,1,2,3,4,5,6];
+
+    // Initialize FullCalendar
+    let selectedDates = new Set();
+    let calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+      initialView: 'dayGridMonth',
+      selectable: true,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'timeGridWeek,dayGridMonth'
+      },
+      slotMinTime: "07:00:00",
+      slotMaxTime: "21:00:00",
+      hiddenDays: [],
+      selectable: true,
+            unselectAuto: false,
+            longPressDelay: 0,
+            selectMirror: true,
+            height: 'auto',
+            eventClick: function (arg) {
+                console.log('event clicked:' + new Date());
+                var multipleDaysMode = $("#btnEndMultiDate").is(':visible');
+                if (multipleDaysMode == true) {
+                    if (arg.event.title == 'multi-select') {
+                        arg.event.remove();
+                    } else {
+                        calendarObj.addEvent({
+                            title: 'multi-select',
+                            start: arg.event._instance.range.end
+                            //end: arg.end
+                        });
+                    }
+
+                    calendarObj.unselect();
+                } else {
+                    var startDate = arg.event._instance.range.start;
+                    var endDate = arg.event._instance.range.end;
+                    var dateInfo = getDateInfo(endDate);
+                    selectDatePopup($(calendarEl), startDate, startDate, null, dateInfo.LocationType, dateInfo.LocationValue, dateInfo.Purpose, dateInfo.OverlapBusinessMeal);
+                }
+            },
+            select: function (arg) {
+                console.log(arg);
+                
+            },
+            editable: false
+    });
+
+    calendar.render();
+
+    // Handle day-of-week toggles
+    document.querySelectorAll('.day-toggle').forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        visibleDays = Array.from(document.querySelectorAll('.day-toggle'))
+          .filter(cb => cb.checked)
+          .map(cb => parseInt(cb.value));
+
+        const hiddenDays = [0,1,2,3,4,5,6].filter(d => !visibleDays.includes(d));
+        calendar.setOption('hiddenDays', hiddenDays);
+      });
+    });
+
+   
 </script>
