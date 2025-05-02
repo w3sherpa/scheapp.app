@@ -3,6 +3,7 @@ using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.Data;
 using scheapp.app.Models.View;
 using scheapp.app.Models.Data.TableModels.Professionals;
+using scheapp.app.Models.API;
 
 namespace scheapp.app.Controllers.Data
 {
@@ -80,11 +81,21 @@ namespace scheapp.app.Controllers.Data
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveProfessionalSchedules([FromBody] ProfessionalSchedule req)
+        public async Task<IActionResult> SaveProfessionalSchedules([FromBody] SaveProfessionalScheduleRQ req)
         {
             try
             {
-                await _professionalsDataService.SaveProfessionalSchedules(req);
+                List<string> startDateParts = req.StartDateTime.Split(" ").ToList();
+                List<string> endDateParts = req.EndDateTime.Split(" ").ToList();
+                ProfessionalSchedule scheappApiRQ = new ProfessionalSchedule();
+                scheappApiRQ.ProfessionalId = req.ProfessionalId;
+                scheappApiRQ.BusinessId = req.BusinessId;
+                scheappApiRQ.DaysOfWeek = req.DaysOfWeek;
+                scheappApiRQ.StartDate = DateOnly.Parse(startDateParts[0]);
+                scheappApiRQ.StartTime = startDateParts[1];
+                scheappApiRQ.EndDate = DateOnly.Parse(endDateParts[0]);
+                scheappApiRQ.EndTime = endDateParts[1];
+                await _professionalsDataService.SaveProfessionalSchedules(scheappApiRQ);
                 return Ok();
             }
             catch (Exception ex)

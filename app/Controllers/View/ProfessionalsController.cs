@@ -85,7 +85,6 @@ namespace scheapp.app.Controllers.View
                         createScheduleVM.LastName = professionalsDetails.LastName;
                         createScheduleVM.ProfessionalId = professionalId;
                         createScheduleVM.BusinessId = businessId;
-                        createScheduleVM.TimeSelectList = CommonControllerUtility.GetTimeList();
                         ViewBag.BusinessProfessional = verifiedBusinessProfessional;
                         return View(createScheduleVM); 
                     }

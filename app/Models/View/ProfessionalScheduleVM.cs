@@ -20,7 +20,6 @@ namespace scheapp.app.Models.View
         public string? FirstName { get; set; } = "";
         public string? LastName { get; set; } = "";
         public int? BusinessId { get; set; }
-        public List<SelectListItem> TimeSelectList { get; set; }
     }
     public class ProfessionalScheduleVM
     {
