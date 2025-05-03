@@ -23,6 +23,44 @@
     #filters {
         margin-bottom: 10px;
     }
+
+/*     #calendar {
+        background-color: #1e1e1e;
+        color: white;
+    }
+
+    .fc-toolbar {
+        background-color: #333333;
+        color: white;
+    }
+
+    .fc-daygrid-day {
+        background-color: #1d1d1d;
+        color: #bbb;
+    }
+
+        .fc-daygrid-day:hover {
+            background-color: #444;
+        }
+
+    .fc-daygrid-day-number {
+        color: white;
+    }
+
+    .fc-daygrid-event {
+        background-color: #4c8bf5;
+        color: white;
+    }
+
+        .fc-daygrid-event:hover {
+            background-color: #3b6bdb;
+        }
+
+    .fc-popover {
+        background-color: #1e1e1e;
+        color: white;
+    } */
+
 </style>
 
 <!-- Modal -->
@@ -51,12 +89,9 @@
             <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Custom</button>
         </div>
     </nav>
-    <div class="tab-content p-3 border bg-light" id="nav-tabContent">
+    <div class="tab-content p-3 border" id="nav-tabContent">
         <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <div id="filters">
-                @* <label>Select Date & Time: <input type="text" id="datetime-picker"></label> *@
-                <br><br>
-                <label>Show Days:</label>
+            <div class="d-md-flex d-none  mt-1 mb-3 justify-content-around" id="filters">
                 <label><input type="checkbox" class="day-toggle" value="0" checked> Sunday</label>
                 <label><input type="checkbox" class="day-toggle" value="1" checked> Monday</label>
                 <label><input type="checkbox" class="day-toggle" value="2" checked> Tuesday</label>
@@ -65,7 +100,15 @@
                 <label><input type="checkbox" class="day-toggle" value="5" checked> Friday</label>
                 <label><input type="checkbox" class="day-toggle" value="6" checked> Saturday</label>
             </div>
-
+            <div class="d-flex d-md-none mt-1 mb-4 justify-content-around" id="filters">
+                <label><input type="checkbox" class="day-toggle" value="0" checked> Sun</label>
+                <label><input type="checkbox" class="day-toggle" value="1" checked> Mon</label>
+                <label><input type="checkbox" class="day-toggle" value="2" checked> Tue</label>
+                <label><input type="checkbox" class="day-toggle" value="3" checked> Wed</label>
+                <label><input type="checkbox" class="day-toggle" value="4" checked> Thu</label>
+                <label><input type="checkbox" class="day-toggle" value="5" checked> Fri</label>
+                <label><input type="checkbox" class="day-toggle" value="6" checked> Sat</label>
+            </div>
             <div id="calendar"></div>
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -185,6 +228,7 @@
     // Initialize FullCalendar
     let selectedDates = new Set();
     let calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+      themeSystem: 'bootstrap',
       initialView: 'dayGridMonth',
       selectable: true,
       headerToolbar: {
