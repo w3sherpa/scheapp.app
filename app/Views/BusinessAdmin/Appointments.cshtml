@@ -66,10 +66,11 @@
         var newAppoitmentCardHtml = 
             '<div class="col-md-6 mt-3 col-lg-4 column">'+
                 '<div class="card p-1" style="border-radius:3.25rem;">'+
-                    '<div class="txt p-4">'+
+                    '<div class="txt p-3">'+
                         '<div class="row mb-2">' +
                             '<div class="col-12">'+
-                                '<h5 class="float-start">' + appointment.customer+ '</h5>' +
+                                '<h6 class="float-start">' + appointment.customer+ '</h6>' +
+                                
                             '</div>' +
                         '</div>' +
                         '<div class="row">'+
@@ -82,12 +83,15 @@
                                 '</div>' +
                             '</div>' +
                             '<div class="col-9 d-flex flex-column">' +
-            '<div class="d-block"><h5 class="float-start">' + appointment.serviceName + '</h5></div>' +
-            '<div class="d-block"><span class="float-start">' + appointment.startDT + '</span></div>' +
-                                '<div class="d-block"><span class="float-end"><i class="fa fa-cut"></i></span></div>' +
+                                '<div class="d-block"><h6 class="float-start">' + appointment.serviceName + '</h6>'+
+                                '<span class="float-end"><i class="fa fa-cut"></i></span>'+
+                                '</div>' +
+                                '<div class="d-block">'+
+                                    '<span class="float-start">' + appointment.startDT + '</span>'+
+                                    '<a class="float-end" href="#" onclick="scheappadmin.NotifyCustomer(' + appointment.scheduleAppointmentId + ')">I am ready</a>' +
+                                '</div>' +
                             '</div>' +
                         '</div>' +
-                        '<a class="float-end" href="#" onclick="scheappadmin.NotifyCustomer(' + appointment.scheduleAppointmentId + ')">I am ready</a>' +
                     '</div>' +
            
                     // '<div class="ico-card">' +
