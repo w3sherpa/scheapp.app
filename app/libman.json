@@ -9,6 +9,11 @@
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "bootstrap@5.3.5",
+      "destination": "wwwroot/lib/bootstrap/"
     }
   ]
 }

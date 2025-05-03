@@ -52,6 +52,11 @@ body {
     font-size: 0.9rem;
 }
 
+    body.dark-mode {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
 .page-wrapper .sidebar-wrapper,
 .sidebar-wrapper .sidebar-brand > a,
 .sidebar-wrapper .sidebar-dropdown > a:after,
@@ -107,6 +112,7 @@ body {
     border-radius: 0 4px 4px 0px;
     width: 35px;
     transition-delay: 0.3s;
+    z-index: 9;
 }
 
 .page-wrapper.toggled #show-sidebar {
