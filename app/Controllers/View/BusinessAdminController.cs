@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using scheapp.app.DataServices;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
+using scheapp.app.Models.Data;
 using scheapp.app.Models.Data.DspModels;
 using scheapp.app.Models.Data.TableModels.Businesses;
 using scheapp.app.Models.View;
@@ -17,6 +18,7 @@ namespace scheapp.app.Controllers.View
         private readonly ILogger _logger;
         private readonly IProfessionalDataService _professionalDataService;
         private readonly IBusinessDataService _businessDataService;
+        private readonly IServiceDataService _servicesDataService;
         private readonly IHubContext<ScheAppViewUpdateHub> _signalRScheAppHub;
         private readonly IMemoryCache _memoryCache;
         public BusinessAdminController(
@@ -24,11 +26,13 @@ namespace scheapp.app.Controllers.View
             , IMemoryCache memoryCache
             , IProfessionalDataService professionalDataService
             , IBusinessDataService businessDataService
+            , IServiceDataService servicesDataService
             , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub)
         {
             _logger = logger;
             _professionalDataService = professionalDataService;
             _businessDataService = businessDataService;
+            _servicesDataService = servicesDataService;
             _memoryCache = memoryCache;
             _signalRScheAppHub = signalRScheAppHub;
         }
@@ -202,18 +206,23 @@ namespace scheapp.app.Controllers.View
             }
         }
         
-        public async Task<IActionResult> Services(int? businessId)
+        public async Task<IActionResult> Services(int businessId)
         {
             try
             {
                 var verifiedBusinessProfessional = await GetLoggedInProfessionalBusinessDetails(businessId);
                 //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+
                 if (verifiedBusinessProfessional == null)
                 {
                     return Content("ACCESS DENIED!.");
                 }
                 ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-                return View();
+
+                ServicesVM servicesVm = new ServicesVM();
+                servicesVm.Services = await _servicesDataService.GetServices(businessId);
+                servicesVm.BusinessId = businessId;
+                return View(servicesVm);
             }
             catch (Exception ex)
             {

@@ -1,5 +1,18 @@
-﻿namespace scheapp.app.Models.Data
+﻿namespace scheapp.app.Models.API
 {
+    public class SaveProfessionalScheduleRQ
+    {
+        public int ProfessionalId { get; set; }
+        public string StartDateTime { get; set; }
+        public string EndDateTime { get; set; }
+        public string DaysOfWeek { get; set; }
+        public int BusinessId { get; set; }
+    }
+    public class CustomerConfirmationRQ
+    {
+        public string VoiceApiConversationId { get; set; } = "";
+        public bool CustomerConfirmed { get; set; }
+    }
     public class RequestByBusinessId
     {
         public int BusinessId { get; set; }
@@ -55,5 +68,10 @@
         public int? BusinessId { get; set; }
         public int? ProfessionalScheduleId { get; set; }
 
+    }
+    public class DeleteServiceByBusinessIdRQ
+    {
+        public int BusinessId { get; set; }
+        public int ServiceId { get; set; }
     }
 }
