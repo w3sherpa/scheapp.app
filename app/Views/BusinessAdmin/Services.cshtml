@@ -14,8 +14,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-       
+    <tbody>       
         @foreach (var s in Model.Services)
         {
             <tr>
@@ -25,13 +24,22 @@
                     <label id=@("lblServiceName_"+@s.Id) >@s.Name</label>
                 </td>
                 <td>
-                    <a class="btn btn-outline-danger" onclick="ConfirmAndDelete('@s.Id')"> <i class="fa fa-trash"></i></a>
+                    <a id=@("btnDeleteService_"+@s.Id) class="btn btn-outline-danger" onclick="ConfirmAndDelete('@s.Id')" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                        <i class="fa fa-trash"></i>
+                    </a>
                 </td>
                 <td>
-                    <a class="btn btn-outline-warning" onclick="ShowEdit('@s.Id','1');"><i class="fa fa-edit"></i></a>
+                    <a id=@("btnEditService_"+@s.Id) class="btn btn-outline-warning" onclick="ShowEdit('@s.Id','1');" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a id=@("btnCancelEditService_"+@s.Id) class="btn btn-outline-primary" onclick="ShowEdit('@s.Id','0');" style="display:none;" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel">
+                        <i class="fa fa-rectangle-xmark"></i>
+                    </a>
                 </td>
                 <td>
-                    <a id=@("btnSaveService_"+@s.Id) class="btn btn-outline-primary" style="display:none;" onclick="ConfirmAndSave('@s.Id')"> <i class="fa fa-save"></i></a>
+                    <a id=@("btnSaveService_"+@s.Id) class="btn btn-outline-primary" style="display:none;" onclick="ConfirmAndSave('@s.Id')" data-bs-toggle="tooltip" data-bs-placement="top" title="Save">
+                        <i class="fa fa-save"></i>
+                    </a>
                 </td>
             </tr>
         }
@@ -86,12 +94,18 @@
         if(show == '1'){
             $('#btnSaveService_'+serviceId).show();
             $('#txtBxServiceName_'+serviceId).show();
+            $('#btnCancelEditService_'+serviceId).show();
             $('#lblServiceName_'+serviceId).hide();
+            $('#btnDeleteService_'+serviceId).hide();
+            $('#btnEditService_'+serviceId).hide();
         }
         else{
             $('#btnSaveService_'+serviceId).hide();
             $('#txtBxServiceName_'+serviceId).hide();
+            $('#btnCancelEditService_'+serviceId).hide();
             $('#lblServiceName_'+serviceId).show();
+            $('#btnDeleteService_'+serviceId).show();
+            $('#btnEditService_'+serviceId).show();
         }
     }
     function ConfirmAndSave(serviceId) {

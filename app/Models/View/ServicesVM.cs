@@ -7,4 +7,9 @@ namespace scheapp.app.Models.View
         public List<Service>? Services { get; set; }
         public int BusinessId { get; set; }
     }
+    public class ServiceDurationVM
+    {
+        public List<ServiceDuration>? ServiceDurations { get; set; }
+        public int BusinessId { get; set; }
+    }
 }

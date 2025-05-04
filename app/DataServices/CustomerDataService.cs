@@ -13,7 +13,7 @@ namespace scheapp.app.DataServices
             _logger = logger;
             _apiHelper = apiHelper;
         }
-        public async Task<List<Customer>> GetCustomers() => await _apiHelper.CallGetApi<List<Customer>>("/Customer/GetCustomers");
+        public async Task<List<Customer>> GetCustomers(int businessId) => await _apiHelper.CallGetApi<List<Customer>>($"/Customer/GetCustomers?businessId={businessId}");
         public async Task SaveCustomers(Customer customer) => await _apiHelper.CallPostApi<Customer>("/Customer/SaveCustomers", customer);
     }
 }

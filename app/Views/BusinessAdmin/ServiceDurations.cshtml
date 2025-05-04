@@ -1,0 +1,175 @@
+﻿@model scheapp.app.Models.View.ServiceDurationVM
+@{
+    Layout = "_BusinessLayout";
+    ViewData["Title"] = "Business Services";
+}
+<h4>
+    <span style="margin:10px;">Service Durations</span> 
+    <a id="btnAddServiceDuration" class="btn btn-outline-success" onclick="ShowModal()" data-bs-toggle="tooltip" data-bs-placement="top" title="Add New Service Duration">
+        <i class="fa fa-plus"></i>
+    </a>
+</h4>
+<!--Create New Service Duration Modal-->
+<div class="modal fade" id="serviceDurationModal" tabindex="-1" aria-labelledby="serviceDurationModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="serviceDurationModalLabel">Add New Service Duration</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="txtBxNewServiceDuration" type="text" value="" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input id="hdnBusinessId" type="hidden" value="@Model.BusinessId" />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Duration</th>
+            <th>Duration Type</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+       
+        @foreach (var s in Model.ServiceDurations)
+        {
+            <tr>
+                <td>
+                    <input id=@("txtBxServiceDuration_"+@s.Id) type="text" value="@s.Duration" class="form-control" style="display:none;" />
+                    <label id=@("lblServiceDuration_"+@s.Id)>@s.Duration</label>
+                </td>
+                <td>
+                    <input id=@("txtBxServiceDurationType_"+@s.Id) type="text" value="@s.Duration" class="form-control" style="display:none;" />
+                    <label id=@("lblServiceDurationType_"+@s.Id)>@s.DurationType</label>
+                </td>
+                <td>
+                    <a id=@("btnDeleteServiceDuration_"+@s.Id) class="btn btn-outline-danger" onclick="ConfirmAndDelete('@s.Id')" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+                <td>
+                    <a id=@("btnEditServiceDuration_"+@s.Id) class="btn btn-outline-warning" onclick="ShowEdit('@s.Id','1');" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a id=@("btnCancelEditServiceDuration_"+@s.Id) class="btn btn-outline-primary" onclick="ShowEdit('@s.Id','0');" style="display:none;" data-bs-toggle="tooltip" data-bs-placement="top" title="Cancel">
+                        <i class="fa fa-rectangle-xmark"></i>
+                    </a>
+                </td>
+                <td>
+                    <a id=@("btnSaveServiceDuration_"+@s.Id) class="btn btn-outline-primary" style="display:none;" onclick="ConfirmAndSave('@s.Id')" data-bs-toggle="tooltip" data-bs-placement="top" title="Save">
+                        <i class="fa fa-save"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function ShowModal(){
+        $('#serviceDurationModal').modal('show');
+    }
+    function ConfirmAndDelete(businessId,serviceDurationId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var reqObj = new Object();
+                reqObj.BusinessId = $('#hdnBusinessId').val();
+                reqObj.ServiceDurationId = serviceDurationId;
+                console.log(reqObj)
+                $.ajax({
+                    'url': '/ServiceDurationsData/DeleteServiceDuration',
+                    'contentType': "application/json",
+                    'type': 'POST',
+                    'data': JSON.stringify(reqObj),
+                    'success': function () {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The schedule has been deleted.",
+                            icon: "success"
+                        });
+                    },
+                    'error': function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
+                    }
+                });
+            }
+        });
+    } 
+    function ShowEdit(serviceDurationId,show) {
+        if(show == '1'){
+            $('#btnSaveServiceDuration_'+serviceDurationId).show();
+            $('#txtBxServiceDurationType_'+serviceDurationId).show();
+            $('#btnCancelEditServiceDuration_'+serviceDurationId).show();
+            $('#lblServiceDurationType_'+serviceDurationId).hide();
+            $('#btnDeleteServiceDuration_'+serviceDurationId).hide();
+            $('#btnEditServiceDuration_'+serviceDurationId).hide();
+        }
+        else{
+            $('#btnSaveServiceDuration_'+serviceDurationId).hide();
+            $('#txtBxServiceDurationType_'+serviceDurationId).hide();
+            $('#btnCancelEditServiceDuration_'+serviceDurationId).hide();
+            $('#lblServiceDurationType_'+serviceDurationId).show();
+            $('#btnDeleteServiceDuration_'+serviceDurationId).show();
+            $('#btnEditServiceDuration_'+serviceDurationId).show();
+        }
+    }
+    function ConfirmAndSave(serviceDurationId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, save it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let newServiceDurationName = $('#txtBxServiceDurationType_'+serviceDurationId).val();
+                var reqObj = new Object();
+                reqObj.Id = serviceDurationId;
+                reqObj.Name = newServiceDurationName;
+                reqObj.BusinessId =  $('#hdnBusinessId').val();
+                console.log(reqObj)
+                $.ajax({
+                    'url': '/ServiceDurationsData/SaveServiceDuration',
+                    'contentType': "application/json",
+                    'type': 'POST',
+                    'data': JSON.stringify(reqObj),
+                    'success': function () {
+                        $('#lblServiceDurationType_'+serviceDurationId).text(newServiceDurationName);
+                        ShowEdit(serviceDurationId,'');
+                        Swal.fire({
+                            title: "Success",
+                            text: "ServiceDuration name updated.",
+                            icon: "success"
+                        });
+                    },
+                    'error': function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
+                    }
+                });
+            } else {
+                
+                ShowEdit(serviceDurationId,'');
+            }
+        });
+    }
+</script>
