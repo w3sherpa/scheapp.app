@@ -16,6 +16,35 @@ namespace scheapp.app.Controllers.View
             _logger = logger;
             _professionalDataService = professionalDataService;
         }
+        public async Task<IActionResult> Test(int? businessId)
+        {
+            try
+            {
+                var verifiedBusinessProfessional = await CommonControllerUtility.GetLoggedInProfessionalBusinessDetails(_professionalDataService, User.Identity.Name, businessId);
+                //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+                if (verifiedBusinessProfessional != null)
+                {
+                    if (verifiedBusinessProfessional.BusinessId != null)
+                    {
+                        ViewBag.BusinessProfessional = verifiedBusinessProfessional;
+                        return View();
+                    }
+                    else
+                    {
+                        return Content("PROFSSIONAL NEEDS BUSINESS ID. PLEASE CONACT BUSINESS ADMIN TO ADD YOU TO THE BUSINESS.");
+                    }
+                }
+                else
+                {
+                    return Content("ACCESS DENIED!.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Content("SORRY, ERROR OCCURED!.");
+            }
+        }
         public async Task<IActionResult> Schedules(int? businessId,int? professionalId)
         {
             try
