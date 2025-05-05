@@ -18,24 +18,26 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                
+            <div class="container-fluid d-flex">
+                <div>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ScheApp</a>
+                </div>
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ScheApp</a>
-                        if (User.IsInRole("business_admin"))
+                        <div>
+                        @if (User.IsInRole("business_admin"))
                         {
                             <a class="navbar-brand" asp-area="" asp-controller="BusinessAdmin" asp-action="Index">Business Admin</a>
                         }
                         
-                        if (User.IsInRole("scheapp_admin"))
+                        @if (User.IsInRole("scheapp_admin"))
                         {
                             <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">ScheApp Admin</a>
                         }
-                        
+                        </div>
                         <form class="form-inline" asp-area="Identity" asp-page="/Identity/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                            <button type="submit" class="nav-link btn btn-outline-danger text-dark"><i class="fas fa-sign-out"></i>  Logout</button>
+                            <button type="submit" class="nav-link btn btn-outline-danger"><i class="fas fa-sign-out"></i>  Logout</button>
                         </form>
                     }
                     else
@@ -43,6 +45,10 @@
                         <h1>You are currently logged out.</h1>
                     }
                 }
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                    <label class="form-check-label" for="darkModeToggle">Dark</label>
+                </div>
             </div>
         </nav>
     </header>
@@ -56,7 +62,11 @@
             @RenderBody()
         </main>
     </div>
-
+    <script>
+            document.getElementById('darkModeToggle').addEventListener('change', function () {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2024 - ScheApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

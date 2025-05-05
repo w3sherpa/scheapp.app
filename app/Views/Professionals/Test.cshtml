@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = "_LayoutWithBootstrapTable";
+    Layout = "_BusinessLayout";
 }
 
 <div id="toolbar">
@@ -29,6 +29,7 @@
        data-page-list="[10, 25, 50, 100, all]"
        data-show-footer="true"
        data-side-pagination="server"
+       @* data-side-pagination="client" *@
        data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"
        data-response-handler="responseHandler">
 </table>

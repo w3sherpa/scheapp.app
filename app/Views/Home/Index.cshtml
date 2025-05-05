@@ -2,33 +2,20 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<h1>@ViewBag.TestEnvDocker</h1>
+@* <h1>@ViewBag.TestEnvDocker</h1> *@
 
 <div class="text-center">
-    <div class="form-check form-switch">
+    @* <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" id="darkModeToggle">
         <label class="form-check-label" for="darkModeToggle">Dark Mode</label>
-    </div>
-    <h1 class="display-4">Schedule Service Appointment System</h1>
-    @* <button class="btn btn-primary" onclick="SaveProfessionalScheduleAppointmentRequests();">Test SignalR</button> *@
-    <hr/>
+    </div> *@
+    <h1 class="display-4 mt-5"><span style="text-decoration:underline;">Sch</span>edule Service <span style="text-decoration:underline;">App</span>ointment System</h1>
 </div>
 <script src="~/lib//microsoft/signalr/dist/browser/signalr.min.js"></script>
 <script>
 
-    document.getElementById('darkModeToggle').addEventListener('change', function () {
-        document.body.classList.toggle('dark-mode');
-    });
+    
 
-
-    var connection = new signalR.HubConnectionBuilder().withUrl("/ScheAppViewUpdateHub").build();
-    connection.on("UpdateAppointmentsView", function (name, status) {
-        console.log(name + "" + status);
-    });
-    connection.start();
-
-
-    // SaveProfessionalScheduleAppointmentRequests();
 
 function SaveProfessionalScheduleAppointmentRequests() {
     var requestBody = {};
