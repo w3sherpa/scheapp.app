@@ -32,7 +32,7 @@ namespace scheapp.app.Controllers.Data
                 {
                     if (verifiedBusinessProfessional.BusinessId != null)
                     {
-                        var professionalSchedules = await _professionalsDataService.GetProfessionalSchedulesByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
+                        var professionalSchedules = await _professionalsDataService.GetProfessionalSchedules(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(), professionalId);
 
                         ScheAppDataGrid scheAppDataGrid = new ScheAppDataGrid();
                         scheAppDataGrid.Total = professionalSchedules.Count;

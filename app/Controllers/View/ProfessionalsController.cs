@@ -61,7 +61,7 @@ namespace scheapp.app.Controllers.View
                             businessId = verifiedBusinessProfessional.BusinessId;
                         }
                         var professionalsDetails = (await _professionalDataService.GetProfessionalBusinessDetailDsp(professionalId, businessId)).FirstOrDefault();
-                        var professionalSchedules = await _professionalDataService.GetProfessionalSchedulesByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
+                        var professionalSchedules = await _professionalDataService.GetProfessionalSchedules(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(), professionalId);
                         var filtered = professionalSchedules.Where(s => s.ProfessionalId == professionalId).ToList();
                         ProfessionalScheduleVM vm = new ProfessionalScheduleVM();
                         vm.BusinessId = professionalsDetails.BusinessId;

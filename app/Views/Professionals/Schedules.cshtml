@@ -12,17 +12,22 @@
         Layout = "_ProfessionalLayout";
     }
 }
+<style>
+    #divScheAppContentDisplay .fixed-table-toolbar .search-input{
+        margin-right:15px;
+    }
 
-@{
-    Layout = "_BusinessLayout";
-}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 
+<h3>@Model.FirstName @Model.LastName</h3>
 <div id="toolbar">
     <button id="remove"
             class="btn btn-danger"
             disabled>
         <i class="fa fa-trash"></i> Delete
     </button>
+    <a class="btn btn-outline-secondary ms-4" href="/Professionals/CreateSchedule?businessId=@Model.BusinessId&professionalId=@Model.ProfessionalId"> <i class="fa fa-add"></i> Add Schedule</a>
 </div>
 <table id="table"
        data-toolbar="#toolbar"
@@ -40,7 +45,7 @@
        data-show-pagination-switch="true"
        data-pagination="true"
        data-id-field="id"
-       data-page-list="[10, 25, 50, 100, all]"
+       data-page-list="[30, 50, 100, all]"
        data-show-footer="true"
 @* data-side-pagination="server" *@
        data-side-pagination="client"
@@ -59,13 +64,14 @@
       })
     }
 
+    ////this method get called first after the api result comes back, and adds state checkboxs
     window.responseHandler = res => {
-        console.log(res);
-      $.each(res.rows, function (i, row) {
+        // console.log(res);
+        $.each(res.rows, function (i, row) {
         row.state = $.inArray(row.id, selections) !== -1
-      })
-      console.log(res)
-      return res
+        })
+        // console.log(res)
+        return res
     }
 
     window.detailFormatter = (index, row) => {
@@ -111,7 +117,8 @@
 
     function initTable () {
       $table.bootstrapTable('destroy').bootstrapTable({
-        height: 550,
+        height: 1100,
+        pageSize:30,
         width:1000,
         locale: "en-US", //language US English
         columns: [
@@ -180,20 +187,30 @@
         $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
 
         // save your data, here just save the current page
-        selections = getIdSelections()
+        selections = getIdSelections();
         console.log(selections);
         // push or splice the selections if you want to save all data selections
       })
-      $table.on('all.bs.table', function (e, name, args) {
-        console.log(name, args)
-      })
-      $remove.click(function () {
-        const ids = getIdSelections()
 
-        $table.bootstrapTable('remove', {
-          field: 'id',
-          values: ids
-        })
+      // //uncomment following to see how table is build
+      // $table.on('all.bs.table', function (e, name, args) {
+      //   console.log(name, args)
+      // })
+
+      ////Call when Delete putton is clicked after selecting the checkboxes
+      $remove.click(async function () {
+        const ids = getIdSelections()
+        const url = "/ProfessionalsData/GetSchedules?businessId=3&professionalId=8";
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+            const json = await response.json();
+            console.log(json);
+        } catch (error) {
+            console.error(error.message);
+        }
         $remove.prop('disabled', true)
       })
     }

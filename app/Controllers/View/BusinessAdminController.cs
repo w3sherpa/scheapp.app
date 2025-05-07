@@ -1,14 +1,10 @@
-﻿using AspNetCoreGeneratedDocument;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
-using scheapp.app.DataServices;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data;
 using scheapp.app.Models.Data.DspModels;
-using scheapp.app.Models.Data.TableModels.Businesses;
 using scheapp.app.Models.Data.TableModels.Customers;
 using scheapp.app.Models.View;
 
@@ -41,22 +37,7 @@ namespace scheapp.app.Controllers.View
             _memoryCache = memoryCache;
             _signalRScheAppHub = signalRScheAppHub;
         }
-        private async Task<ProfessionalBusinessDetailDsp?> GetLoggedInProfessionalBusinessDetails(int? businessId)
-        {
-            List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, null);
-            ProfessionalBusinessDetailDsp? professionalBusinessDetailDsp = null;
-            var emailUsername = User.Identity.Name;
-            if (businessId == null)
-            {
-                //make sure logged in user has permission to the business profile
-                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername).First();
-            }
-            else
-            {
-                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername && p.BusinessId == businessId).FirstOrDefault();
-            }
-            return professionalBusinessDetailDsp;
-        }
+       
         public async Task<IActionResult> Index(int? businessId)
         {
             try
@@ -126,7 +107,6 @@ namespace scheapp.app.Controllers.View
                 return Content("SORRY, ERROR OCCURED!.");
             }
         }
-
         public async Task<IActionResult> EdidProfessional(int? businessId, int? professinalId)
         {
             try
@@ -171,8 +151,7 @@ namespace scheapp.app.Controllers.View
                 _logger.LogError("{@Exception}", ex);
                 return Content("SORRY, ERROR OCCURED!.");
             }
-        }
-        
+        }        
         public async Task<IActionResult> Services(int businessId)
         {
             try
@@ -216,6 +195,23 @@ namespace scheapp.app.Controllers.View
                 _logger.LogError("{@Exception}", ex);
                 return Content("SORRY, ERROR OCCURED!.");
             }
+        }
+
+        private async Task<ProfessionalBusinessDetailDsp?> GetLoggedInProfessionalBusinessDetails(int? businessId)
+        {
+            List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, null);
+            ProfessionalBusinessDetailDsp? professionalBusinessDetailDsp = null;
+            var emailUsername = User.Identity.Name;
+            if (businessId == null)
+            {
+                //make sure logged in user has permission to the business profile
+                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername).First();
+            }
+            else
+            {
+                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername && p.BusinessId == businessId).FirstOrDefault();
+            }
+            return professionalBusinessDetailDsp;
         }
     }
 }

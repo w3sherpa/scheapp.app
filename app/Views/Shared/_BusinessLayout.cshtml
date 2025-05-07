@@ -6,6 +6,8 @@
 
 @{
     ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
+    string userRole = "";
+    if (businessProfessional.ProfessionalRole.ToUpper() == "BUSINESS_ADMIN") userRole = ", Admin";
     string professionalAvatar = $"professional-{businessProfessional.ProfessionalId}.jpg";
 }
 <html lang="en" data-bs-theme="dark">
@@ -49,17 +51,12 @@
                                 <div class="user-pic">
                                 <img class="img-responsive img-rounded" src="~/images/@professionalAvatar" alt="User picture">
                                 </div>
-                                <div class="user-info">
-                                    <span class="user-name">
-                                    @businessProfessional.FirstName
-                                    <strong>@businessProfessional.LastName</strong>
-                                    </span>
-                                <span class="user-role">@businessProfessional.ProfessionalRole.ToUpper()</span>
-                                    <span class="user-status">
-                                        <i class="fa fa-circle"></i>
-                                        <span>Online</span>
-                                    </span>
-                                </div>
+                                <div class="user-info mt-2">
+                                <span>
+                                    <i class="fa fa-circle" style="font-size:8px;color:chartreuse;"></i> @businessProfessional.FirstName @businessProfessional.LastName @userRole <a class="" href="/Professionals/Schedules?businessId=@businessProfessional.BusinessId&professionalId=@businessProfessional.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
+                                </span>
+                             </div>   
+                              
                             </div>
                             <!-- sidebar-header  -->
                             <div class="sidebar-menu">
@@ -267,8 +264,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.1/dist/bootstrap-table-locale-all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.1/dist/extensions/export/bootstrap-table-export.min.js"></script>
     <script src="~/js/nav.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/admin.js"></script>
+    <script src="~/js/shared/site.js" asp-append-version="true"></script>
+    <script src="~/js/Admin/admin.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
