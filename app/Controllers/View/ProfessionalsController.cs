@@ -55,7 +55,6 @@ namespace scheapp.app.Controllers.View
                 {
                     if(verifiedBusinessProfessional.BusinessId != null)
                     {
-
                         if (verifiedBusinessProfessional.ProfessionalRole != "business_admin")
                         {
                             professionalId = verifiedBusinessProfessional.ProfessionalId;

@@ -1,0 +1,111 @@
+﻿@model scheapp.app.Models.View.ProfessionalScheduleVM
+@using scheapp.app.Models.Data.DspModels
+@{
+    ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
+    ViewData["Title"] = "Schedules";
+    if (businessProfessional.ProfessionalRole == "business_admin")
+    {
+        Layout = "_BusinessLayout";
+    }
+    else if (businessProfessional.ProfessionalRole == "business_professional")
+    {
+        Layout = "_ProfessionalLayout";
+    }
+}
+<table data-toggle="table">
+    <thead>
+        <tr>
+            <th>Item ID</th>
+            <th>Item Name</th>
+            <th>Item Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Item 1</td>
+            <td>$1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Item 2</td>
+            <td>$2</td>
+        </tr>
+    </tbody>
+</table>
+
+<h1>Schedules</h1>
+<hr/>
+<h3>@Model.FirstName @Model.LastName</h3>
+<p>
+    <a class="btn btn-outline-secondary" href="/Professionals/CreateSchedule?businessId=@Model.BusinessId&professionalId=@Model.ProfessionalId"> <i class="fa fa-add"></i> Add Schedule</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Schedules) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>   
+            <td>
+                    <a class="btn btn-outline-danger" onclick="ConfirmAndDelete(@Model.BusinessId,@item.Id)"> <i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    function ConfirmAndDelete(businessId,proScheId) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var reqObj = new Object();
+                reqObj.BusinessId = businessId;
+                reqObj.ProfessionalScheduleId = proScheId;
+                console.log(reqObj)
+                $.ajax({
+                    'url': '/ProfessionalsData/DeleteProfessionalSchedules',
+                    'contentType': "application/json",
+                    'type': 'POST',
+                    'data': JSON.stringify(reqObj),
+                    'success': function () {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "The schedule has been deleted.",
+                            icon: "success"
+                        });
+                    },
+                    'error': function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
+                    }
+                });
+            }
+        });
+    }    
+
+</script>

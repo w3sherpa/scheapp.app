@@ -8,8 +8,38 @@ $(function () {
 var scheappadmin = scheappadmin || {};
 
 //NAVS
+//$(".sidebar-dropdown > a").click(function () {
+//    $(".sidebar-submenu").slideUp(100);
+//    if (
+//        $(this)
+//            .parent()
+//            .hasClass("active")
+//    ) {
+//        $(".sidebar-dropdown").removeClass("active");
+//        $(this)
+//            .parent()
+//            .removeClass("active");
+//    } else {
+//        $(".sidebar-dropdown").removeClass("active");
+//        $(this)
+//            .next(".sidebar-submenu")
+//            .slideDown(100);
+//        $(this)
+//            .parent()
+//            .addClass("active");
+//    }
+//});
+
+
+//scheappadmin.showSideBar = function () {
+//    $("#divSidebarNavMain").addClass("toggled");
+//}
+//scheappadmin.hideSideBar = function () {
+//    $("#divSidebarNavMain").removeClass("toggled");
+//}
+
 $(".sidebar-dropdown > a").click(function () {
-    $(".sidebar-submenu").slideUp(100);
+    $(".sidebar-submenu").slideUp(200);
     if (
         $(this)
             .parent()
@@ -23,21 +53,19 @@ $(".sidebar-dropdown > a").click(function () {
         $(".sidebar-dropdown").removeClass("active");
         $(this)
             .next(".sidebar-submenu")
-            .slideDown(100);
+            .slideDown(200);
         $(this)
             .parent()
             .addClass("active");
     }
 });
 
-
-scheappadmin.showSideBar = function () {
-    $("#divSidebarNavMain").addClass("toggled");
-}
-scheappadmin.hideSideBar = function () {
-    $("#divSidebarNavMain").removeClass("toggled");
-}
-
+$("#close-sidebar").click(function () {
+    $(".page-wrapper").removeClass("toggled");
+});
+$("#show-sidebar").click(function () {
+    $(".page-wrapper").addClass("toggled");
+});
 
 
 scheappadmin.loadView = function (controller, action, callBackAfterViewLoad) {

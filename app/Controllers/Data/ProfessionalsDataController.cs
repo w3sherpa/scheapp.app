@@ -3,6 +3,7 @@ using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.View;
 using scheapp.app.Models.Data.TableModels.Professionals;
 using scheapp.app.Models.API;
+using Newtonsoft.Json;
 
 namespace scheapp.app.Controllers.Data
 {
@@ -19,6 +20,41 @@ namespace scheapp.app.Controllers.Data
         {
             _logger = logger;
             _professionalsDataService = professionalsDataService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetSchedules(int? businessId, int? professionalId)
+        {
+            try
+            {
+                var verifiedBusinessProfessional = await CommonControllerUtility.GetLoggedInProfessionalBusinessDetails(_professionalsDataService, User.Identity.Name, businessId);
+                //if id is still null that mean either user is scheapp admin who passed no id param or business admin who's permission is not set.
+                if (verifiedBusinessProfessional != null)
+                {
+                    if (verifiedBusinessProfessional.BusinessId != null)
+                    {
+                        var professionalSchedules = await _professionalsDataService.GetProfessionalSchedulesByBusinessId(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
+
+                        ScheAppDataGrid scheAppDataGrid = new ScheAppDataGrid();
+                        scheAppDataGrid.Total = professionalSchedules.Count;
+                        scheAppDataGrid.TotalNotFiltered = professionalSchedules.Count;
+                        scheAppDataGrid.Rows = professionalSchedules;
+                        return Ok(scheAppDataGrid);
+                    }
+                    else
+                    {
+                        return NotFound("PROFSSIONAL NEEDS BUSINESS ID. PLEASE CONACT BUSINESS ADMIN TO ADD YOU TO THE BUSINESS.");
+                    }
+                }
+                else
+                {
+                    return StatusCode(404, "Business Professional Not Verified");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return StatusCode(500, "Error Occured.");
+            }
         }
 
         [HttpPost]
