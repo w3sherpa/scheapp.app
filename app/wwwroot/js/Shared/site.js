@@ -57,3 +57,10 @@ scheappadmin.loadView = function (controller, action, callBackAfterViewLoad) {
 scheappadmin.NotifyCustomer = function (scheAppId) {
     alert(scheAppId)
 }
+
+scheappadmin.GetTimeNumberFromDateTime = function (dtString) {
+
+    console.log(dtString.split(' '))
+
+    return Number (dtString.split(' ')[1].replace(/^0+/, '').replace(':',''))
+}

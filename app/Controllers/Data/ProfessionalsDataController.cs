@@ -161,8 +161,8 @@ namespace scheapp.app.Controllers.Data
                 scheappApiRQ.StartTime = startDateParts[1];
                 scheappApiRQ.EndDate = DateOnly.Parse(endDateParts[0]);
                 scheappApiRQ.EndTime = endDateParts[1];
-                await _professionalsDataService.SaveProfessionalSchedules(scheappApiRQ);
-                return Ok();
+                HttpResponseMessage httpResponseMessage = await _professionalsDataService.SaveProfessionalSchedules(scheappApiRQ);
+                return Ok( new GenericApiResponse { Status = (int)httpResponseMessage.StatusCode, Message = httpResponseMessage.ReasonPhrase});
             }
             catch (Exception ex)
             {

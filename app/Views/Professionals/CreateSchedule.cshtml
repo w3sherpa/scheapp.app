@@ -79,10 +79,10 @@
                     @Html.HiddenFor(Model => Model.BusinessId, new { Id = "hdnBusinessId_CreateSchedule" })
                     @Html.HiddenFor(Model => Model.ProfessionalId, new { Id = "hdnProfessionalId_CreateSchedule" })
                     <div class="form-group mb-4">
-                        <label>Start Date & Time: <input class="form-control mt-2" type="datetime" id="start-datetime-picker" onchange="Validate_CreateSchedule()"></label>
+                        <label>Start Date & Time: <input class="form-control mt-2" type="datetime" id="start-datetime-picker" onchange="Validate_CreateSchedule('start')"></label>
                     </div>
                     <div class="form-group mb-4">
-                        <label>End Date & Time: <input class="form-control mt-2" type="text" id="end-datetime-picker" onchange="Validate_CreateSchedule()"></label>
+                        <label>End Date & Time: <input class="form-control mt-2" type="text" id="end-datetime-picker" onchange="Validate_CreateSchedule('end')"></label>
                     </div>
                 </div>
                 <div class="form-group">

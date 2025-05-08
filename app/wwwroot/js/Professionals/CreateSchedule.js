@@ -2,19 +2,37 @@
 var endDate;
 var startTime;
 var endTime;
-function Validate_CreateSchedule() {
-    startDateTime = $("#start-datetime-picker").val();
-    endDateTime = $("#end-datetime-picker").val();
-    if (startDateTime !== "" && endDateTime != "") {
-        if (startDateTime < endDateTime)
-            $("#btnSubmit_CreateSchedule").removeAttr("disabled");
-        else {
-            Swal.fire({
-                title: "Start datetime cannot be equal or after end datetime.",
-                text: "Please enter start datetime before end datetime.",
-                icon: "error"
-            });
-            $("#btnSubmit_CreateSchedule").prop('disabled', true);
+let startDTTouched = false;
+let endDTTouched = false;
+function Validate_CreateSchedule(type) {
+    
+    if (type == 'start') startDTTouched = true;
+    else if (type == 'end') endDTTouched = true;
+
+    if (startDTTouched && endDTTouched ) { 
+        startDateTime = $("#start-datetime-picker").val();
+        endDateTime = $("#end-datetime-picker").val();
+        if (startDateTime !== "" && endDateTime != "") {
+            if (startDateTime < endDateTime) {
+                if (scheappadmin.GetTimeNumberFromDateTime(startDateTime) >= scheappadmin.GetTimeNumberFromDateTime(endDateTime)) {
+                    Swal.fire({
+                        title: "Start time cannot be equal or before end time.",
+                        text: "Please enter start time before end time.",
+                        icon: "error"
+                    });
+                    $("#btnSubmit_CreateSchedule").prop('disabled', true);
+                } else {
+                    $("#btnSubmit_CreateSchedule").removeAttr("disabled");
+                }
+            }
+            else {
+                Swal.fire({
+                    title: "Start datetime cannot be equal or after end datetime.",
+                    text: "Please enter start datetime before end datetime.",
+                    icon: "error"
+                });
+                $("#btnSubmit_CreateSchedule").prop('disabled', true);
+            }
         }
     }
 }
@@ -41,14 +59,24 @@ function ConfirmAndCreate(proScheId) {
                 'contentType': "application/json",
                 'type': 'POST',
                 'data': JSON.stringify(reqObj),
-                'success': function () {
+                'success': function (response) {
+                    console.log(response)
+                    let repsonseMessage = 'New schedule created';
+                    let repsonseicon = 'success';
+                    let isSuccess = true; 
+                    if (response.status != 200) {
+                        repsonseMessage = response.message;
+                        repsonseicon = 'error';
+                        isSuccess = false; 
+                    }
                     Swal.fire({
                         position: "top-end",
-                        icon: "success",
-                        title: "New schedule created",
+                        icon: repsonseicon,
+                        title: repsonseMessage,
                         showConfirmButton: false,
                         timer: 1500
                     }).then(function () {
+                        if (isSuccess)
                         window.location.href = "/Professionals/Schedules?businessId=" + reqObj.BusinessId + "&professionalId=" + reqObj.ProfessionalId + ""
                     });
                 },
@@ -59,27 +87,28 @@ function ConfirmAndCreate(proScheId) {
         }
     });
 }
+var today = new Date();
 
 //full-calendar
 flatpickr("#start-datetime-picker", {
     enableTime: true,
     dateFormat: "Y-m-d H:i",
-    defaultDate: new Date(),
-    onChange: function (selectedDates) {
-        if (selectedDates.length > 0) {
-            console.log(selectedDates[0].toLocaleString());
-        }
-    }
+    defaultDate: today,
+    //onChange: function (selectedDates) {
+    //    if (selectedDates.length > 0) {
+    //        console.log(selectedDates[0].toLocaleString());
+    //    }
+    //}
 });
 flatpickr("#end-datetime-picker", {
     enableTime: true,
     dateFormat: "Y-m-d H:i",
-    defaultDate: new Date(),
-    onChange: function (selectedDates) {
-        if (selectedDates.length > 0) {
-            console.log(selectedDates[0]);
-        }
-    }
+    defaultDate: today.setHours(today.getHours() + 1),
+    //onChange: function (selectedDates) {
+    //    if (selectedDates.length > 0) {
+    //        console.log(selectedDates[0]);
+    //    }
+    //}
 });
 
 // Initial visible days

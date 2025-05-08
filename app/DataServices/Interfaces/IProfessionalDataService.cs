@@ -13,7 +13,7 @@ namespace scheapp.app.DataServices.Interfaces
         Task<HttpResponseMessage> SaveProfessionals(Professional professional);
         Task<HttpResponseMessage> DeleteProfessionalSchedules(DeleteProfessionalScheduleRQ deleteSchedules);
         Task SaveProfessionalScheduleAppointmentRequests(ProfessionalScheduleAppointmentRequest professional);
-        Task SaveProfessionalSchedules(ProfessionalSchedule professional);
+        Task<HttpResponseMessage> SaveProfessionalSchedules(ProfessionalSchedule professional);
         Task SaveProfessionalServices(ProfessionalService professional);
         Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId, DateOnly? date);
         Task<List<ProfessionalBusinessDetailDsp>> GetProfessionalBusinessDetailDsp(int? professionaId, int? businessId);
