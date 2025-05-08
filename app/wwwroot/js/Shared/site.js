@@ -61,11 +61,19 @@ scheappadmin.NotifyCustomer = function (scheAppId) {
 scheappadmin.GetTimeNumberFromDateTime = function (dt) {
     return Number(dt.getHours() + dt.getMinutes())
 }
-
+scheappadmin.GetTimeNumberFromTimeColonStr = function (timeStr) {
+    return Number(timeStr.replace(/^0+/, '').replace(':',''))
+}
 scheappadmin.ValidateStartAndEnd_DateTIme = function (sDTString, eDTString) {
     let isValid = false;
     let startDateTime = new Date(sDTString);
     let endDateTime = new Date(eDTString);
+
+    //console.log(startDateTime)
+    //console.log(endDateTime)
+    console.log(startDateTime.getTime())
+    console.log(new Date().getTime())
+
     if (startDateTime.getTime() > new Date().getTime()) {
         if (startDateTime !== "" && endDateTime != "") {
             if (startDateTime < endDateTime) {
@@ -90,7 +98,7 @@ scheappadmin.ValidateStartAndEnd_DateTIme = function (sDTString, eDTString) {
         }
     } else {
         Swal.fire({
-            title: "Start can not be in past.",
+            title: "Start date time can not be in past.",
             text: "Please enter future start datetime.",
             icon: "error"
         });
