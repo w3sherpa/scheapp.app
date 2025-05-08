@@ -177,7 +177,7 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
 
                     await _userManager.AddToRoleAsync(user, "business_professional");
                     var userId = await _userManager.GetUserIdAsync(user);
-                    await _professionalDataService.SaveProfessionals(new Models.Data.TableModels.Professionals.Professional
+                    var result2 = await _professionalDataService.SaveProfessionals(new Models.Data.TableModels.Professionals.Professional
                     {
                         FirstName = user.Firstname,
                         MiddleName = "",

@@ -1,4 +1,16 @@
-﻿@model IEnumerable<scheapp.app.Models.Data.DspModels.ProfessionalBusinessDetailDsp>
+﻿@using scheapp.app.Models.Data.DspModels
+@{
+    ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
+    ViewData["Title"] = "Schedules";
+    if (businessProfessional.ProfessionalRole == "business_admin")
+    {
+        Layout = "_BusinessLayout";
+    }
+    else if (businessProfessional.ProfessionalRole == "business_professional")
+    {
+        Layout = "_ProfessionalLayout";
+    }
+}
 
 @{
     ViewData["Title"] = "Professionals";
@@ -10,65 +22,47 @@
 <p>
     <a href="/ScheApp/BusinessAdmin/ProfessionalsRegister">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-          @*   <th>
-                @Html.DisplayNameFor(model => model.AspNetUserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AspNetUserName)
-            </th> 
-            <th>
-                @Html.DisplayNameFor(model => model.ProfessionalId)
-            </th>
-            *@
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-           @*  <th>
-                @Html.DisplayNameFor(model => model.ProfessionalRole)
-            </th> *@
-            <th></th>
-        </tr>
-    </thead> 
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @* <td>
-                @Html.DisplayFor(modelItem => item.AspNetUserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AspNetUserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProfessionalId)
-            </td> *@
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-          @*   <th>
-                @Html.DisplayNameFor(model => model.ProfessionalRole)
-            </th> *@
-            <td>
-                @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
-                    @* @Html.ActionLink("Schedules", "Schedules", "Professionals", new { businessId = item.BusinessId, professionalId = item.ProfessionalId }) *@
-                    <a class="btn btn-outline-info" href="/Professionals/Schedules?businessId=@item.BusinessId&professionalId=@item.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
-                @* @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
-            </td>
-        </tr>
-}
-    </tbody>
+<style>
+    #divScheAppContentDisplay .fixed-table-toolbar .search-input {
+        margin-right: 15px;
+    }
+
+    .select,
+    #locale {
+        width: 100%;
+    }
+
+    .like {
+        margin-right: 10px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+<input type="hidden" id="hdnBusinessId" value="(@businessProfessional.BusinessId)" />
+
+<div id="toolbar">
+    <a class="btn btn-outline-secondary ms-4" href="/ScheApp/BusinessAdmin/ProfessionalsRegister"> <i class="fa fa-add"></i>Create New</a>
+</div>
+<table id="table"
+       data-toolbar="#toolbar"
+       data-search="true"
+       data-show-refresh="true"
+       data-show-toggle="true"
+       data-show-fullscreen="true"
+       data-show-columns="true"
+       data-show-columns-toggle-all="true"
+       data-detail-view="true"
+       data-show-export="true"
+       data-click-to-select="true"
+       data-detail-formatter="detailFormatter"
+       data-minimum-count-columns="2"
+       data-show-pagination-switch="true"
+       data-pagination="true"
+       data-id-field="id"
+       data-page-list="[10, 20, 50, all]"
+       data-show-footer="true"
+       data-side-pagination="client" 
+       data-url="/ProfessionalsData/GetProfessionals?businessId=" +@businessProfessional.BusinessId
+       @* data-response-handler="responseHandler"> *@
 </table>
+<script src="~/js/businessadmin/professionals.js"></script>

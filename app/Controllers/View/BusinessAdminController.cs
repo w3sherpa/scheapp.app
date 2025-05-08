@@ -98,7 +98,7 @@ namespace scheapp.app.Controllers.View
                     List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, businessId);
 
                     ViewBag.BusinessProfessional = verifiedBusinessProfessional;
-                    return View(allProfessionalBusinessDetails);
+                    return View();
                 }
             }
             catch (Exception ex)

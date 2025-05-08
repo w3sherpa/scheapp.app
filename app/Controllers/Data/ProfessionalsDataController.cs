@@ -4,11 +4,13 @@ using scheapp.app.Models.View;
 using scheapp.app.Models.Data.TableModels.Professionals;
 using scheapp.app.Models.API;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace scheapp.app.Controllers.Data
 {
     [Route("[controller]/[Action]")]
     [ApiController]
+    [Authorize]
     public class ProfessionalsDataController : ControllerBase
     {
         private readonly ILogger<ProfessionalsDataController> _logger;
@@ -20,6 +22,35 @@ namespace scheapp.app.Controllers.Data
         {
             _logger = logger;
             _professionalsDataService = professionalsDataService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetProfessionals(int? businessId)
+        {
+            try
+            {
+                var verifiedBusinessProfessional = await CommonControllerUtility.GetLoggedInProfessionalBusinessDetails(_professionalsDataService, User.Identity.Name, businessId);
+                if (verifiedBusinessProfessional != null)
+                {
+                    if (verifiedBusinessProfessional.BusinessId != null)
+                    {
+                        var professionals = await _professionalsDataService.GetProfessionals(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
+                        return Ok(professionals);
+                    }
+                    else
+                    {
+                        return NotFound("PROFSSIONAL NEEDS BUSINESS ID. PLEASE CONACT BUSINESS ADMIN TO ADD YOU TO THE BUSINESS.");
+                    }
+                }
+                else
+                {
+                    return StatusCode(404, "Business Professional Not Verified");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return StatusCode(500, "Error Occured.");
+            }
         }
         [HttpGet]
         public async Task<IActionResult> GetSchedules(int? businessId, int? professionalId)
@@ -57,20 +88,20 @@ namespace scheapp.app.Controllers.Data
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetProfessionalsByBusinessId([FromBody] RequestByBusinessId professionalInfoRequest)
-        {
-            try
-            {
-                var professionals = ( await _professionalsDataService.GetProfessionals() ).Where(p=>p.BusinessId == professionalInfoRequest.BusinessId);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                //_logger.LogError("{@Exception}", ex);
-                return StatusCode(500, "Error Occured.");
-            }
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> GetProfessionalsByBusinessId([FromBody] RequestByBusinessId professionalInfoRequest)
+        //{
+        //    try
+        //    {
+        //        var professionals = ( await _professionalsDataService.GetProfessionals() ).Where(p=>p.BusinessId == professionalInfoRequest.BusinessId);
+        //        return Ok();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //_logger.LogError("{@Exception}", ex);
+        //        return StatusCode(500, "Error Occured.");
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> GetProfessionalsByDate([FromBody] RequestByDate businessInfoRQ)
@@ -144,8 +175,7 @@ namespace scheapp.app.Controllers.Data
         {
             try
             {
-                // Before deleting, warn user of list of appointments that will be soft deleted, and if confirmed, another api call
-                // to delete the appointments that refs this schedule, and soft delete the shedule.
+                var apiResponse = await _professionalsDataService.DeleteProfessionalSchedules(req);
                 return Ok();
             }
             catch (Exception ex)

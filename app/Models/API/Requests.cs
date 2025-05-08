@@ -65,8 +65,8 @@
 
     public class DeleteProfessionalScheduleRQ
     {
-        public int? BusinessId { get; set; }
-        public int? ProfessionalScheduleId { get; set; }
+        public int BusinessId { get; set; }
+        public List<int> ProfessionalScheduleIds { get; set; } = new();
 
     }
     public class DeleteServiceByBusinessIdRQ
