@@ -5,35 +5,18 @@ var endTime;
 let startDTTouched = false;
 let endDTTouched = false;
 function Validate_CreateSchedule(type) {
-    
+    startDateTime = $("#start-datetime-picker").val();
+    endDateTime = $("#end-datetime-picker").val();
     if (type == 'start') startDTTouched = true;
     else if (type == 'end') endDTTouched = true;
+    if (startDTTouched && endDTTouched) {
 
-    if (startDTTouched && endDTTouched ) { 
-        startDateTime = $("#start-datetime-picker").val();
-        endDateTime = $("#end-datetime-picker").val();
-        if (startDateTime !== "" && endDateTime != "") {
-            if (startDateTime < endDateTime) {
-                if (scheappadmin.GetTimeNumberFromDateTime(startDateTime) >= scheappadmin.GetTimeNumberFromDateTime(endDateTime)) {
-                    Swal.fire({
-                        title: "Start time cannot be equal or before end time.",
-                        text: "Please enter start time before end time.",
-                        icon: "error"
-                    });
-                    $("#btnSubmit_CreateSchedule").prop('disabled', true);
-                } else {
-                    $("#btnSubmit_CreateSchedule").removeAttr("disabled");
-                }
-            }
-            else {
-                Swal.fire({
-                    title: "Start datetime cannot be equal or after end datetime.",
-                    text: "Please enter start datetime before end datetime.",
-                    icon: "error"
-                });
-                $("#btnSubmit_CreateSchedule").prop('disabled', true);
-            }
+        if (scheappadmin.ValidateStartAndEnd_DateTIme(startDateTime, endDateTime)) {
+            $("#btnSubmit_CreateSchedule").prop('disabled', false);
+        } else {
+            $("#btnSubmit_CreateSchedule").prop('disabled', true);
         }
+            
     }
 }
 function ConfirmAndCreate(proScheId) {

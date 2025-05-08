@@ -58,9 +58,42 @@ scheappadmin.NotifyCustomer = function (scheAppId) {
     alert(scheAppId)
 }
 
-scheappadmin.GetTimeNumberFromDateTime = function (dtString) {
+scheappadmin.GetTimeNumberFromDateTime = function (dt) {
+    return Number(dt.getHours() + dt.getMinutes())
+}
 
-    console.log(dtString.split(' '))
-
-    return Number (dtString.split(' ')[1].replace(/^0+/, '').replace(':',''))
+scheappadmin.ValidateStartAndEnd_DateTIme = function (sDTString, eDTString) {
+    let isValid = false;
+    let startDateTime = new Date(sDTString);
+    let endDateTime = new Date(eDTString);
+    if (startDateTime.getTime() > new Date().getTime()) {
+        if (startDateTime !== "" && endDateTime != "") {
+            if (startDateTime < endDateTime) {
+                if (scheappadmin.GetTimeNumberFromDateTime(startDateTime) >= scheappadmin.GetTimeNumberFromDateTime(endDateTime)) {
+                    Swal.fire({
+                        title: "Start time cannot be equal or before end time.",
+                        text: "Please enter start time before end time.",
+                        icon: "error"
+                    });
+                } else {
+                    isValid = true;
+                }
+            }
+            else {
+                Swal.fire({
+                    title: "Start datetime cannot be equal or after end datetime.",
+                    text: "Please enter start datetime before end datetime.",
+                    icon: "error"
+                });
+                $("#btnSubmit_CreateSchedule").prop('disabled', true);
+            }
+        }
+    } else {
+        Swal.fire({
+            title: "Start can not be in past.",
+            text: "Please enter future start datetime.",
+            icon: "error"
+        });
+    }
+    return isValid;
 }
