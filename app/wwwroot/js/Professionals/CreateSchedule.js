@@ -45,7 +45,17 @@ function Validate_CreateSchedule(type) {
             
     }
 }
-function ConfirmAndCreate(proScheId) {
+function ConfirmAndCreate(dateTimeSelectionMethod) {
+    let startDateTimeRQ;
+    let endDateTimeRQ;
+    if (dateTimeSelectionMethod == 'calendar') {
+        startDateTimeRQ = $('#hdnCalendarSelectedStartDateTime').val();
+        endDateTimeRQ = $('#hdnCalendarSelectedEndDateTime').val();
+    } else if (dateTimeSelectionMethod == 'daterange') {
+        startDateTimeRQ = $('#start-datetime-picker').val();
+        endDateTimeRQ = $('#end-datetime-picker').val();
+    }
+
     Swal.fire({
         title: "Are you sure?",
         text: "You will be adding new availability to schedule appointment system!",
@@ -59,8 +69,8 @@ function ConfirmAndCreate(proScheId) {
             var reqObj = new Object();
             reqObj.BusinessId = $("#hdnBusinessId_CreateSchedule").val();
             reqObj.ProfessionalId = $("#hdnProfessionalId_CreateSchedule").val();
-            reqObj.StartDateTime = startDateTime;
-            reqObj.EndDateTime = endDateTime;
+            reqObj.StartDateTime = startDateTimeRQ;
+            reqObj.EndDateTime = endDateTimeRQ;
             reqObj.DaysOfWeek = '';
             console.log(reqObj)
             $.ajax({
@@ -205,10 +215,14 @@ function updateEndTime() {
 ///////////
 
 function Validate_CalendarTimeSelection(type) {
+    //console.log($("#start-time-picker").val());
+    //console.log($("#end-time-picker").val());
     if (type == 'start') {
+        $('#hdnCalendarSelectedStartTime').val($("#start-time-picker").val());
         startCalendarTimeTouched = true;
     }
     else if (type == 'end') {
+        $('#hdnCalendarSelectedEndTime').val($("#end-time-picker").val());
         endCalendarTimeTouched = true;
     } 
     if (startCalendarTimeTouched && endCalendarTimeTouched) {
@@ -216,21 +230,19 @@ function Validate_CalendarTimeSelection(type) {
     }
 }
 function ValidatCalendarSelectionAndSubmit() {
-    let cal_startTime = $("#start-time-picker").val();
-    let cal_endTime = $("#end-time-picker").val();
+    let cal_startTime = $("#hdnCalendarSelectedStartTime").val();
+    let cal_endTime = $("#hdnCalendarSelectedEndTime").val();
+
     if (cal_startTime != '' && cal_endTime != '') {
 
-        let cal_startDate = $('#spnCalendarStartDateSelection').text() + ' ' + cal_startTime;
-        let cal_endDate = $('#spnCalendarEndDateSelection').text() + ' ' + cal_endTime;
-
-        console.log(cal_startDate)
-        console.log(cal_endDate)
-
-        if (scheappadmin.ValidateStartAndEnd_DateTIme(cal_startDate, cal_endDate)) {
-            alert('all good call api')
-        } else {
-            $('#timePickerModal').modal('show');
-        }
+        let cal_startDateTime = $('#spnCalendarStartDateSelection').text() + ' ' + cal_startTime;
+        let cal_endDateTime = $('#spnCalendarEndDateSelection').text() + ' ' + cal_endTime;       
+        if (scheappadmin.ValidateStartAndEnd_DateTIme(cal_startDateTime, cal_endDateTime)) {
+            $('#hdnCalendarSelectedStartDateTime').val(cal_startDateTime);
+            $('#hdnCalendarSelectedEndDateTime').val(cal_endDateTime);
+            ////this will confirm and call api to create schedule
+            ConfirmAndCreate('calendar');
+        } 
     } else {
         Swal.fire({
             title: "Invalid form.",

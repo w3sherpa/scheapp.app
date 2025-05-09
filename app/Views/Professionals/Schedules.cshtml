@@ -39,28 +39,29 @@
     </button>
     <a class="btn btn-outline-secondary ms-4" href="/Professionals/CreateSchedule?businessId=@Model.BusinessId&professionalId=@Model.ProfessionalId"> <i class="fa fa-add"></i> Add Schedule</a>
 </div>
-<table id="table"
-       data-toolbar="#toolbar"
-       data-search="true"
-       data-show-refresh="true"
-       data-show-toggle="true"
-       data-show-fullscreen="true"
-       data-show-columns="true"
-       data-show-columns-toggle-all="true"
-       data-detail-view="true"
-       data-show-export="true"
-       data-click-to-select="true"
-       data-detail-formatter="detailFormatter"
-       data-minimum-count-columns="2"
-       data-show-pagination-switch="true"
-       data-pagination="true"
-       data-id-field="id"
-       data-page-list="[30, 50, 100, all]"
-       data-show-footer="true"
-@* data-side-pagination="server" *@
-       data-side-pagination="client"
-       data-url="/ProfessionalsData/GetSchedules?businessId=3&professionalId=8"
-       data-response-handler="responseHandler">
-</table>
+<div id="tblProfessionalSchedules">
+    <table id="table"
+           data-toolbar="#toolbar"
+           data-search="true"
+           data-show-refresh="true"
+           data-show-toggle="true"
+           data-show-fullscreen="true"
+           data-show-columns="true"
+           data-show-columns-toggle-all="true"
+           data-detail-view="true"
+           data-show-export="true"
+           data-click-to-select="true"
+           data-detail-formatter="detailFormatter"
+           data-minimum-count-columns="2"
+           data-show-pagination-switch="true"
+           data-pagination="true"
+           data-id-field="id"
+           data-page-list="[30, 50, 100, all]"
+           data-show-footer="true"
+           data-side-pagination="client"
+           data-url="/ProfessionalsData/GetSchedules?businessId=3&professionalId=8"
+           data-response-handler="responseHandler">
+    </table>
+</div>
 <script src="~/js/professionals/schedules.js"></script>
 
