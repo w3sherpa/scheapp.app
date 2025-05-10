@@ -33,8 +33,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex justify-content-center mb-3"><span style="width:100px">Start Date: </span><span id="spnCalendarStartDateSelection" style="width:100px"></span><span style="width:100px">Start Time: </span><input class="form-control" style="width:100px" type="time" id="start-time-picker" onchange="Validate_CalendarTimeSelection('start');"></div>
-                <div class="d-flex justify-content-center"><span style="width:100px">End Date: </span><span id="spnCalendarEndDateSelection" style="width:100px"></span><span style="width:100px">End Time:  </span><input class="form-control" style="width:100px" type="time" id="end-time-picker" onchange="Validate_CalendarTimeSelection('end');"></div>
+                <div class="d-flex justify-content-center mb-3">
+                    <span style="width:200px">Selected Start Date Time: </span>
+                    <span id="spnCalendarStartDateSelection" style="width:100px"></span>
+                    <span id="spnCalendarStartTimeSelection" style="width:100px">00:00 AM</span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <span style="width:200px">Selected End Date Time: </span>
+                    <span id="spnCalendarEndDateSelection" style="width:100px"></span>
+                    <span id="spnCalendarEndTimeSelection" style="width:100px">00:00 AM</span>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <span style="width:200px">Select Start Time: </span>
+                    <input class="form-control" style="width:100px" type="time" id="start-time-picker" onchange="Validate_CalendarTimeSelection('start');">
+                    <span style="width:200px; margin-left:10px">Select End Time:  </span>
+                    <input class="form-control" style="width:100px" type="time" id="end-time-picker" onchange="Validate_CalendarTimeSelection('end');">
+                </div>
             </div>
             <div class="modal-footer">
                 @* <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancel</button> *@

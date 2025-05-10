@@ -64,6 +64,11 @@ scheappadmin.GetTimeNumberFromDateTime = function (dt) {
 scheappadmin.GetTimeNumberFromTimeColonStr = function (timeStr) {
     return Number(timeStr.replace(/^0+/, '').replace(':',''))
 }
+scheappadmin.GetAMPMTimeFrom24HrTime = function (timeStr) {
+    let HHmmTime = timeStr.split(':');
+    let HHTime = Number(HHmmTime[0]);
+    return HHTime > 12 ? (HHTime - 12) + ':' + HHmmTime[1] + ' PM' : timeStr + ' AM';
+}
 scheappadmin.ValidateStartAndEnd_DateTIme = function (sDTString, eDTString) {
     let isValid = false;
     let startDateTime = new Date(sDTString);

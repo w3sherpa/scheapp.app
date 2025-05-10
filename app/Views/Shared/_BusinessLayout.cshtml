@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="user-info mt-2">
                                 <span>
-                                    <i class="fa fa-circle" style="font-size:8px;color:chartreuse;"></i> @businessProfessional.FirstName @businessProfessional.LastName @userRole <a class="" href="/Professionals/Schedules?businessId=@businessProfessional.BusinessId&professionalId=@businessProfessional.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
+                                    <i class="fa fa-circle" style="font-size:8px;color:chartreuse;"></i> @businessProfessional.FirstName @businessProfessional.LastName @userRole <a class="btn btn-outline-info" href="/Professionals/Schedules?businessId=@businessProfessional.BusinessId&professionalId=@businessProfessional.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
                                 </span>
                              </div>   
                               
@@ -62,7 +62,14 @@
                             <div class="sidebar-menu">
                                 <ul>
                                     <li class="header-menu">
-                                    <a href="/"> <i class="fa fa-home"></i>Home</a>
+                                    @if (User.IsInRole("business_admin"))
+                                    {
+                                        <a class="navbar-brand" asp-area="" asp-controller="BusinessAdmin" asp-action="Index"><i class="fa fa-home"></i>Home</a>
+                                    }
+                                    @if (User.IsInRole("scheapp_admin"))
+                                    {
+                                        <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index"><i class="fa fa-home"></i>Home</a>
+                                    }
                                     </li>
                                     <li class="header-menu">
                                         <span>General</span>
@@ -215,40 +222,6 @@
 
         <main class="page-content">
             <div class="container-fluid">
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-                    <div class="container-fluid d-flex">
-                        <div>
-                            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ScheApp</a>
-                        </div>
-                        @{
-                            if (User.Identity.IsAuthenticated)
-                            {
-                                <div>
-                                    @if (User.IsInRole("business_admin"))
-                                    {
-                                        <a class="navbar-brand" asp-area="" asp-controller="BusinessAdmin" asp-action="Index">Admin</a>
-                                    }
-
-                                    @if (User.IsInRole("scheapp_admin"))
-                                    {
-                                        <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
-                                    }
-                                </div>
-                                <form class="form-inline" asp-area="Identity" asp-page="/Identity/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                                    <button type="submit" class="nav-link btn btn-outline-danger"><i class="fas fa-sign-out"></i>  Logout</button>
-                                </form>
-                            }
-                            else
-                            {
-                                <h1>You are currently logged out.</h1>
-                            }
-                        }
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="darkModeToggle">
-                            <label class="form-check-label" for="darkModeToggle">Dark</label>
-                        </div>
-                    </div>
-                </nav>
                 <div id="divScheAppContentDisplay">
                     @RenderBody()
                 </div>

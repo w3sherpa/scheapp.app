@@ -219,10 +219,12 @@ function Validate_CalendarTimeSelection(type) {
     //console.log($("#end-time-picker").val());
     if (type == 'start') {
         $('#hdnCalendarSelectedStartTime').val($("#start-time-picker").val());
+        $('#spnCalendarStartTimeSelection').text(scheappadmin.GetAMPMTimeFrom24HrTime($("#start-time-picker").val()));
         startCalendarTimeTouched = true;
     }
     else if (type == 'end') {
         $('#hdnCalendarSelectedEndTime').val($("#end-time-picker").val());
+        $('#spnCalendarEndTimeSelection').text(scheappadmin.GetAMPMTimeFrom24HrTime($("#end-time-picker").val()));
         endCalendarTimeTouched = true;
     } 
     if (startCalendarTimeTouched && endCalendarTimeTouched) {

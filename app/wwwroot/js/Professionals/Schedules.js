@@ -31,7 +31,7 @@ window.detailFormatter = (index, row) => {
 
 function operateFormatter() {
     return [
-        '<a class="scheapp-edit-action" href="javascript:void(0)" title="Edit">',
+        '<a class="scheapp-edit-action btn btn-outline-warning" href="javascript:void(0)" title="Edit">',
         '<i class="fa fa-edit"></i>',
         '</a>'
     ].join('')
@@ -63,7 +63,7 @@ function totalPriceFormatter(data) {
 
 function initTable() {
     $table.bootstrapTable('destroy').bootstrapTable({
-        height: 1100,
+        height: 900,
         pageSize: 30,
         width: 1000,
         locale: "en-US", //language US English

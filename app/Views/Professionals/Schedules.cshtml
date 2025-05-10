@@ -33,11 +33,11 @@
 <h3>@Model.FirstName @Model.LastName</h3>
 <div id="toolbar">
     <button id="remove"
-            class="btn btn-danger"
+            class="btn btn-outline-danger"
             disabled>
         <i class="fa fa-trash"></i> Delete
     </button>
-    <a class="btn btn-outline-secondary ms-4" href="/Professionals/CreateSchedule?businessId=@Model.BusinessId&professionalId=@Model.ProfessionalId"> <i class="fa fa-add"></i> Add Schedule</a>
+    <a class="btn btn-outline-success ms-4" href="/Professionals/CreateSchedule?businessId=@Model.BusinessId&professionalId=@Model.ProfessionalId"> <i class="fa fa-add"></i> Add Schedule</a>
 </div>
 <div id="tblProfessionalSchedules">
     <table id="table"
