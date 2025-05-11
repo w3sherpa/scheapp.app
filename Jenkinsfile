@@ -5,7 +5,7 @@ pipeline {
     JENKINS_CREDENTIAL_ID = "dockerhub"
     JENKINS_CREDENTIAL_VARIABLE = "dockerhubpwd"
     JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER = 'websherpa'
-    SERVICE_NAME = "scheapp"
+    SERVICE_NAME = "scheapp-app"
     SERVICE_NAME_DOCKER_RUN = "scheapp_app"
     SEVICE_PORT = 8002
     HOST_IP = "192.168.1.19"
