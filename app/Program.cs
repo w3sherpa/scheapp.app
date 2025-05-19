@@ -117,7 +117,8 @@ try
     app.MapHub<ScheAppViewUpdateHub>("/ScheAppViewUpdateHub");
     app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=BusinessAdmin}/{action=Index}/{id?}");
+        pattern: "{controller=Auth}/{action=Login}/{id?}");
+        //pattern: "{controller=BusinessAdmin}/{action=Index}/{id?}");
 
     app.Run();
 }

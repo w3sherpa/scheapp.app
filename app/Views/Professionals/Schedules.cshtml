@@ -59,7 +59,7 @@
            data-page-list="[30, 50, 100, all]"
            data-show-footer="true"
            data-side-pagination="client"
-           data-url="/ProfessionalsData/GetSchedules?businessId=3&professionalId=8"
+           data-url="/ProfessionalsData/GetSchedules?businessId=@Html.Raw(Model.BusinessId)&professionalId=@Html.Raw(Model.ProfessionalId)"
            data-response-handler="responseHandler">
     </table>
 </div>

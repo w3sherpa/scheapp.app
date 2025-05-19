@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using scheapp.app.Areas.Identity;
 using scheapp.app.Helpers;
 using System.ComponentModel.DataAnnotations;
@@ -22,18 +23,59 @@ namespace scheapp.app.Controllers.View
             _logger = logger;
             _signInManager = signInManager; 
         }
+        /// <summary>
+        /// Anonymous user will land here first, gets redirected to external login, then comes back to ExternalLoginCallback where user will be 
+        /// redirected here again, so we can redirect them to proper page based on the role they have. 
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl)
+        public async Task<IActionResult> Login(string returnUrl,string loginAttempMessage)
         {
-            LogInViewModel model = new LogInViewModel
+            var loggedInUser = User.Identity;
+            if (loggedInUser != null && !loggedInUser.IsAuthenticated)
             {
-                ReturnUrl = "/home/index/",
-                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-            };
+                ScheAppAuthModel model = new ScheAppAuthModel
+                {
+                    ReturnUrl = "/auth/Login/",
+                    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+                };
 
-            return View(model);
+                return View(model);
+            }
+            else
+            {
+                var redirectUrl = User.IsInRole("scheapp_admin") ? "/businessadmin/index" : "/Professionals/Schedules";
+                return LocalRedirect(redirectUrl);
+            }
         }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ScheappLogin(string email, string password,bool rememberMe)
+        {
+            string returnUrl = string.Empty;
+            var result = await _signInManager.PasswordSignInAsync(email, password, rememberMe, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User logged in.");
+
+                // redirect user based on role
+                var signInUser = await _signInManager.UserManager.FindByNameAsync(email);
+                var userRoles = await _signInManager.UserManager.GetRolesAsync(signInUser);
+                //var allRoles = _roleManager.Roles.Select(R=>R.Name).ToList();
+                if (userRoles.Where(ur => ur.StartsWith("scheapp")).FirstOrDefault() != null) returnUrl = "/Admin/Index";
+                else if (userRoles.Where(ur => ur.Equals("business_admin")).FirstOrDefault() != null) returnUrl = "/BusinessAdmin/Index";
+                else if (userRoles.Where(ur => ur.Equals("business_professional")).FirstOrDefault() != null) returnUrl = "/Professionals/Schedules";
+            }
+            else
+            {
+                returnUrl = "/Auth/Login?returnUrl=&loginAttempMessage=failed";
+            }
+            return LocalRedirect(returnUrl);
+        }
+
+            
 
         [AllowAnonymous]
         [HttpPost]
@@ -54,7 +96,7 @@ namespace scheapp.app.Controllers.View
         public async Task<IActionResult> ExternalLoginCallback(string? returnUrl, string? remoteError)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            LogInViewModel loginViewModel = new LogInViewModel
+            ScheAppAuthModel loginViewModel = new ScheAppAuthModel
             {
                 ReturnUrl = returnUrl,
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
@@ -131,19 +173,32 @@ namespace scheapp.app.Controllers.View
             }
         }
     }
-    public class LogInViewModel
+    public class ScheAppAuthModel
     {
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me")]
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
-        public string ReturnUrl { get; set; }
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public string LoginMessage { get; set; } = "";
+        public string ReturnUrl { get; set; } = "";
+        public IList<AuthenticationScheme> ExternalLogins { get; set; } 
     }
 }
