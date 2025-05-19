@@ -160,6 +160,14 @@ namespace scheapp.app.Controllers.View
                 return View("Error");
             }
         }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            //retun default auth/login page;
+            return LocalRedirect("/");
+        }
+
         private ApplicationUser CreateUser()
         {
             try
