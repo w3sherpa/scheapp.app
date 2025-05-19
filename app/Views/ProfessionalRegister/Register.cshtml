@@ -1,0 +1,61 @@
+﻿
+@using scheapp.app.Controllers.View
+@model ProfessionalRegistrationVM
+@{
+    ViewData["Title"] = "Professional Register";
+    Layout = "_Layout";
+}
+<h1>Create a new professional.</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="text-danger">
+
+            @if (!string.IsNullOrEmpty(Model.RegistrationAttempMessage))
+            {
+                @Model.RegistrationAttempMessage
+            }
+
+        </div>
+        @using (Html.BeginForm("SubmitRegistration", "ProfessionalRegister", FormMethod.Post))
+            {
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.Firstname" class="form-control" autocomplete="Firstname" aria-required="true" placeholder="" />
+                    <label asp-for="@Model.Firstname"></label>
+                    <span asp-validation-for="@Model.Firstname" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.Lastname" class="form-control" autocomplete="Lastname" aria-required="true" placeholder="" />
+                    <label asp-for="@Model.Lastname"></label>
+                    <span asp-validation-for="@Model.Lastname" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="@Model.Email">Email</label>
+                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <label asp-for="@Model.Password">Password</label>
+                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="@Model.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <label asp-for="@Model.ConfirmPassword">Confirm Password</label>
+                    <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <select asp-for="@Model.BusinessId" style="padding-top:.625rem" asp-items="@Model.@BusinessList" class="form-select" aria-required="true">
+                        <option disabled selected>Select Business</option>
+                    </select>
+                    <span asp-validation-for="@Model.BusinessId" class="text-danger"></span>
+                </div>
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
