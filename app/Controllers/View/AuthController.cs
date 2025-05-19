@@ -31,13 +31,14 @@ namespace scheapp.app.Controllers.View
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl,string loginAttempMessage)
+        public async Task<IActionResult> Login(string loginAttempMessage)
         {
             var loggedInUser = User.Identity;
             if (loggedInUser != null && !loggedInUser.IsAuthenticated)
             {
                 ScheAppAuthModel model = new ScheAppAuthModel
                 {
+                    LoginMessage = loginAttempMessage,
                     ReturnUrl = "/auth/Login/",
                     ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
                 };
@@ -70,7 +71,7 @@ namespace scheapp.app.Controllers.View
             }
             else
             {
-                returnUrl = "/Auth/Login?returnUrl=&loginAttempMessage=failed";
+                returnUrl = "/Auth/Login?loginAttempMessage=Incorrect Email Or Password.";
             }
             return LocalRedirect(returnUrl);
         }
