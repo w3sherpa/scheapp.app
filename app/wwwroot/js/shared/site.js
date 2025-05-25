@@ -59,7 +59,7 @@ scheappadmin.NotifyCustomer = function (scheAppId) {
 }
 
 scheappadmin.GetTimeNumberFromDateTime = function (dt) {
-    return Number(dt.getHours() + dt.getMinutes())
+    return Number((dt.getHours()*60) + dt.getMinutes())
 }
 scheappadmin.GetTimeNumberFromTimeColonStr = function (timeStr) {
     return Number(timeStr.replace(/^0+/, '').replace(':',''))
@@ -82,6 +82,10 @@ scheappadmin.ValidateStartAndEnd_DateTIme = function (sDTString, eDTString) {
     if (startDateTime.getTime() > new Date().getTime()) {
         if (startDateTime !== "" && endDateTime != "") {
             if (startDateTime < endDateTime) {
+
+                console.log(scheappadmin.GetTimeNumberFromDateTime(startDateTime))
+                console.log(scheappadmin.GetTimeNumberFromDateTime(endDateTime))
+
                 if (scheappadmin.GetTimeNumberFromDateTime(startDateTime) >= scheappadmin.GetTimeNumberFromDateTime(endDateTime)) {
                     Swal.fire({
                         title: "Start time cannot be equal or before end time.",
@@ -110,3 +114,4 @@ scheappadmin.ValidateStartAndEnd_DateTIme = function (sDTString, eDTString) {
     }
     return isValid;
 }
+

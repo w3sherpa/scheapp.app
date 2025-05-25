@@ -13,21 +13,11 @@ flatpickr("#start-datetime-picker", {
     enableTime: true,
     dateFormat: "Y-m-d H:i",
     defaultDate: today,
-    //onChange: function (selectedDates) {
-    //    if (selectedDates.length > 0) {
-    //        console.log(selectedDates[0].toLocaleString());
-    //    }
-    //}
 });
 flatpickr("#end-datetime-picker", {
     enableTime: true,
     dateFormat: "Y-m-d H:i",
     defaultDate: today.setHours(today.getHours() + 1),
-    //onChange: function (selectedDates) {
-    //    if (selectedDates.length > 0) {
-    //        console.log(selectedDates[0]);
-    //    }
-    //}
 });
 
 function Validate_CreateSchedule(type) {
@@ -110,6 +100,20 @@ function ConfirmAndCreate(dateTimeSelectionMethod) {
 
 ////Calendar Selection
 
+flatpickr("#start-time-picker", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    defaultDate: today,
+});
+flatpickr("#end-time-picker", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    defaultDate: today.setHours(today.getHours() + 1),
+});
+
+
 let startCalendarTimeTouched = false;
 let endCalendarTimeTouched = false;
 
@@ -117,12 +121,17 @@ let endCalendarTimeTouched = false;
 
 // Initial visible days
 let visibleDays = [0, 1, 2, 3, 4, 5, 6];
-
+let calendarStartDate = GetFormattedDate(today);
+let calendarEndDate = GetFormattedDate(new Date(today.setFullYear(today.getFullYear() + 1)));
 // Initialize FullCalendar
 let selectedDates = new Set();
 let calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
     themeSystem: 'bootstrap',
     initialView: 'dayGridMonth',
+    validRange: {
+        start: calendarStartDate,
+        end: calendarEndDate
+    },
     selectable: true,
     headerToolbar: {
         left: 'prev,next today',
@@ -265,3 +274,11 @@ document.querySelectorAll('.day-toggle').forEach(checkbox => {
         calendar.setOption('hiddenDays', hiddenDays);
     });
 });
+
+
+function GetFormattedDate(dateToFormat) {
+    var dd = String(dateToFormat.getDate()).padStart(2, '0');
+    var mm = String(dateToFormat.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = dateToFormat.getFullYear();
+    return yyyy + '-' + mm + '-' + dd;
+}
