@@ -123,7 +123,7 @@ namespace scheapp.app.Controllers.View
             var exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string separator = Path.DirectorySeparatorChar.ToString();
 
-            var uploadedDirectory = $"{exeDir}{separator}wwwroot{separator}uploaded";
+            var uploadedDirectory = $"{exeDir}{separator}wwwroot{separator}images{separator}uploaded";
             if(!Directory.Exists(uploadedDirectory))
                 Directory.CreateDirectory(uploadedDirectory);
             string fullFilePath = $"{uploadedDirectory}{separator}professional-{verifiedBusinessProfessional.ProfessionalId}.jpg";
