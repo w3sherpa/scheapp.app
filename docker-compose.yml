@@ -1,8 +1,8 @@
 services:
   webapp:
-    image: sherpa-ticket:latest
+    image: w3sherpa/scheapp-app:latest
     ports:
-      - 8090:8090
+      - 8091:8091
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8090
+      - ASPNETCORE_URLS=http://+:8091

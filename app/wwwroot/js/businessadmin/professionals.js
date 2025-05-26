@@ -31,12 +31,16 @@ window.detailFormatter = (index, row) => {
 
 function operateFormatter() {
     return [
-        '<a class="scheapp-edit-action btn btn-outline-info me-2" href="javascript:void(0)" title="Edit">',
+        '<a class="scheapp-schedules-action btn btn-outline-info me-2" href="javascript:void(0)" title="Schedules">',
+        '<i class="fa fa-calendar"></i>',
+        '</a>  ',
+        '<a class="scheapp-edit-action btn btn-outline-warning me-2" href="javascript:void(0)" title="Edit">',
         '<i class="fa fa-edit"></i>',
         '</a>',
         '<a class="scheapp-delete-action btn btn-outline-danger" href="javascript:void(0)" title="Delete">',
         '<i class="fa fa-trash"></i>',
         '</a>  ',
+
     ].join('')
 }
 
@@ -45,12 +49,10 @@ window.operateEvents = {
         alert(`You click like action, row: ${JSON.stringify(row)}`)
     },
     'click .scheapp-delete-action'(e, value, row) {
-        //$table.bootstrapTable('remove', {
-        //    field: 'id',
-        //    values: [row.id]
-        //})
-
         alert('confirm delete ' + row.id)
+    },
+    'click .scheapp-schedules-action'(e, value, row) {
+        window.location.href = '/Professionals/Schedules?businessId=' + row.businessId +'&professionalId='+ row.id
     }
 }
 

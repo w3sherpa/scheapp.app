@@ -31,16 +31,22 @@ window.detailFormatter = (index, row) => {
 
 function operateFormatter() {
     return [
-        '<a class="scheapp-edit-action btn btn-outline-warning" href="javascript:void(0)" title="Edit">',
+        '<a class="scheapp-edit-schedule btn btn-outline-warning me-2" href="javascript:void(0)" title="Edit">',
         '<i class="fa fa-edit"></i>',
+        '</a>',
+        '<a class="scheapp-delete-schedule btn btn-outline-danger" href="javascript:void(0)" title="Delete">',
+        '<i class="fa fa-trash"></i>',
         '</a>'
     ].join('')
 }
 
 window.operateEvents = {
-    'click .scheapp-edit-action'(e, value, row) {
+    'click .scheapp-edit-schedule'(e, value, row) {
         alert(`show editing modal`)
-    }
+    },
+    'click .scheapp-delete-schedule'(e, value, row) {
+        alert('confirm delete ' + row.id)
+    },
 }
 
 function totalTextFormatter() {

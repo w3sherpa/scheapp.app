@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Upload</title>
+</head>
+<body>
+    <h1>Take a Picture</h1>
+    <video id="video" width="320" height="240" autoplay></video>
+    <br>
+    <button id="snap">Take Picture</button>
+    <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+    <br>
+    <button id="upload">Upload</button>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // Ask for camera access
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            video.srcObject = stream;
+        });
+
+        document.getElementById('snap').addEventListener('click', () => {
+            context.drawImage(video, 0, 0, 320, 240);
+            canvas.style.display = 'block';
+        });
+
+        document.getElementById('upload').addEventListener('click', () => {
+            canvas.toBlob(blob => {
+                const formData = new FormData();
+                formData.append("file", blob, "snapshot.jpg");
+
+                fetch("/professionals/UploadImage", {
+                    method: "POST",
+                    body: formData
+                }).then(res => res.json())
+                    .then(data => alert("Uploaded: " + data.fileName))
+                    .catch(err => console.error("Upload error:", err));
+            }, "image/jpeg");
+        });
+    </script>
+</body>
+</html>

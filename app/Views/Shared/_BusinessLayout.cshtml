@@ -7,7 +7,7 @@
 @{
     ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
     string userRole = "";
-    if (businessProfessional.ProfessionalRole.ToUpper() == "BUSINESS_ADMIN") userRole = ", Admin";
+    if (businessProfessional.ProfessionalRole.ToUpper() == "BUSINESS_ADMIN") userRole = "Admin";
     string professionalAvatar = $"professional-{businessProfessional.ProfessionalId}.jpg";
 }
 <html lang="en" data-bs-theme="dark">
@@ -48,13 +48,48 @@
                                 </div>
                             </div>
                             <div class="sidebar-header">
-                                <div class="user-pic">
-                                <img class="img-responsive img-rounded" src="~/images/@professionalAvatar" alt="User picture">
+                                <div class="d-flex flex-row">
+                                    <div class="user-pic">
+                                        <img class="img-responsive img-rounded" src="~/images/uploaded/@professionalAvatar" alt="User picture">
+                                    </div>
+                                <div id="divUploadImage">
+                                    <i class="fa-solid fa-upload" data-bs-target="#uploadImageOptionModal"></i>
+                                    <div class="modal fade" id="uploadImageOptionModal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Modal title</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <button>Take picture</button>
+                                                    <button>Upload from device</button>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                       
+                                   
                                 </div>
                                 <div class="user-info mt-2">
-                                <span>
-                                    <i class="fa fa-circle" style="font-size:8px;color:chartreuse;"></i> @businessProfessional.FirstName @businessProfessional.LastName @userRole <a class="btn btn-outline-info" href="/Professionals/Schedules?businessId=@businessProfessional.BusinessId&professionalId=@businessProfessional.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
-                                </span>
+                                <div class="d-flex flex-row">
+                                    <div>
+                                        <i class="fa fa-circle me-2" style="font-size:8px;color:chartreuse;"></i>
+                                    </div>
+                                    <div>
+                                        @businessProfessional.FirstName @businessProfessional.LastName <br/> @userRole
+                                    </div>
+                                    <div class="ms-2">
+                                        <a class="btn btn-outline-info" href="/Professionals/Schedules?businessId=@businessProfessional.BusinessId&professionalId=@businessProfessional.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
+                                    </div>
+
+                                </div>
+                               
                              </div>   
                               
                             </div>
