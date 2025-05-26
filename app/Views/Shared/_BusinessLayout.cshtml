@@ -37,219 +37,203 @@
         @{
             if (User.Identity.IsAuthenticated)
             {
-                <a id="show-sidebar" class="btn btn-sm btn-dark" >
-                        <i class="fas fa-bars"></i>
-                    </a>
-                    <nav id="sidebar" class="sidebar-wrapper">
-                        <div class="sidebar-content">
-                            <div class="sidebar-brand" style="display:block;">
-                                <div id="close-sidebar" style="float:right;">
-                                    <i class="fas fa-times float-start"></i>
-                                </div>
-                            </div>
-                            <div class="sidebar-header">
-                                <div class="d-flex flex-row">
-                                    <div class="user-pic">
-                                        <img class="img-responsive img-rounded" src="~/images/uploaded/@professionalAvatar" alt="User picture">
+                        <a id="show-sidebar" class="btn btn-sm btn-dark" >
+                                <i class="fas fa-bars"></i>
+                            </a>
+                            <nav id="sidebar" class="sidebar-wrapper">
+                                <div class="sidebar-content">
+                                    <div class="sidebar-brand" style="display:block;">
+                                        <div id="close-sidebar" style="float:right;">
+                                            <i class="fas fa-times float-start"></i>
+                                        </div>
                                     </div>
-                                <div id="divUploadImage">
-                                    <i class="fa-solid fa-upload" data-bs-target="#uploadImageOptionModal"></i>
-                                    <div class="modal fade" id="uploadImageOptionModal" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Modal title</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <button>Take picture</button>
-                                                    <button>Upload from device</button>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div>
+                                    <div class="sidebar-header">
+                                        <div class="d-flex flex-row">
+                                            <div class="user-pic">
+                                                <img class="img-responsive img-rounded" src="~/images/uploaded/@professionalAvatar" alt="User picture">
                                             </div>
+                                        <div id="divUploadImage">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#uploadImageOptionModal">
+                                                <i class="fa-solid fa-upload"></i>
+                                            </button>                                    
                                         </div>
-                                    </div>
-                                </div>
-                                       
-                                   
-                                </div>
-                                <div class="user-info mt-2">
-                                <div class="d-flex flex-row">
-                                    <div>
-                                        <i class="fa fa-circle me-2" style="font-size:8px;color:chartreuse;"></i>
-                                    </div>
-                                    <div>
-                                        @businessProfessional.FirstName @businessProfessional.LastName <br/> @userRole
-                                    </div>
-                                    <div class="ms-2">
-                                        <a class="btn btn-outline-info" href="/Professionals/Schedules?businessId=@businessProfessional.BusinessId&professionalId=@businessProfessional.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
-                                    </div>
-
-                                </div>
-                               
-                             </div>   
-                              
-                            </div>
-                            <!-- sidebar-header  -->
-                            <div class="sidebar-menu">
-                                <ul>
-                                    <li class="header-menu">
-                                    @if (User.IsInRole("business_admin"))
-                                    {
-                                        <a class="navbar-brand" asp-area="" asp-controller="BusinessAdmin" asp-action="Index"><i class="fa fa-home"></i>Home</a>
-                                    }
-                                    @if (User.IsInRole("scheapp_admin"))
-                                    {
-                                        <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index"><i class="fa fa-home"></i>Home</a>
-                                    }
-                                    </li>
-                                    <li class="header-menu">
-                                        <span>General</span>
-                                    </li>
-                                    <li class="sidebar-dropdown" >
-                                        <a href="#">
-                                            <i class="fa fa-calendar-days"></i>
-                                            <span>Appointments</span>
-                                            @* <span class="badge badge-pill badge-warning">New</span> *@
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                <a href="/BusinessAdmin/Appointments?businessId=@businessProfessional.BusinessId">Appointments List</a>
-                                                </li>
-                                                <li>
-                                                <a href="#">Set Up Appointment</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="sidebar-dropdown">
-                                        <a href="#">
-                                            <i class="fa fa-user-tie"></i>
-                                            <span>Professionals</span>
-                                            @* <span class="badge badge-pill badge-warning">New</span> *@
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                <a href="/BusinessAdmin/Professionals?businessId=@businessProfessional.BusinessId">All Professionals</a>
-                                                </li>
                                                
-                                                <li>
-                                                <a href="/ProfessionalRegister/Register">Create Professional</a>
-                                                </li>
-                                                <!--
-                                                <li>
-                                                    <a href="#">History</a>
-                                                </li>
-                                                -->
-                                            </ul>
+                                           
                                         </div>
-                                    </li>
-                                   
-                                    <li class="sidebar-dropdown">
-                                        <a href="#">
-                                            <i class="far fa-gem"></i>
-                                            <span>Customers</span>
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                <a href="/BusinessAdmin/Customers?businessId=@businessProfessional.BusinessId">Customer List</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Reports</a>
-                                                </li>
-                                            </ul>
+                                        <div class="user-info mt-2">
+                                        <div class="d-flex flex-row">
+                                            <div>
+                                                <i class="fa fa-circle me-2" style="font-size:8px;color:chartreuse;"></i>
+                                            </div>
+                                            <div>
+                                                @businessProfessional.FirstName @businessProfessional.LastName <br/> @userRole
+                                            </div>
+                                            <div class="ms-2">
+                                                <a class="btn btn-outline-info" href="/Professionals/Schedules?businessId=@businessProfessional.BusinessId&professionalId=@businessProfessional.ProfessionalId"> <i class="fa fa-calendar-days"></i></a>
+                                            </div>
+
                                         </div>
-                                    </li>
-                                    <li class="sidebar-dropdown">
-                                        <a href="#">
-                                            <i class="fa fa-chart-line"></i>
-                                            <span>Services</span>
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                <a href="/BusinessAdmin/Services?businessId=@businessProfessional.BusinessId">Serives List</a>
-                                                </li>
-                                                <li>
-                                                <a href="/BusinessAdmin/ServiceDurations?businessId=@businessProfessional.BusinessId">Service Durations</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="sidebar-dropdown">
-                                        <a href="#">
-                                            <i class="fa fa-globe"></i>
-                                            <span>Business Locations</span>
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">Google maps</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">Open street map</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="sidebar-dropdown">
-                                        <a href="#">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span>Kay</span>
-                                            <span class="badge badge-pill badge-danger">2</span>
-                                        </a>
-                                        <div class="sidebar-submenu">
-                                            <ul>
-                                                <li>
-                                                    <a href="/professionals/test">Bootstrap Test Table</a>
-                                                </li>
-                                                <li>
-                                                <a href="#" onclick="Swal.fire({title: 'Not Implemented Yet.',text: 'Coming soon...' ,icon: 'success'});">Security Roles</a>
-                                                </li>
-                                                <li>
-                                                <a href="#" onclick="Swal.fire({title: 'Not Implemented Yet.',text: 'Coming soon...' ,icon: 'success'});">Configurations</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- sidebar-menu  -->
-                        </div>
-                        <!-- sidebar-content  -->
-                        <div class="sidebar-footer">
-                            <a href="#">
-                                <i class="fa fa-bell"></i>
-                                <span class="badge badge-pill badge-warning notification">3</span>
-                            </a>
-                            <a href="#">
-                                <i class="fa fa-envelope"></i>
-                                <span class="badge badge-pill badge-success notification">7</span>
-                            </a>
-                            <a href="#">
-                                <i class="fa fa-cog"></i>
-                                <span class="badge-sonar"></span>
-                            </a>
-                            <a href="/Auth/Logout">
-                                <i class="fa fa-power-off"></i>
-                            </a>
-                        </div>
-                    </nav>
-                    <!-- sidebar-wrapper  -->
+                                       
+                                     </div>   
+                                      
+                                    </div>
+                                    <!-- sidebar-header  -->
+                                    <div class="sidebar-menu">
+                                        <ul>
+                                            <li class="header-menu">
+                                            @if (User.IsInRole("business_admin"))
+                                    {
+                                                <a class="navbar-brand" asp-area="" asp-controller="BusinessAdmin" asp-action="Index"><i class="fa fa-home"></i>Home</a>
+                                    }
+                                            @if (User.IsInRole("scheapp_admin"))
+                                    {
+                                                <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index"><i class="fa fa-home"></i>Home</a>
+                                    }
+                                            </li>
+                                            <li class="header-menu">
+                                                <span>General</span>
+                                            </li>
+                                            <li class="sidebar-dropdown" >
+                                                <a href="#">
+                                                    <i class="fa fa-calendar-days"></i>
+                                                    <span>Appointments</span>
+                                                    @* <span class="badge badge-pill badge-warning">New</span> *@
+                                                </a>
+                                                <div class="sidebar-submenu">
+                                                    <ul>
+                                                        <li>
+                                                        <a href="/BusinessAdmin/Appointments?businessId=@businessProfessional.BusinessId">Appointments List</a>
+                                                        </li>
+                                                        <li>
+                                                        <a href="#">Set Up Appointment</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="sidebar-dropdown">
+                                                <a href="#">
+                                                    <i class="fa fa-user-tie"></i>
+                                                    <span>Professionals</span>
+                                                    @* <span class="badge badge-pill badge-warning">New</span> *@
+                                                </a>
+                                                <div class="sidebar-submenu">
+                                                    <ul>
+                                                        <li>
+                                                        <a href="/BusinessAdmin/Professionals?businessId=@businessProfessional.BusinessId">All Professionals</a>
+                                                        </li>
+                                                       
+                                                        <li>
+                                                        <a href="/ProfessionalRegister/Register">Create Professional</a>
+                                                        </li>
+                                                        <!--
+                                                        <li>
+                                                            <a href="#">History</a>
+                                                        </li>
+                                                        -->
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                           
+                                            <li class="sidebar-dropdown">
+                                                <a href="#">
+                                                    <i class="far fa-gem"></i>
+                                                    <span>Customers</span>
+                                                </a>
+                                                <div class="sidebar-submenu">
+                                                    <ul>
+                                                        <li>
+                                                        <a href="/BusinessAdmin/Customers?businessId=@businessProfessional.BusinessId">Customer List</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">Reports</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="sidebar-dropdown">
+                                                <a href="#">
+                                                    <i class="fa fa-chart-line"></i>
+                                                    <span>Services</span>
+                                                </a>
+                                                <div class="sidebar-submenu">
+                                                    <ul>
+                                                        <li>
+                                                        <a href="/BusinessAdmin/Services?businessId=@businessProfessional.BusinessId">Serives List</a>
+                                                        </li>
+                                                        <li>
+                                                        <a href="/BusinessAdmin/ServiceDurations?businessId=@businessProfessional.BusinessId">Service Durations</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="sidebar-dropdown">
+                                                <a href="#">
+                                                    <i class="fa fa-globe"></i>
+                                                    <span>Business Locations</span>
+                                                </a>
+                                                <div class="sidebar-submenu">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#">Google maps</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">Open street map</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="sidebar-dropdown">
+                                                <a href="#">
+                                                    <i class="fa fa-shopping-cart"></i>
+                                                    <span>Kay</span>
+                                                    <span class="badge badge-pill badge-danger">2</span>
+                                                </a>
+                                                <div class="sidebar-submenu">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="/professionals/test">Bootstrap Test Table</a>
+                                                        </li>
+                                                        <li>
+                                                        <a href="#" onclick="Swal.fire({title: 'Not Implemented Yet.',text: 'Coming soon...' ,icon: 'success'});">Security Roles</a>
+                                                        </li>
+                                                        <li>
+                                                        <a href="#" onclick="Swal.fire({title: 'Not Implemented Yet.',text: 'Coming soon...' ,icon: 'success'});">Configurations</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- sidebar-menu  -->
+                                </div>
+                                <!-- sidebar-content  -->
+                                <div class="sidebar-footer">
+                                    <a href="#">
+                                        <i class="fa fa-bell"></i>
+                                        <span class="badge badge-pill badge-warning notification">3</span>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i>
+                                        <span class="badge badge-pill badge-success notification">7</span>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fa fa-cog"></i>
+                                        <span class="badge-sonar"></span>
+                                    </a>
+                                    <a href="/Auth/Logout">
+                                        <i class="fa fa-power-off"></i>
+                                    </a>
+                                </div>
+                            </nav>
+                            <!-- sidebar-wrapper  -->
                
-                    <!-- page-content" -->
+                            <!-- page-content" -->
             
-                <!-- page-wrapper -->
+                        <!-- page-wrapper -->
             }
             else
             {
-                <h5 class="m-5 text-danger">You are currently logged out.</h5>
+                        <h5 class="m-5 text-danger">You are currently logged out.</h5>
             }
         }
         <script src="~/lib/jquery/jquery.min.js"></script>
@@ -262,6 +246,94 @@
                 </div>
             </div>
         </main>
+        <!--Modals-->
+        <div class="modal fade" id="uploadImageOptionModal" tabindex="-1" aria-labelledby="uploadImageOptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="uploadImageOptionModalLabel">Upload options</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <button class="btn btn-outline-success me-3" data-bs-toggle="modal" data-bs-target="#cameraPictureModal" onclick="openCamera();"><i class="fa-solid fa-camera"></i> Take picture</button>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#folderPictureModal"><i class="fas fa-folder"></i> Open</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="cameraPictureModal" tabindex="-1" aria-labelledby="cameraPictureModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex flex-md-column">
+                        <div>
+                            <video id="video" width="100%" height="240" autoplay></video>
+                        </div>
+
+                         <div>
+                            <button class="btn btn-outline-success mb-3" id="snap"><i class="fa-solid fa-camera"></i></button>
+                        </div>
+                        <div>
+                            <canvas id="canvas" width="400" height="240" style="display: none;"></canvas>
+                        </div>
+                        <script>
+                            function openCamera() {
+                                const video = document.getElementById('video');
+                                const canvas = document.getElementById('canvas');
+                                const context = canvas.getContext('2d');
+
+                                // Ask for camera access
+                                navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+                                    video.srcObject = stream;
+                                });
+
+                                document.getElementById('snap').addEventListener('click', () => {
+                                    context.drawImage(video, 0, 0, 320, 240);
+                                    canvas.style.display = 'block';
+                                });
+
+                                document.getElementById('upload').addEventListener('click', () => {
+                                    canvas.toBlob(blob => {
+                                        const formData = new FormData();
+                                        formData.append("file", blob, "snapshot.jpg");
+
+                                        fetch("/professionals/UploadImage", {
+                                            method: "POST",
+                                            body: formData
+                                        }).then(res => res.json())
+                                            .then(data => alert("Uploaded: " + data.fileName))
+                                            .catch(err => console.error("Upload error:", err));
+                                    }, "image/jpeg");
+                                });
+                            }
+                        </script>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="folderPictureModal" tabindex="-1" aria-labelledby="folderPictureModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="folderPictureModalLabel">Chose Picture</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="file"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
    
     <script src="~/js/popper.min.js"></script>

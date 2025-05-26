@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\uploaded\" />
     <Folder Include="wwwroot\lib\jquery\datatables\" />
   </ItemGroup>
 

@@ -126,7 +126,7 @@ namespace scheapp.app.Controllers.View
             var uploadedDirectory = $"{exeDir}{separator}wwwroot{separator}uploaded";
             if(!Directory.Exists(uploadedDirectory))
                 Directory.CreateDirectory(uploadedDirectory);
-            string fullFilePath = $"{uploadedDirectory}{separator}professional-{verifiedBusinessProfessional.BusinessId}.jpg";
+            string fullFilePath = $"{uploadedDirectory}{separator}professional-{verifiedBusinessProfessional.ProfessionalId}.jpg";
             using var image = await Image.LoadAsync(file.OpenReadStream());
 
             // Optional processing (e.g., auto-orientation)
