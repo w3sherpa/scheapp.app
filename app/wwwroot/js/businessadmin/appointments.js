@@ -35,8 +35,8 @@ function AppointmentsFilterByDate(chkboxID) {
 function GetAppointmentDispalyCard(appointment) {
     var newAppoitmentCardHtml =
         '<div class="col-md-6 mt-3 col-lg-4 column">' +
-            '<div class="card p-1" style="border-radius:3.25rem;">' +
-                '<div class="txt p-2">' +
+            '<div class="card" style="border-radius:3.25rem;">' +
+                '<div class="txt">' +
                     '<div class="row">' +
                         '<div class="col-3">' +
                             '<div class="user-pic">' +
@@ -45,12 +45,12 @@ function GetAppointmentDispalyCard(appointment) {
                         '</div>' +
                         '<div class="col-9 d-flex flex-column">' +
                             '<div class="d-block"><h6 class="float-start">' + appointment.customer + '</h6>' +
-                                '<span class="float-end" style="margin-right:15px;"><span style="margin-right:5px;">' + appointment.serviceName + '</span>' +
+                                '<span style="margin-right:15px;"><span style="margin-right:5px;">' + appointment.serviceName + '</span>' +
                                 '<i class="fa fa-cut ml-2"></i></span>' +
                             '</div>' +
                             '<div class="d-block">' +
-                                '<span class="float-start">' + appointment.startDT + '</span>' +
-                                '<a class="float-end"  style="margin-right:15px;" href="#" onclick="scheappadmin.NotifyCustomer(' + appointment.scheduleAppointmentId + ')">I am ready</a>' +
+                                '<span class="float-start">' + appointment.startDT + '</span>' +   
+                                '<a style="margin-right:15px;" href="#" onclick="scheappadmin.NotifyCustomer(' + appointment.scheduleAppointmentId + ')">I am ready</a>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
