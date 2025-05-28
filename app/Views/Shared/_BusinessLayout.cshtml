@@ -271,7 +271,6 @@
                         <div>
                             <video id="video" width="100%" height="240" autoplay></video>
                         </div>
-
                          <div>
                             <button class="btn btn-outline-success mb-3" id="snap"><i class="fa-solid fa-camera"></i></button>
                         </div>
@@ -280,10 +279,14 @@
                         </div>
                         <script>
                             function openCamera() {
-                                const video = document.getElementById('video');
-                                const canvas = document.getElementById('canvas');
-                                const context = canvas.getContext('2d');
-
+                                let video = null;
+                                let canvas = null;
+                                let context = null;
+                                
+                                video = document.getElementById('video');
+                                canvas = document.getElementById('canvas');
+                                canvas.style.display = 'none';
+                                context = canvas.getContext('2d');
                                 // Ask for camera access
                                 navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
                                     video.srcObject = stream;
@@ -296,7 +299,7 @@
 
                                 document.getElementById('upload').addEventListener('click', () => {
                                     canvas.toBlob(blob => {
-                                        const formData = new FormData();
+                                        let formData = new FormData();
                                         formData.append("file", blob, "snapshot.jpg");
 
                                         fetch("/professionals/UploadImage", {
