@@ -4,12 +4,11 @@ using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data;
+using scheapp.app.Models.API;
+using scheapp.app.Models.Data.DspModels;
 using System.Data.Common;
-using System.Data;
 using System.Text;
 using System.Web;
-using scheapp.app.Models.Data.DspModels;
 
 namespace scheapp.app.Controllers.Data
 {
@@ -27,9 +26,7 @@ namespace scheapp.app.Controllers.Data
             , ICommunicationDataService communicationDataService
             , IContactsDataService contactsDataService
             , IHubContext<ScheAppViewUpdateHub> signalRScheAppHub
-,
-IConfiguration configuration
-
+            ,IConfiguration configuration
             )
         {
             _logger = logger;
@@ -51,7 +48,27 @@ IConfiguration configuration
             _logger.LogWarning("{@VonageVoiceApiEvent}", vonageVoiceCallEvent);
             return Ok();
         }
-
+        [HttpPost]
+        public async Task<IActionResult> DtmfMessage([FromBody] DtmfCallBack dtmfMessage)
+        {
+            try
+            {
+                if (dtmfMessage.dtmf.digits =="1")
+                {
+                    await ProcessDTMFConfirmation(dtmfMessage.conversation_uuid);
+                }
+                else
+                {
+                    _logger.LogWarning($"Converstation {dtmfMessage.conversation_uuid} pressed {dtmfMessage.dtmf.digits}");
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Ok("failed");
+            }
+        }
         [HttpPost]
         [Consumes("application/x-www-form-urlencoded")]
         //public async Task<HttpResponseMessage> StatusCallback([FromForm] IFormCollection value)
@@ -103,47 +120,7 @@ IConfiguration configuration
                 {
                     if(Digits == "1")
                     {
-                        await _contactsDataService.CustomerConfirmScheduleAppointment(new Models.API.CustomerConfirmationRQ { VoiceApiConversationId = CallSid, CustomerConfirmed = true });
-                        ProfessionalScheduleAppointmentRequestsDetailDsp scheduleDetail = new();
-                        List<string> businessAdminUsers = new List<string>();
-                        using (SqlConnection srcConn = new SqlConnection(_configuration.GetConnectionString("ScheAppMin")))
-                        using (SqlCommand srcCmd = new SqlCommand($"exec dsp_GetProfessionalUserIdByConversationId '{CallSid}'", srcConn))
-                        {
-                            srcConn.Open();
-                            using (DbDataReader reader = srcCmd.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    businessAdminUsers.Add(reader.GetString(0));
-                                }
-                                if (businessAdminUsers.Count > 0)
-                                {
-                                    if (reader.NextResult())
-                                    {
-                                        reader.Read();
-                                        scheduleDetail.StartDT = DateTime.Parse(reader["StartDT"].ToString());
-                                        scheduleDetail.EndDT = DateTime.Parse(reader["EndDT"].ToString());
-                                        scheduleDetail.RequestDate = DateTime.Parse(reader["RequestDate"].ToString());
-                                        scheduleDetail.ProFirst = reader["ProFirst"].ToString();
-                                        scheduleDetail.ProMiddle = reader["ProMiddle"].ToString();
-                                        scheduleDetail.ProLast = reader["ProLast"].ToString();
-                                        scheduleDetail.CustFrist = reader["CustFrist"].ToString();
-                                        scheduleDetail.CustLast = reader["CustLast"].ToString();
-                                        scheduleDetail.CustMiddle = reader["CustMiddle"].ToString();
-                                    }
-                                }
-                                else
-                                {
-                                    _logger.LogError($"dsp_GetProfessionalUserIdByConversationId return 0 business admin users for callsid{CallSid}");
-                                }
-                                
-                            }
-                        }
-                        foreach (var bu in businessAdminUsers)
-                        {
-                            await _signalRScheAppHub.Clients.Group(bu).SendAsync("UpdateAppointmentsView", "salemvai", JsonConvert.SerializeObject(scheduleDetail));
-                        }
-                        
+                        await ProcessDTMFConfirmation(CallSid);
                     }
                     _logger.LogWarning($"dtmf digits pressed are: {Digits} and call sid is {CallSid}");
                 }
@@ -158,6 +135,51 @@ IConfiguration configuration
                 _logger.LogError("{@Exception}", ex);
                 return Ok("error occured");
             }
+        }
+
+        private async Task ProcessDTMFConfirmation(string CallSid)
+        {
+            await _contactsDataService.CustomerConfirmScheduleAppointment(new Models.API.CustomerConfirmationRQ { VoiceApiConversationId = CallSid, CustomerConfirmed = true });
+            ProfessionalScheduleAppointmentRequestsDetailDsp scheduleDetail = new();
+            List<string> businessAdminUsers = new List<string>();
+            using (SqlConnection srcConn = new SqlConnection(_configuration.GetConnectionString("ScheAppMin")))
+            using (SqlCommand srcCmd = new SqlCommand($"exec dsp_GetProfessionalUserIdByConversationId '{CallSid}'", srcConn))
+            {
+                srcConn.Open();
+                using (DbDataReader reader = srcCmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        businessAdminUsers.Add(reader.GetString(0));
+                    }
+                    if (businessAdminUsers.Count > 0)
+                    {
+                        if (reader.NextResult())
+                        {
+                            reader.Read();
+                            scheduleDetail.StartDT = DateTime.Parse(reader["StartDT"].ToString());
+                            scheduleDetail.EndDT = DateTime.Parse(reader["EndDT"].ToString());
+                            scheduleDetail.RequestDate = DateTime.Parse(reader["RequestDate"].ToString());
+                            scheduleDetail.ProFirst = reader["ProFirst"].ToString();
+                            scheduleDetail.ProMiddle = reader["ProMiddle"].ToString();
+                            scheduleDetail.ProLast = reader["ProLast"].ToString();
+                            scheduleDetail.CustFrist = reader["CustFrist"].ToString();
+                            scheduleDetail.CustLast = reader["CustLast"].ToString();
+                            scheduleDetail.CustMiddle = reader["CustMiddle"].ToString();
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogError($"dsp_GetProfessionalUserIdByConversationId return 0 business admin users for callsid{CallSid}");
+                    }
+
+                }
+            }
+            foreach (var bu in businessAdminUsers)
+            {
+                await _signalRScheAppHub.Clients.Group(bu).SendAsync("UpdateAppointmentsView", "salemvai", JsonConvert.SerializeObject(scheduleDetail));
+            }
+
         }
     }
     public class Response { }

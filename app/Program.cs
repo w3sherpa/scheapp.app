@@ -69,7 +69,9 @@ try
                         options.ClientId = builder.Configuration["AuthenticationScheme:Google:ClientId"];
                         options.ClientSecret = builder.Configuration["AuthenticationScheme:Google:ClientSecret"];
                     });
-
+    ////TODO: remove this after google auth works
+    Console.WriteLine("####################################################");
+    Console.WriteLine($"CI:{builder.Configuration["AuthenticationScheme:Google:ClientId"]}*CS{builder.Configuration["AuthenticationScheme:Google:ClientSecret"]}");
     builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
     builder.Services.AddRazorPages();
     builder.Services.AddHttpClient("ScheduleAppointmentApi", client =>
