@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
@@ -13,8 +14,8 @@ using System.Web;
 namespace scheapp.app.Controllers.Data
 {
     [Route("[controller]/[action]")]
-    [ApiController]
-    public class zzzscheapp4b23a66cac6308c0f97f7167e9551b51Controller : ControllerBase
+    [AllowAnonymous]
+    public class zzzscheapp4b23a66cac6308c0f97f7167e9551b51Controller : Controller
     {
         private readonly ILogger _logger;
         private readonly ICommunicationDataService _communicationDataService;
@@ -41,18 +42,35 @@ namespace scheapp.app.Controllers.Data
             //call st api to save to db
             return Ok("Hello from VonageWebHookController");
         }
+       
+
         [HttpPost]
         public async Task<IActionResult> LogVonageVoiceCallEvent([FromBody] VonageVoiceApiEvent vonageEvent)
         {
             try
             {
-                if (vonageEvent.dtmf.digits =="1")
+                _logger.LogWarning($"Converstation {vonageEvent.conversation_uuid} : status: {vonageEvent.status}");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Ok("failed");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DtmfMessage([FromBody] DtmfCallBack vonageDtmf)
+        {
+            try
+            {
+                if (vonageDtmf.dtmf.digits == "1")
                 {
-                    await ProcessDTMFConfirmation(vonageEvent.conversation_uuid);
+                    await ProcessDTMFConfirmation(vonageDtmf.conversation_uuid);
                 }
                 else
                 {
-                    _logger.LogWarning($"Converstation {vonageEvent.conversation_uuid} pressed {vonageEvent.dtmf.digits}");
+                    _logger.LogWarning($"Converstation {vonageDtmf.conversation_uuid} pressed {vonageDtmf.dtmf.digits}");
                 }
                 return Ok();
             }
@@ -62,6 +80,7 @@ namespace scheapp.app.Controllers.Data
                 return Ok("failed");
             }
         }
+
         [HttpPost]
         [Consumes("application/x-www-form-urlencoded")]
         //public async Task<HttpResponseMessage> StatusCallback([FromForm] IFormCollection value)
@@ -178,7 +197,6 @@ namespace scheapp.app.Controllers.Data
     public class Response { }
     public class VonageVoiceApiEvent
     {
-        public DtmfMessage dtmf { get; set; }
         public string start_time { get; set; } = string.Empty;
         public string end_time { get; set; } = string.Empty;
         public string duration { get; set; } = string.Empty;
@@ -193,5 +211,15 @@ namespace scheapp.app.Controllers.Data
         public string direction { get; set; } = string.Empty;
         public string network { get; set; } = string.Empty;
         public string timestamp { get; set; } = string.Empty;
+    }
+
+    public class DtmfCallBack
+    {
+        public string from { get; set; }
+        public string to { get; set; }
+        public DtmfMessage dtmf { get; set; }
+        public string uuid { get; set; }
+        public string conversation_uuid { get; set; }
+        public string timestamp { get; set; }
     }
 }
