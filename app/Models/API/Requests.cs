@@ -75,16 +75,6 @@
         public int ServiceId { get; set; }
     }
 
-    public class DtmfCallBack
-    {
-        public string from { get; set; }
-        public string to { get; set; }
-        public DtmfMessage dtmf { get; set; }
-        public string uuid { get; set; }
-        public string conversation_uuid { get; set; }
-        public string timestamp { get; set; }
-    }
-
     public class DtmfMessage
     {
         public string digits { get; set; }

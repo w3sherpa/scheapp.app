@@ -41,25 +41,18 @@ namespace scheapp.app.Controllers.Data
             //call st api to save to db
             return Ok("Hello from VonageWebHookController");
         }
-
         [HttpPost]
-        public IActionResult LogVonageVoiceCallEvent([FromBody] VonageVoiceApiEvent vonageVoiceCallEvent)
-        {
-            _logger.LogWarning("{@VonageVoiceApiEvent}", vonageVoiceCallEvent);
-            return Ok();
-        }
-        [HttpPost]
-        public async Task<IActionResult> DtmfMessage([FromBody] DtmfCallBack dtmfMessage)
+        public async Task<IActionResult> LogVonageVoiceCallEvent([FromBody] VonageVoiceApiEvent vonageEvent)
         {
             try
             {
-                if (dtmfMessage.dtmf.digits =="1")
+                if (vonageEvent.dtmf.digits =="1")
                 {
-                    await ProcessDTMFConfirmation(dtmfMessage.conversation_uuid);
+                    await ProcessDTMFConfirmation(vonageEvent.conversation_uuid);
                 }
                 else
                 {
-                    _logger.LogWarning($"Converstation {dtmfMessage.conversation_uuid} pressed {dtmfMessage.dtmf.digits}");
+                    _logger.LogWarning($"Converstation {vonageEvent.conversation_uuid} pressed {vonageEvent.dtmf.digits}");
                 }
                 return Ok();
             }
@@ -185,6 +178,7 @@ namespace scheapp.app.Controllers.Data
     public class Response { }
     public class VonageVoiceApiEvent
     {
+        public DtmfMessage dtmf { get; set; }
         public string start_time { get; set; } = string.Empty;
         public string end_time { get; set; } = string.Empty;
         public string duration { get; set; } = string.Empty;
