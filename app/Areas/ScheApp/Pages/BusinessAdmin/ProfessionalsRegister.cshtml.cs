@@ -23,7 +23,7 @@ using System.Text.Encodings.Web;
 
 namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
 {
-    [Authorize(Roles = "business_admin,scheapp_admin")]
+    [Authorize(Roles = "business_admin,scheapp_admin,scheapp-security-sherpa")]
     public class ProfessionalsRegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;

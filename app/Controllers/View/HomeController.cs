@@ -23,12 +23,16 @@ namespace scheapp.app.Controllers.View
             _professionalsDataService = professionalsDataService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             ViewBag.TestEnvDocker = StaticClass.TestEnvDocker;
             return View();
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         public IActionResult CssExamples()
         {
             return View();

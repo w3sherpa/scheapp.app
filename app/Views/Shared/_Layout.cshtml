@@ -36,9 +36,7 @@
                             <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">ScheApp Admin</a>
                         }
                         </div>
-                        <form class="form-inline" asp-area="Identity" asp-page="/auth/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                            <button type="submit" class="nav-link btn btn-outline-danger"><i class="fas fa-sign-out"></i>  Logout</button>
-                        </form>
+                        <a class="navbar-brand" asp-area="" asp-controller="Auth" asp-action="Logout"><i class="fas fa-sign-out"></i>  Logout</a>
                     }
                     else
                     {

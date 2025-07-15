@@ -52,9 +52,12 @@ try
 
     //builder.Configuration.AddJsonFile("appsettings.json").AddEnvironmentVariables();
     builder.Configuration.AddEnvironmentVariables();
-    var connectionString = builder.Configuration.GetConnectionString("ScheApp") ?? throw new InvalidOperationException("Connection string 'scheappappContextConnection' not found.");
+    var connectionString = builder.Configuration.GetConnectionString("AspNetMembershipDb") ?? throw new InvalidOperationException("Connection string 'AspNetMembershipDb' not found.");
 
-    builder.Services.AddDbContext<ScheAppIdentityContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddDbContext<ScheAppIdentityContext>(options => options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString)
+    ));
 
     //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ScheAppIdentityContext>();
 
@@ -120,7 +123,9 @@ try
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Auth}/{action=Login}/{id?}");
-        //pattern: "{controller=BusinessAdmin}/{action=Index}/{id?}");
+    //pattern: "{controller=BusinessAdmin}/{action=Index}/{id?}");
+
+    await ProgramDataSeeder.SeedSecuritySherpa(app.Services);
 
     app.Run();
 }

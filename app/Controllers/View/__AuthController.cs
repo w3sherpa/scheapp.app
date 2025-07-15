@@ -47,7 +47,10 @@ namespace scheapp.app.Controllers.View
             }
             else
             {
-                var redirectUrl = User.IsInRole("scheapp_admin") ? "/businessadmin/index" : "/Professionals/Schedules";
+                var redirectUrl = User.IsInRole("business_professional") ? "/Professionals/Schedules"
+                                                                        : User.IsInRole("business_admin") ? "/businessadmin/index" 
+                                                                        : User.IsInRole("scheapp_admin") ? "/businessadmin/index"
+                                                                        : User.IsInRole("scheapp-security-sherpa") ? "/SecuritySherpa/index":"home/accessdenied";
                 return LocalRedirect(redirectUrl);
             }
         }
@@ -64,10 +67,10 @@ namespace scheapp.app.Controllers.View
                 // redirect user based on role
                 var signInUser = await _signInManager.UserManager.FindByNameAsync(email);
                 var userRoles = await _signInManager.UserManager.GetRolesAsync(signInUser);
-                //var allRoles = _roleManager.Roles.Select(R=>R.Name).ToList();
-                if (userRoles.Where(ur => ur.StartsWith("scheapp")).FirstOrDefault() != null) returnUrl = "/Admin/Index";
-                else if (userRoles.Where(ur => ur.Equals("business_admin")).FirstOrDefault() != null) returnUrl = "/BusinessAdmin/Index";
-                else if (userRoles.Where(ur => ur.Equals("business_professional")).FirstOrDefault() != null) returnUrl = "/Professionals/Schedules";
+                returnUrl = User.IsInRole("business_professional") ? "/Professionals/Schedules"
+                                                                        : User.IsInRole("business_admin") ? "/businessadmin/index"
+                                                                        : User.IsInRole("scheapp_admin") ? "/businessadmin/index"
+                                                                        : User.IsInRole("scheapp-security-sherpa") ? "/SecuritySherpa/index" : "home/accessdenied";
             }
             else
             {
