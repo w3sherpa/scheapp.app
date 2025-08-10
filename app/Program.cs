@@ -124,8 +124,8 @@ try
         name: "default",
         pattern: "{controller=Auth}/{action=Login}/{id?}");
     //pattern: "{controller=BusinessAdmin}/{action=Index}/{id?}");
-
-    await ProgramDataSeeder.SeedSecuritySherpa(app.Services);
+    ////Uncomment this if you are doing the data seedding
+    //await ProgramDataSeeder.SeedSecuritySherpa(app.Services);
 
     app.Run();
 }

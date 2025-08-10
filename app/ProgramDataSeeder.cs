@@ -6,8 +6,7 @@ using scheapp.app.Models.Data.TableModels.Professionals;
 
 internal static class ProgramDataSeeder
 {
-    public static async Task SeedSecuritySherpa(
-         IServiceProvider serviceProvider  )
+    public static async Task SeedSecuritySherpa(IServiceProvider serviceProvider  )
     {
         try
         {
@@ -16,40 +15,53 @@ internal static class ProgramDataSeeder
             ////Get Config data
             ///
 
-            string securitySherpaRole = configuration["SecuritySherpaRole"];
-            string scheaAppSecuritySherpaEmail = configuration["SecuritySherpaEmail"];
+            string scheAppAdminRoleName = configuration["ScheAppAdminRoleName"];
+            string scheAppBusinessAdminRoleName = configuration["ScheAppBusinessAdminRoleName"];
+            string scheAppBusinessProfessionalRoleName = configuration["ScheAppBusinessProfessionalRoleName"];
+
+            string scheaAppScheAppAdminEmail = configuration["ScheAppAdminEmail"];
 
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var userStore = scope.ServiceProvider.GetRequiredService<IUserStore<IdentityUser>>();
             var professionalDataService = scope.ServiceProvider.GetRequiredService<IProfessionalDataService>();
 
-            if (!roleManager.RoleExistsAsync(securitySherpaRole).GetAwaiter().GetResult())
+            if (!roleManager.RoleExistsAsync(scheAppAdminRoleName).GetAwaiter().GetResult())
             {
-                roleManager.CreateAsync(new IdentityRole(securitySherpaRole)).GetAwaiter().GetResult();
+                roleManager.CreateAsync(new IdentityRole(scheAppAdminRoleName)).GetAwaiter().GetResult();
             }
 
-            var securitySherpaUser = new ApplicationUser();
+            if (!roleManager.RoleExistsAsync(scheAppBusinessAdminRoleName).GetAwaiter().GetResult())
+            {
+                roleManager.CreateAsync(new IdentityRole(scheAppBusinessAdminRoleName)).GetAwaiter().GetResult();
+            }
 
-            await userStore.SetUserNameAsync(securitySherpaUser, scheaAppSecuritySherpaEmail, CancellationToken.None);
+            if (!roleManager.RoleExistsAsync(scheAppBusinessProfessionalRoleName).GetAwaiter().GetResult())
+            {
+                roleManager.CreateAsync(new IdentityRole(scheAppBusinessProfessionalRoleName)).GetAwaiter().GetResult();
+            }
 
-            securitySherpaUser.Firstname = "ScheApp";
-            securitySherpaUser.Lastname = "Security-Sherpa";
-            securitySherpaUser.Email = scheaAppSecuritySherpaEmail;
-            securitySherpaUser.NormalizedEmail = scheaAppSecuritySherpaEmail.ToUpper();
-            securitySherpaUser.EmailConfirmed = true;
-            var result = await userManager.CreateAsync(securitySherpaUser, "$cheapPp5h3rpa");
+            var scheappAdminUser = new ApplicationUser();
+
+            await userStore.SetUserNameAsync(scheappAdminUser, scheaAppScheAppAdminEmail, CancellationToken.None);
+
+            scheappAdminUser.Firstname = "ScheApp";
+            scheappAdminUser.Lastname = "Sherpa";
+            scheappAdminUser.Email = scheaAppScheAppAdminEmail;
+            scheappAdminUser.NormalizedEmail = scheaAppScheAppAdminEmail.ToUpper();
+            scheappAdminUser.EmailConfirmed = true;
+            var result = await userManager.CreateAsync(scheappAdminUser, "$cheapPp5h3rpa");
             if (result.Succeeded)
             {
                 Console.WriteLine("User created a new account with password.");
 
-                await userManager.AddToRoleAsync(securitySherpaUser, securitySherpaRole);
-                var userId = await userManager.GetUserIdAsync(securitySherpaUser);
+                await userManager.AddToRoleAsync(scheappAdminUser, scheAppAdminRoleName);
+                var userId = await userManager.GetUserIdAsync(scheappAdminUser);
                 var result2 = await professionalDataService.SaveProfessionals(new Professional
                 {
-                    FirstName = securitySherpaUser.Firstname,
+                    FirstName = scheappAdminUser.Firstname,
                     MiddleName = "",
-                    LastName = securitySherpaUser.Lastname,
+                    LastName = scheappAdminUser.Lastname,
                     AspNetUserId = userId,
                     BusinessId = 1
                 });

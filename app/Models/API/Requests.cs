@@ -1,5 +1,11 @@
-﻿namespace scheapp.app.Models.API
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace scheapp.app.Models.API
 {
+    public record MessageRQ
+    {
+        public string Message { get; set; } = "";
+    }
     public class SaveProfessionalScheduleRQ
     {
         public int ProfessionalId { get; set; }
@@ -79,5 +85,21 @@
     {
         public string digits { get; set; }
         public bool timed_out { get; set; }
+    }
+
+    public class CreateBusinessRQ
+    {
+        public string Name { get; set; } = "";
+        public string? Email { get; set; }
+        public string Website { get; set; } = "";
+        public string StreetOne { get; set; } = "";
+        public string? StreetTwo { get; set; } = "";
+        public string City { get; set; } = "";
+        public string State { get; set; } = "";
+        public string ZipCode { get; set; } = "";
+        public string Country { get; set; } = "";
+        public string? Lat { get; set; }
+        public string? Long { get; set; }
+        public string? IsActive { get; set; }
     }
 }

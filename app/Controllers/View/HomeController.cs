@@ -29,6 +29,7 @@ namespace scheapp.app.Controllers.View
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult AccessDenied()
         {
             return View();

@@ -49,8 +49,7 @@ namespace scheapp.app.Controllers.View
             {
                 var redirectUrl = User.IsInRole("business_professional") ? "/Professionals/Schedules"
                                                                         : User.IsInRole("business_admin") ? "/businessadmin/index" 
-                                                                        : User.IsInRole("scheapp_admin") ? "/businessadmin/index"
-                                                                        : User.IsInRole("scheapp-security-sherpa") ? "/SecuritySherpa/index":"home/accessdenied";
+                                                                        : User.IsInRole("scheapp_admin") ? "/admin/index": "/home/AccessDenied";
                 return LocalRedirect(redirectUrl);
             }
         }
@@ -69,8 +68,7 @@ namespace scheapp.app.Controllers.View
                 var userRoles = await _signInManager.UserManager.GetRolesAsync(signInUser);
                 returnUrl = User.IsInRole("business_professional") ? "/Professionals/Schedules"
                                                                         : User.IsInRole("business_admin") ? "/businessadmin/index"
-                                                                        : User.IsInRole("scheapp_admin") ? "/businessadmin/index"
-                                                                        : User.IsInRole("scheapp-security-sherpa") ? "/SecuritySherpa/index" : "home/accessdenied";
+                                                                        : User.IsInRole("scheapp_admin") ? "/admin/index" : "/home/AccessDenied";
             }
             else
             {

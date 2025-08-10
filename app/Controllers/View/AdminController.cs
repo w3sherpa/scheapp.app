@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using scheapp.app.Controllers.Data;
 using scheapp.app.DataServices.Interfaces;
+using scheapp.app.Models.API;
 using scheapp.app.Models.Data.TableModels.Businesses;
 
 namespace scheapp.app.Controllers.View
@@ -74,16 +75,42 @@ namespace scheapp.app.Controllers.View
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNewBusiness(Business newBusiness)
+        public async Task<IActionResult> CreateNewBusiness([FromBody] CreateBusinessRQ newBusiness)
         {
-            await _businessDataService.SaveBusinesses(newBusiness);
+            await _businessDataService.SaveBusinesses(new Business
+            {
+                Name = newBusiness.Name
+                ,
+                Email = newBusiness.Email
+                ,
+                Website = newBusiness.Website
+                ,
+                StreetOne = newBusiness.StreetOne
+                ,
+                StreetTwo = newBusiness.StreetTwo
+                ,
+                City = newBusiness.City
+                ,
+                State = newBusiness.State
+                ,
+                ZipCode = newBusiness.ZipCode
+                ,
+                Country = newBusiness.Country
+                ,
+                IsActive = newBusiness.IsActive.Trim().ToUpper() == "TRUE" ? true : false
+            });
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult GetMessage(string name)
         {
-            return Ok($"CommunicationController: Namaste {name}!");
+            return Ok(new { Message = "CommunicationController: Namaste {name}!" });
+        }
+        [HttpPost]
+        public IActionResult PostMessage([FromBody] MessageRQ req)
+        {
+            return Ok(new { Message = $"CommunicationController: Get the message {req.Message}!" });
         }
     }
 }
