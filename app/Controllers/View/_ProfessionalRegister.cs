@@ -13,7 +13,8 @@ using scheapp.app.Areas.Identity;
 using scheapp.app.Areas.ScheApp.Pages.BusinessAdmin;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data.DspModels;
+using scheapp.data.Db.DspModels;
+using scheapp.data.Db.TableModels.Professionals;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
@@ -88,6 +89,7 @@ namespace scheapp.app.Controllers.View
                 string email = keyValuePairs["Email"].ToString();
                 string password = keyValuePairs["Password"].ToString();
                 string businessId = keyValuePairs["BusinessId"].ToString();
+                string isBusinessAdmin = keyValuePairs["IsBusinessAdmin"].ToString();
                 var checkUser = await _userManager.FindByEmailAsync(email);
                 if (checkUser == null) /// user with that email do not exists
                 {
@@ -105,16 +107,21 @@ namespace scheapp.app.Controllers.View
                     if (result.Succeeded) 
                     {
                         _logger.LogInformation("User created a new account with password.");
-
-                        await _userManager.AddToRoleAsync(user, "business_professional");
+                        string assignedRole = isBusinessAdmin.ToUpper() == "TRUE" ? "business_admin" : "business_professional";
+                        await _userManager.AddToRoleAsync(user, assignedRole);
                         var userId = await _userManager.GetUserIdAsync(user);
-                        var result2 = await _professionalDataService.SaveProfessionals(new Models.Data.TableModels.Professionals.Professional
+                        var userName = await _userManager.GetUserNameAsync(user);
+
+                        var result2 = await _professionalDataService.SaveProfessionals(new Professional
                         {
                             FirstName = user.Firstname,
                             MiddleName = "",
                             LastName = user.Lastname,
                             AspNetUserId = userId,
-                            BusinessId = Convert.ToInt32(businessId)
+                            BusinessId = Convert.ToInt32(businessId),
+                            AspNetUserName = userName,
+                            Email = email,
+                            ProfessionalRole = assignedRole
                         });
                         return Redirect("/BusinessAdmin");
                     }
@@ -188,6 +195,8 @@ namespace scheapp.app.Controllers.View
         public string ConfirmPassword { get; set; }
         [Required]
         public string BusinessId { get; set; }
+        [Required]
+        public bool IsBusinessAdmin { get; set; }
 
         [ValidateNever]
         public IEnumerable<SelectListItem> BusinessList { get; set; }

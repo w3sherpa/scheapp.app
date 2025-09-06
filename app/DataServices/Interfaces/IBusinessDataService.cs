@@ -1,4 +1,4 @@
-﻿using scheapp.app.Models.Data.TableModels.Businesses;
+﻿using scheapp.data.Db.TableModels.Businesses;
 
 namespace scheapp.app.DataServices.Interfaces
 {

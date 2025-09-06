@@ -1,5 +1,5 @@
 ﻿using scheapp.app.Models.API;
-using scheapp.app.Models.Data.TableModels.Communication;
+using scheapp.data.Db.TableModels.Communication;
 
 namespace scheapp.app.DataServices.Interfaces
 {

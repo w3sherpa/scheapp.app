@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.app.Models.Data.DspModels;
+using scheapp.data.Db.DspModels;
 using scheapp.app.Models.View;
 using System.Reflection;
 using SixLabors.ImageSharp;

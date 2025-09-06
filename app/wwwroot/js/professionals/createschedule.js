@@ -57,8 +57,8 @@ function ConfirmAndCreate(dateTimeSelectionMethod) {
     }).then((result) => {
         if (result.isConfirmed) {
             var reqObj = new Object();
-            reqObj.BusinessId = $("#hdnBusinessId_CreateSchedule").val();
-            reqObj.ProfessionalId = $("#hdnProfessionalId_CreateSchedule").val();
+            reqObj.BusinessId = $("#hdnBusinessId").val();
+            reqObj.ProfessionalId = $("#hdnProfessionalId").val();
             reqObj.StartDateTime = startDateTimeRQ;
             reqObj.EndDateTime = endDateTimeRQ;
             reqObj.DaysOfWeek = '';

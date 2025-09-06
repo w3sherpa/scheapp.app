@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 @using Microsoft.AspNetCore.Identity
-@using scheapp.app.Models.Data.DspModels
+@using scheapp.data.Db.DspModels
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -157,6 +157,7 @@
                 <h5 class="m-5 text-danger">You are currently logged out.</h5>
             }
         }
+        <script src="~/lib/jquery/jquery.min.js"></script>
         <main class="page-content">
             <div class="container-fluid">
                 <div id="divScheAppContentDisplay">
@@ -165,7 +166,7 @@
             </div>
         </main>
     </div>
-    <script src="~/lib/jquery/jquery.min.js"></script>
+   
     <script src="~/js/sweetalert2.all.min.js" asp-append-version="true"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/lib/jquery/datatables/datatables.min.js"></script>

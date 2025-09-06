@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.View;
-using scheapp.app.Models.Data.TableModels.Professionals;
+using scheapp.data.Db.TableModels.Professionals;
 using scheapp.app.Models.API;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;

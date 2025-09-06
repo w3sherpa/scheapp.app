@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.app.Models.Data.DspModels;
+using scheapp.data.Db.DspModels;
 
 namespace scheapp.app.Controllers
 {

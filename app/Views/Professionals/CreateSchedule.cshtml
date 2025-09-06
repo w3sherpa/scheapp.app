@@ -1,5 +1,5 @@
 ﻿@model scheapp.app.Models.View.CreateProfessionalScheduleVM
-@using scheapp.app.Models.Data.DspModels
+@using scheapp.data.Db.DspModels
 @{
     ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
     ViewData["Title"] = "Schedules";
@@ -97,8 +97,8 @@
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="row">
                 <div class="col-md-4">
-                    @Html.HiddenFor(Model => Model.BusinessId, new { Id = "hdnBusinessId_CreateSchedule" })
-                    @Html.HiddenFor(Model => Model.ProfessionalId, new { Id = "hdnProfessionalId_CreateSchedule" })
+                    @Html.HiddenFor(Model => Model.BusinessId, new { Id = "hdnBusinessId" })
+                    @Html.HiddenFor(Model => Model.ProfessionalId, new { Id = "hdnProfessionalId" })
                     <div class="form-group mb-4">
                         <label>Start Date & Time: <input class="form-control mt-2" type="datetime" id="start-datetime-picker" onchange="Validate_CreateSchedule('start')"></label>
                     </div>

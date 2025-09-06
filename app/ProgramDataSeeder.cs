@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using scheapp.app.Areas.Identity;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.app.Models.Data.TableModels.Professionals;
+using scheapp.data.Db.TableModels.Professionals;
 
 internal static class ProgramDataSeeder
 {

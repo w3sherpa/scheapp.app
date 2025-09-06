@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data.TableModels.Professionals;
+using scheapp.data.Db.TableModels.Professionals;
 
 namespace scheapp.app.Controllers.Data
 {

@@ -1,4 +1,4 @@
-﻿@model scheapp.app.Models.Data.TableModels.Businesses.Business
+﻿@model scheapp.data.Db.TableModels.Businesses.Business
 
 @{
     Layout = "_AdminLayout";
@@ -15,11 +15,6 @@
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-2">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="Website" class="control-label"></label>

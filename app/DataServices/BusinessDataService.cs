@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data.TableModels.Businesses;
+using scheapp.data.Db.TableModels.Businesses;
 
 namespace scheapp.app.DataServices
 {

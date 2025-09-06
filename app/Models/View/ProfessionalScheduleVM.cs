@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using scheapp.app.Models.Data.TableModels.Professionals;
+using scheapp.data.Db.TableModels.Professionals;
 using System.ComponentModel.DataAnnotations;
 
 namespace scheapp.app.Models.View

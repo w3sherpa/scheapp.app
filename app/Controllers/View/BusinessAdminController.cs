@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.app.Models.Data.DspModels;
-using scheapp.app.Models.Data.TableModels.Customers;
+using scheapp.data.Db.DspModels;
+using scheapp.data.Db.TableModels.Customers;
 using scheapp.app.Models.View;
 
 namespace scheapp.app.Controllers.View

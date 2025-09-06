@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using scheapp.app.Areas.Identity;
 using scheapp.app.Controllers;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.app.Models.Data.DspModels;
-using scheapp.app.Models.Data.TableModels.Businesses;
+using scheapp.data.Db.DspModels;
+using scheapp.data.Db.TableModels.Businesses;
+using scheapp.data.Db.TableModels.Professionals;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -118,7 +120,8 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
             public string ConfirmPassword { get; set; }
             [Required]
             public string BusinessId { get; set; }
-
+            [Required]
+            public bool IsBusinessAdmin { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> BusinessList { get; set; }
         }
@@ -175,15 +178,20 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, "business_professional");
+                    string assignedRole = Input.IsBusinessAdmin.ToString().ToUpper() == "TRUE" ? "business_admin" : "business_professional";
+                    await _userManager.AddToRoleAsync(user, assignedRole);
                     var userId = await _userManager.GetUserIdAsync(user);
-                    var result2 = await _professionalDataService.SaveProfessionals(new Models.Data.TableModels.Professionals.Professional
+                    var userName = await _userManager.GetUserNameAsync(user);
+                    var result2 = await _professionalDataService.SaveProfessionals(new Professional
                     {
                         FirstName = user.Firstname,
                         MiddleName = "",
                         LastName = user.Lastname,
                         AspNetUserId = userId,
-                        BusinessId = Convert.ToInt32(Input.BusinessId)
+                        BusinessId = Convert.ToInt32(Input.BusinessId),
+                        AspNetUserName = userName,
+                        Email = Input.Email,
+                        ProfessionalRole = assignedRole
                     });
 
                     return Redirect("/BusinessAdmin");

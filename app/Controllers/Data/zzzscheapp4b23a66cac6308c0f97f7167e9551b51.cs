@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
 using scheapp.app.Models.API;
-using scheapp.app.Models.Data.DspModels;
+using scheapp.data.Db.DspModels;
 using System.Data.Common;
 using System.Text;
 using System.Web;
