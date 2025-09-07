@@ -33,9 +33,6 @@ function operateFormatter() {
     return [
         '<a class="scheapp-edit-schedule btn btn-outline-warning me-2" href="javascript:void(0)" title="Edit">',
         '<i class="fa fa-edit"></i>',
-        '</a>',
-        '<a class="scheapp-delete-schedule btn btn-outline-danger" href="javascript:void(0)" title="Delete">',
-        '<i class="fa fa-trash"></i>',
         '</a>'
     ].join('')
 }
