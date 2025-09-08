@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.HttpOverrides;
+﻿using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -7,6 +7,7 @@ using scheapp.app.Data;
 using scheapp.app.DataServices;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
+using scheapp.data.Db.DbContexts;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System.Text;
@@ -103,6 +104,16 @@ try
     //});
 
     app.Logger.LogWarning("ScheApp app started.");
+    //check for db connection
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ScheAppIdentityContext>();
+        if (!await db.Database.CanConnectAsync())
+        {
+            throw new Exception("❌ Identity database connection failed. Check connection string or DB status.");
+        }
+        Console.WriteLine("✅ Identity database connection successful.");
+    }
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
     {

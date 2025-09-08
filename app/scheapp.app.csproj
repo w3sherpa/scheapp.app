@@ -40,7 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\scheapp.data\scheapp.data.csproj" />
+    <Reference Include="scheapp.data">
+      <HintPath>Libraries\scheapp.data.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

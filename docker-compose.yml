@@ -1,10 +1,17 @@
 services:
-  webapp:
+  ui_scheapp:
     image: w3sherpa/scheapp-app:latest
     ports:
       - 8091:8091
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8091
     networks:
       - scheapp_net
+networks:
+  scheapp_net:
+    external: true
+#docker build -t scheapp-app:latest .
+#docker login -u lonheeti@gmail.com -p T3serract
+#docker tag scheapp-app w3sherpa/scheapp-app:latest
+#docker push w3sherpa/scheapp-app:latest

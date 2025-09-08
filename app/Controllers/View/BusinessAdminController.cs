@@ -55,6 +55,7 @@ namespace scheapp.app.Controllers.View
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 _logger.LogError("{@Exception}", ex);
                 return Content("SORRY, ERROR OCCURED!.");
             }
