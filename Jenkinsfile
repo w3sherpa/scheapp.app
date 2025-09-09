@@ -5,8 +5,8 @@ pipeline {
     JENKINS_CREDENTIAL_ID = "dockerhub"
     JENKINS_CREDENTIAL_VARIABLE = "dockerhubpwd"
     JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER = 'websherpa'
-    SERVICE_NAME = "scheapp-app"
-    SERVICE_NAME_DOCKER_RUN = "scheapp_app"
+    SERVICE_TAG = "scheapp-app"
+    SERVICE_NAME = "ui_scheapp"
     SEVICE_PORT = 8002
     HOST_IP = "192.168.1.19"
     registryCredential = 'dockerhub'
@@ -25,7 +25,7 @@ pipeline {
         withCredentials([string(credentialsId: 'AuthenticationScheme__Google__ClientId', variable: 'GoogleClientId')
                         , string(credentialsId: 'AuthenticationScheme__Google__ClientSecret', variable: 'GoogleClientSecret')]) {
              script {
-                  sh "docker build -t ${SERVICE_NAME}:latest --build-arg GoogleClientId=${GoogleClientId} --build-arg GoogleClientSecret=${GoogleClientSecret} ."          
+                  sh "docker build -t ${SERVICE_TAG}:latest --build-arg GoogleClientId=${GoogleClientId} --build-arg GoogleClientSecret=${GoogleClientSecret} ."          
                 }
           }
       }
@@ -35,8 +35,8 @@ pipeline {
         script {
           withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhubpwd')]) {
               sh 'docker login -u ${DOCKER_ACCOUNT_EMAIL} -p ${dockerhubpwd}'
-              sh "docker tag ${SERVICE_NAME} ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest"
-              sh "docker push ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest"
+              sh "docker tag ${SERVICE_TAG} ${DOCKER_ACCOUNT_NAME}/${SERVICE_TAG}:latest"
+              sh "docker push ${DOCKER_ACCOUNT_NAME}/${SERVICE_TAG}:latest"
               sh 'docker logout'
           }
         }
@@ -46,7 +46,7 @@ pipeline {
       steps {
        script{
          sshagent(['sshwebserver']) {
-              def containerId = sh(script: 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker ps -q --filter ancestor=${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest', returnStdout: true).trim()
+              def containerId = sh(script: 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker ps -q --filter ancestor=${DOCKER_ACCOUNT_NAME}/${SERVICE_TAG}:latest', returnStdout: true).trim()
               echo 'container id is :' + containerId
               if(containerId != ""){
                   def command = 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker stop '+ containerId
@@ -54,8 +54,8 @@ pipeline {
               }
               withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhubpwd')]) {
                 sh 'docker login -u ${DOCKER_ACCOUNT_EMAIL} -p ${dockerhubpwd}'
-                sh 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker image pull ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest'
-                sh 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker run --rm -d --name=${SERVICE_NAME_DOCKER_RUN} -p ${SEVICE_PORT}:8080 ${DOCKER_ACCOUNT_NAME}/${SERVICE_NAME}:latest'
+                sh 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker image pull ${DOCKER_ACCOUNT_NAME}/${SERVICE_TAG}:latest'
+                sh 'ssh -o StrictHostKeyChecking=no -l ${JENKINS_CREDENTIAL_DEPLOYMENT_SERVER_USER} ${HOST_IP} sudo docker run --rm -d --name=${SERVICE_NAME} -p ${SEVICE_PORT}:8080 ${DOCKER_ACCOUNT_NAME}/${SERVICE_TAG}:latest'
               }
               
           }

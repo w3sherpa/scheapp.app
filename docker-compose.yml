@@ -10,7 +10,8 @@ services:
       - scheapp_net
 networks:
   scheapp_net:
-    external: true
+    name: scheapp_net
+    driver: bridge
 #docker build -t scheapp-app:latest .
 #docker login -u lonheeti@gmail.com -p T3serract
 #docker tag scheapp-app w3sherpa/scheapp-app:latest
