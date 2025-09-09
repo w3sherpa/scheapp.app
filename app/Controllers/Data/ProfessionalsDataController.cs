@@ -122,7 +122,7 @@ namespace scheapp.app.Controllers.Data
         {
             try
             {
-
+                
                 return Ok();
             }
             catch (Exception ex)
@@ -132,12 +132,12 @@ namespace scheapp.app.Controllers.Data
             }
         }
         [HttpPost]
-        public async Task<IActionResult> GetServicesByProfessionalId([FromBody] RequestByProfessionalId businessInfoRQ)
+        public async Task<IActionResult> GetServicesByProfessionalId([FromBody] RequestByProfessionalId req)
         {
             try
             {
-
-                return Ok();
+                var result = await _professionalsDataService.GetProfessionalServices(req.ProfessionalId);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -145,7 +145,6 @@ namespace scheapp.app.Controllers.Data
                 return StatusCode(500, "Error Occured.");
             }
         }
-
         [HttpPost]
         public async Task<IActionResult> SaveProfessionalSchedules([FromBody] SaveProfessionalScheduleRQ req)
         {

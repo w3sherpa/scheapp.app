@@ -25,15 +25,16 @@ namespace scheapp.app.DataServices
         public async Task<List<ProfessionalScheduleAppointmentRequest>> GetProfessionalScheduleAppointmentRequests() => await _apiHelper.CallGetApi<List<ProfessionalScheduleAppointmentRequest>>("/Professional/GetProfessionalScheduleAppointmentRequests");
         public async Task SaveProfessionalScheduleAppointmentRequests(ProfessionalScheduleAppointmentRequest professional) => await _apiHelper.CallPostApi<ProfessionalScheduleAppointmentRequest>("/Professional/SaveProfessionalScheduleAppointmentRequests", professional);
         //public async Task<List<ProfessionalService>> GetProfessionalServices() => await _apiHelper.CallGetApi<List<ProfessionalService>>("/Professional/GetProfessionalServices");
+        public async Task<List<ProfessionalService>> GetProfessionalServices(int professionalId) => await _apiHelper.CallGetApi<List<ProfessionalService>>($"/Professional/GetProfessionalServices?professionalId={professionalId}");
         public async Task SaveProfessionalServices(ProfessionalService professional) => await _apiHelper.CallPostApi<ProfessionalService>("/Professional/SaveProfessionalServices", professional);
 
         public async Task<List<ProfessionalScheduleAppointmentRequestsDetailDsp>> GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId(int businessId, DateOnly? date)
         {
             return await _apiHelper.CallGetApi<List<ProfessionalScheduleAppointmentRequestsDetailDsp>>($"/Professional/GetProfessionalScheduleAppointmentRequestsDetailsByBusinessId?businessId={businessId}&date={date}");
         } 
-        public async Task<List<ProfessionalBusinessDetailDsp>> GetProfessionalBusinessDetailDsp(int? professionaId, int? businessId)
+        public async Task<List<ProfessionalBusinessDetailDsp>> GetProfessionalBusinessDetailDsp(int? professionalId, int? businessId)
         {
-            return await _apiHelper.CallGetApi<List<ProfessionalBusinessDetailDsp>>($"/Professional/GetProfessionalBusinessDetails?professionalId={professionaId}&businessId={businessId}");
+            return await _apiHelper.CallGetApi<List<ProfessionalBusinessDetailDsp>>($"/Professional/GetProfessionalBusinessDetails?professionalId={professionalId}&businessId={businessId}");
         }
     }
 }

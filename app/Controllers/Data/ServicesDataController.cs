@@ -39,7 +39,7 @@ namespace scheapp.app.Controllers.Data
             try
             {
                 var result = await _servicesDataService.GetServices(requestByBusinessId.BusinessId);
-                return Ok();
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -74,6 +74,6 @@ namespace scheapp.app.Controllers.Data
                 //_logger.LogError("{@Exception}", ex);
                 return StatusCode(500, "Error Occured.");
             }
-        }
+        }        
     }
 }

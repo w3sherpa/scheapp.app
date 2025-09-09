@@ -167,8 +167,8 @@ function initTable() {
                     if (!response.ok) {
                         throw new Error(`Response status: ${response.status}`);
                     }
-                    //const json = await response.json();
-                    //console.log(json);
+                    const json = await response.json();
+                    console.log(json);
 
                     window.location.reload();
                 } catch (error) {

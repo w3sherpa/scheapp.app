@@ -1,5 +1,6 @@
 ﻿
 let businessIdFromHdnInput = $('#hdnBusinessId').val();
+let professionalIdFromHdnInput = $('#hdnProfessionalId').val();
 
 const $table = $('#table')
 const $remove = $('#remove')
@@ -34,6 +35,9 @@ function operateFormatter() {
         '<a class="scheapp-schedules-action btn btn-outline-info me-2" href="javascript:void(0)" title="Schedules">',
         '<i class="fa fa-calendar"></i>',
         '</a>  ',
+        '<a class="scheapp-services-action btn btn-outline-info me-2" href="javascript:void(0)" title="Services">',
+        '<i class="fa fa-wrench"></i>',
+        '</a> ',
         '<a class="scheapp-edit-action btn btn-outline-warning me-2" href="javascript:void(0)" title="Edit">',
         '<i class="fa fa-edit"></i>',
         '</a>',
@@ -52,7 +56,31 @@ window.operateEvents = {
         alert('confirm delete ' + row.id)
     },
     'click .scheapp-schedules-action'(e, value, row) {
-        window.location.href = '/Professionals/Schedules?businessId=' + row.businessId +'&professionalId='+ row.id
+        window.open('/Professionals/Schedules?businessId=' + row.businessId + '&professionalId=' + row.id, "_blank");
+    },
+    'click .scheapp-services-action'(e, value, row) {
+        try {
+            console.log(businessIdFromHdnInput)
+            fetch("/ServicesData/GetServicesByBusinessId", GetScheAppPOSTFetchObject({ BusinessId: businessIdFromHdnInput }))
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data)
+                    console.log(professionalIdFromHdnInput)
+                    fetch("/ProfessionalsData/GetServicesByProfessionalId", GetScheAppPOSTFetchObject({ ProfessionalId: professionalIdFromHdnInput }))
+                        .then(response2 => response2.json())
+                        .then(data2 => {
+                            console.log(data2)
+                            $('#addServicesToProfessional').modal('toggle');
+                        }
+                    );
+                }
+            );
+            
+        } catch (error) {
+            console.error(error.message);
+        }
+        $remove.prop('disabled', true)
     }
 }
 
