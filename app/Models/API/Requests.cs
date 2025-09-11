@@ -102,4 +102,12 @@ namespace scheapp.app.Models.API
         public string? Long { get; set; }
         public string? IsActive { get; set; }
     }
+    public class UploadImageRQ
+    {
+        public int BusinessId { get; set; }
+        public string UserType { get; set; }
+        public int UserTypeId { get; set; }
+        public string FileName { get; set; }
+        public IFormFile Image { get; set; }
+    }
 }
