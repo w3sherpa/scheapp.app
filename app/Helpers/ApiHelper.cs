@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NuGet.Protocol;
-using scheapp.api.DataServices;
+using scheapp.app.DataServices;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
@@ -69,10 +69,10 @@ namespace scheapp.app.Helpers
             var response = new AddImageRS();
             using (var form = new MultipartFormDataContent())
             {
-                form.Add(new StringContent("BusinessId"), businessId.ToString());
-                form.Add(new StringContent("UserType"), businessId.ToString());
-                form.Add(new StringContent("UserTypeId"), businessId.ToString());
-                form.Add(new StringContent("FileName"), businessId.ToString());
+                form.Add(new StringContent(businessId.ToString()), "BusinessId");
+                form.Add(new StringContent(userType), "UserType");
+                form.Add(new StringContent(userId.ToString()), "UserTypeId");
+                form.Add(new StringContent(fileName), "FileName");
                 var byteContentArray = new ByteArrayContent(fileBytes);
                 byteContentArray.Headers.ContentType = MediaTypeHeaderValue.Parse(contentType); //example image/png , image/jpg
                 form.Add(byteContentArray, "Image", fileName);

@@ -1,41 +1,47 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using scheapp.app.DataServices;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
+using System.IO;
 using System.Reflection;
 
 
 namespace scheapp.api.Controllers
 {
     [Route("[controller]/[Action]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class ImageController : ControllerBase
     {
         private readonly ILogger _logger;
-        public ImageController(ILogger<ImageController> logger)
+        private readonly IImageDataService _imageDataService;
+        public ImageController(ILogger<ImageController> logger, IImageDataService imageDataService)
         {
             _logger = logger;
+            _imageDataService = imageDataService;
         }
-        [HttpGet("{fileName}")]
-        public IActionResult GetImage(string fileName)
+        [HttpGet]
+        public async Task<IActionResult> GetImage(int professionalId)
         {
-            var exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string separator = Path.DirectorySeparatorChar.ToString();
-            var uploadedDirectory = $"{exeDir}{separator}zzzUploadedImages";
-            var filePath = Path.Combine(uploadedDirectory, fileName);
-
-            if (!System.IO.File.Exists(filePath))
+            try
             {
-                return NotFound("Image not found.");
+                var imageResponse = await _imageDataService.GetProfessionalImageAsync(1, professionalId);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    imageResponse.FileStream.CopyTo(memoryStream);
+                    var imageBytes = memoryStream.ToArray();
+                    return File(imageBytes, "image/png");
+                }
+                return NotFound();
             }
-
-            // Read file as byte[]
-            var bytes = System.IO.File.ReadAllBytes(filePath);
-
-            // Return with proper MIME type
-            return File(bytes, "image/png");
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return NotFound();
+            }
         }
     }
 

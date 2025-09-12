@@ -7,6 +7,8 @@ using System.Reflection;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
+using scheapp.app.Models.API;
+using scheapp.app.DataServices;
 
 namespace scheapp.app.Controllers.View
 {
@@ -15,10 +17,14 @@ namespace scheapp.app.Controllers.View
     {
         private readonly ILogger _logger;
         private readonly IProfessionalDataService _professionalDataService;
-        public ProfessionalsController(ILogger<ProfessionalsController> logger, IProfessionalDataService professionalDataService)
+        private readonly IImageDataService _imageDataService;
+        public ProfessionalsController(ILogger<ProfessionalsController> logger
+            , IProfessionalDataService professionalDataService
+            ,IImageDataService imageDataService)
         {
             _logger = logger;
             _professionalDataService = professionalDataService;
+            _imageDataService = imageDataService;
         }
         
         public async Task<IActionResult> Schedules(int? businessId,int? professionalId)
@@ -115,37 +121,34 @@ namespace scheapp.app.Controllers.View
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadImage(IFormFile file)
+        public async Task<IActionResult> UploadImage(UploadImageRQ request)
         {
-            var verifiedBusinessProfessional = await CommonControllerUtility.GetLoggedInProfessionalBusinessDetails(_professionalDataService, User.Identity.Name, 3);
-            if (file == null || file.Length == 0)
-                return BadRequest("No file uploaded.");
-            var exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string separator = Path.DirectorySeparatorChar.ToString();
-
-            var uploadedDirectory = $"{exeDir}{separator}wwwroot{separator}images{separator}uploaded";
-            if(!Directory.Exists(uploadedDirectory))
-                Directory.CreateDirectory(uploadedDirectory);
-            string fullFilePath = $"{uploadedDirectory}{separator}professional-{verifiedBusinessProfessional.ProfessionalId}.jpg";
-            using var image = await Image.LoadAsync(file.OpenReadStream());
-
-            // Optional processing (e.g., auto-orientation)
-            image.Mutate(x => x.AutoOrient());
-
-            // Save as JPEG with compression
-            var jpegEncoder = new JpegEncoder
+            try
             {
-                Quality = 25 // Value between 0 (worst) to 100 (best)
-            };
+                var verifiedBusinessProfessional = await CommonControllerUtility.GetLoggedInProfessionalBusinessDetails(_professionalDataService, User.Identity.Name, request.BusinessId);
+                if (request.Image == null || request.Image.Length == 0)
+                    return BadRequest("No file uploaded.");
 
-            await image.SaveAsJpegAsync(fullFilePath, jpegEncoder);
-
-            using (var stream = new FileStream(fullFilePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
+                if (verifiedBusinessProfessional != null)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        request.Image.CopyTo(ms);
+                        var fileBytes = ms.ToArray();
+                        var result = await _imageDataService.AddProfessionalImageAsync(verifiedBusinessProfessional.BusinessId.GetValueOrDefault()
+                            , verifiedBusinessProfessional.ProfessionalId.GetValueOrDefault()
+                            , fileBytes
+                            , $"{verifiedBusinessProfessional.ProfessionalId}"
+                            , "image/png");
+                    }
+                }
+                return Ok();
             }
-
-            return Ok(new { file.FileName, path = fullFilePath });
+            catch(Exception ex)
+            {
+                _logger.LogError("{@Exception}", ex);
+                return Content("SORRY, ERROR OCCURED!.");
+            }
         }
     }
 }

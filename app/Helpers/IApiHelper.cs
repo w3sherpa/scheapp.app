@@ -1,4 +1,4 @@
-﻿using scheapp.api.DataServices;
+﻿using scheapp.app.DataServices;
 
 namespace scheapp.app.Helpers
 {
@@ -8,5 +8,6 @@ namespace scheapp.app.Helpers
         Task<HttpResponseMessage> CallPostApi<T>(string endpointPath, T payload);
         Task<G_ResponseModelType> CallPostApi<G_RequestModelType, G_ResponseModelType>(string endpointPath, G_RequestModelType payload);
         Task<AddImageRS> UploadFile(string uploadPath, int businessId, string userType, int userId, byte[] fileBytes, string fileName, string contentType);
+        Task<GetImageRS> DownloadFile(string downloadPath, int businessId, string userType, int userId);
     }
 }

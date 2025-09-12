@@ -9,6 +9,7 @@
     string userRole = "";
     if (businessProfessional.ProfessionalRole.ToUpper() == "BUSINESS_ADMIN") userRole = "Admin";
     string professionalAvatar = $"professional-{businessProfessional.ProfessionalId}.jpg";
+    int professionalsBusinessId = businessProfessional.BusinessId.GetValueOrDefault();
 }
 <html lang="en" data-bs-theme="dark">
 <head>
@@ -50,7 +51,7 @@
                                         <div class="sidebar-header">
                                             <div class="d-flex flex-row">
                                                 <div class="user-pic">
-                                                    <img class="img-responsive img-rounded" src="~/images/uploaded/@professionalAvatar" alt="User picture">
+                                    <img class="img-responsive img-rounded" src="~/image/getimage?professionalId=@businessProfessional.ProfessionalId" alt="User picture">
                                                 </div>
                                             <div id="divUploadImage">
                                                 <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#uploadImageOptionModal">
@@ -265,24 +266,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <input id="hdnBusinessIdForUploadImage" value="@Html.Raw(professionalsBusinessId)" />
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body d-flex flex-md-column">
-                        <div>
-                            <video id="video" width="100%" height="240" autoplay></video>
-                        </div>
-                         <div>
-                            <button class="btn btn-outline-success mb-3" id="snap"><i class="fa-solid fa-camera"></i></button>
-                        </div>
-                        <div>
-                            <canvas id="canvas" width="400" height="240" style="display: none;"></canvas>
-                        </div>
                         <script>
+                            let video = null;
+                            let canvas = null;
+                            let context = null;
                             function openCamera() {
-                                let video = null;
-                                let canvas = null;
-                                let context = null;
-                                
                                 video = document.getElementById('video');
                                 canvas = document.getElementById('canvas');
                                 canvas.style.display = 'none';
@@ -291,40 +283,50 @@
                                 navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
                                     video.srcObject = stream;
                                 });
+                            }
+                            function SnapPicture() {
+                                context.drawImage(video, 0, 0, 320, 240);
+                                canvas.style.display = 'block';
+                            }
 
-                                document.getElementById('snap').addEventListener('click', () => {
-                                    context.drawImage(video, 0, 0, 320, 240);
-                                    canvas.style.display = 'block';
-                                });
-
-                                document.getElementById('upload').addEventListener('click', () => {
+                            function UploadPicture() {
                                     canvas.toBlob(blob => {
-                                        let formData = new FormData();
-                                        formData.append("file", blob, "snapshot.jpg");
+                                    let formData = new FormData();
+                                    formData.append("image", blob, "snapshot.jpg");
+                                    formData.append("businessId", $("#hdnBusinessIdForUploadImage").val());
 
-                                        fetch("/professionals/UploadImage", {
-                                            method: "POST",
-                                            body: formData
-                                        }).then(res => res.json())
-                                            .then(data => 
-                                                { 
-                                                    $('#cameraPictureModal').modal('toggle');
-                                                    Swal.fire({
-                                                        title: "Success",
-                                                        text: "Image uploaded successfully.",
-                                                        icon: "success"
-                                                    });
-                                                }
-                                            )
-                                            .catch(err => console.error("Upload error:", err));
-                                    }, "image/jpeg");
-                                });
+                                    fetch("/professionals/UploadImage", {
+                                        method: "POST",
+                                        body: formData
+                                    }).then(res => res.json())
+                                        .then(data =>
+                                            {
+                                                $('#cameraPictureModal').modal('toggle');
+                                                Swal.fire({
+                                                    title: "Success",
+                                                    text: "Image uploaded successfully.",
+                                                    icon: "success"
+                                                });
+                                            }
+                                        )
+                                        .catch(err => console.error("Upload error:", err));
+                                }, "image/jpeg");
                             }
                         </script>
+                        <div>
+                            <video id="video" width="100%" height="240" autoplay></video>
+                        </div>
+                         <div>
+                            <button class="btn btn-outline-success mb-3" id="snap" onclick="SnapPicture();"><i class="fa-solid fa-camera"></i></button>
+                        </div>
+                        <div>
+                            <canvas id="canvas" width="400" height="240" style="display: none;"></canvas>
+                        </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="upload" type="button" class="btn btn-primary">Upload</button>
+                        <button id="upload" type="button" class="btn btn-primary" onclick="UploadPicture();">Upload</button>
                     </div>
                 </div>
             </div>

@@ -96,6 +96,7 @@ try
     builder.Services.AddScoped<IServiceDataService, ServiceDataService>();
     builder.Services.AddScoped<IContactsDataService, ContactsDataService>();
     builder.Services.AddScoped<ICommunicationDataService, CommunicationDataService>();
+    builder.Services.AddScoped<IImageDataService, ImageDataService>();
 
     var app = builder.Build();
     //app.UseForwardedHeaders(new ForwardedHeadersOptions
