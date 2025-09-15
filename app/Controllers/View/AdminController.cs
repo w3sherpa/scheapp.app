@@ -42,8 +42,9 @@ namespace scheapp.app.Controllers.View
         }
         public IActionResult BusinessDetails(int businessId)
         {
-            
-            return View();
+            ProfessionalServiceRS vm = new ProfessionalServiceRS();
+            vm.BusinessId = businessId;
+            return View(vm);
         }
         public IActionResult Roles()
         {

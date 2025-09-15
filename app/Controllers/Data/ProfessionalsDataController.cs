@@ -24,7 +24,7 @@ namespace scheapp.app.Controllers.Data
             _professionalsDataService = professionalsDataService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetProfessionals(int? businessId)
+        public async Task<IActionResult> GetProfessionals(int businessId)
         {
             try
             {

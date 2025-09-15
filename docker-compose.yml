@@ -1,6 +1,6 @@
 services:
   ui_scheapp:
-    image: w3sherpa/scheapp-app:latest
+    image: w3sherpa/scheapp-ui:latest
     ports:
       - 8091:8091
     environment:
@@ -12,7 +12,7 @@ networks:
   scheapp_net:
     name: scheapp_net
     driver: bridge
-#docker build -t scheapp-app:latest .
+#docker build -t scheapp-ui:latest .
 #docker login -u lonheeti@gmail.com -p T3serract
-#docker tag scheapp-app w3sherpa/scheapp-app:latest
-#docker push w3sherpa/scheapp-app:latest
+#docker tag scheapp-ui w3sherpa/scheapp-ui:latest
+#docker push w3sherpa/scheapp-ui:latest

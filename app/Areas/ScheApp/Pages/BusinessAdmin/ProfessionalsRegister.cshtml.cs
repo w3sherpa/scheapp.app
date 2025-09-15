@@ -191,7 +191,8 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
                         BusinessId = Convert.ToInt32(Input.BusinessId),
                         AspNetUserName = userName,
                         Email = Input.Email,
-                        ProfessionalRole = assignedRole
+                        ProfessionalRole = assignedRole,
+                        IsActive = true
                     });
 
                     return Redirect("/BusinessAdmin");

@@ -1,13 +1,12 @@
 ﻿
 let businessIdFromHdnInput = $('#hdnBusinessId').val();
-let professionalIdFromHdnInput = $('#hdnProfessionalId').val();
 
-const $table = $('#table')
+const $professinalsTable = $('#professinalsTable')
 const $remove = $('#remove')
 let selections = []
 
 function getIdSelections() {
-    return $.map($table.bootstrapTable('getSelections'), function (row) {
+    return $.map($professinalsTable.bootstrapTable('getSelections'), function (row) {
         return row.id
     })
 }
@@ -64,10 +63,7 @@ window.operateEvents = {
             fetch("/ServicesData/GetServicesByBusinessId", GetScheAppPOSTFetchObject({ BusinessId: businessIdFromHdnInput }))
                 .then(response => response.json())
                 .then(data => {
-
-                    console.log(data)
-                    console.log(professionalIdFromHdnInput)
-                    fetch("/ProfessionalsData/GetServicesByProfessionalId", GetScheAppPOSTFetchObject({ ProfessionalId: professionalIdFromHdnInput }))
+                    fetch("/ProfessionalsData/GetServicesByProfessionalId", GetScheAppPOSTFetchObject({ ProfessionalId: row.id }))
                         .then(response2 => response2.json())
                         .then(data2 => {
                             console.log(data2)
@@ -93,7 +89,8 @@ function totalNameFormatter(data) {
 }
 
 function initTable() {
-    $table.bootstrapTable('destroy').bootstrapTable({
+    console.log('professional table created')
+    $professinalsTable.bootstrapTable('destroy').bootstrapTable({
         height: 600,
         pageSize: 10,
         width: 1000,
@@ -151,10 +148,22 @@ function initTable() {
             ]
         ]
     })
-    $table.on('check.bs.table uncheck.bs.table ' +
+    $professinalsTable.on('load-error.bs.table', function (e, status, res) {
+       
+        if (res && res.status === 404) {
+            console.log('laksdjfalskdfjasldfkjasldfkjasdlfkjsdf')
+        } else {
+            $('#errorContainer').html(`
+            <div class="alert alert-danger" role="alert">
+                Failed to load data: ${status}
+            </div>
+        `);
+        }
+    });
+    $professinalsTable.on('check.bs.table uncheck.bs.table ' +
         'check-all.bs.table uncheck-all.bs.table',
         function () {
-            $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
+            $remove.prop('disabled', !$professinalsTable.bootstrapTable('getSelections').length)
 
             // save your data, here just save the current page
             selections = getIdSelections();
@@ -163,7 +172,7 @@ function initTable() {
         })
 
     // //uncomment following to see how table is build
-    // $table.on('all.bs.table', function (e, name, args) {
+    // $professinalsTable.on('all.bs.table', function (e, name, args) {
     //   console.log(name, args)
     // })
 

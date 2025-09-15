@@ -6,9 +6,10 @@ namespace scheapp.app.Controllers
 {
     public static class CommonControllerUtility
     {
+        private const string ScheAppAdminUser = "saa@scheapp.com";
         public static async Task<ProfessionalBusinessDetailDsp?> GetLoggedInProfessionalBusinessDetails(IProfessionalDataService _professionalDataService,string loggedInUserName, int? businessId)
         {
-            List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, null);
+            List<ProfessionalBusinessDetailDsp> allProfessionalBusinessDetails = await _professionalDataService.GetProfessionalBusinessDetailDsp(null, businessId);
             ProfessionalBusinessDetailDsp? professionalBusinessDetailDsp = null;
             if (businessId == null)
             {
@@ -18,6 +19,15 @@ namespace scheapp.app.Controllers
             else
             {
                 professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == loggedInUserName && p.BusinessId == businessId).FirstOrDefault();
+                if(professionalBusinessDetailDsp == null)
+                {
+                    ////if logged in user is scheapp admin, give access to the business. 
+                    ///TODO: make it configuration
+                    if(loggedInUserName.Trim().ToUpper() == "SAA@SCHEAPP.COM")
+                    {
+                        return new ProfessionalBusinessDetailDsp { BusinessId = businessId };
+                    }
+                }
             }
             return professionalBusinessDetailDsp;
         }

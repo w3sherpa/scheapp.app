@@ -51,11 +51,6 @@
                     </select>
                     <span asp-validation-for="@Model.BusinessId" class="text-danger"></span>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="@Model.IsBusinessAdmin" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <label asp-for="@Model.IsBusinessAdmin">Confirm Password</label>
-                    <span asp-validation-for="@Model.IsBusinessAdmin" class="text-danger"></span>
-                </div>
                 <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
             }
     </div>
