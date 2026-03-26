@@ -1,9 +1,7 @@
 ﻿using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
 using scheapp.app.Models.API;
-using scheapp.data.Db.DspModels;
-using scheapp.data.Db.TableModels.Businesses;
-using scheapp.data.Db.TableModels.Professionals;
+
 
 namespace scheapp.app.DataServices
 {

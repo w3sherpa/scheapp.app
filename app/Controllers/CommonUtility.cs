@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.data.Db.DspModels;
+using scheapp.app.Models.API;
+
 
 namespace scheapp.app.Controllers
 {
@@ -25,7 +26,7 @@ namespace scheapp.app.Controllers
                     ///TODO: make it configuration
                     if(loggedInUserName.Trim().ToUpper() == "SAA@SCHEAPP.COM")
                     {
-                        return new ProfessionalBusinessDetailDsp { BusinessId = businessId };
+                        return new ProfessionalBusinessDetailDsp { BusinessId = businessId.GetValueOrDefault() };
                     }
                 }
             }

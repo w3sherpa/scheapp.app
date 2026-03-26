@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.data.Db.DspModels;
-using scheapp.data.Db.TableModels.Customers;
+using scheapp.app.Models.API;
 using scheapp.app.Models.View;
 
 namespace scheapp.app.Controllers.View
@@ -50,7 +49,7 @@ namespace scheapp.app.Controllers.View
                 }
                 else
                 {
-                    return Redirect($"/BusinessAdmin/Appointments?businessId={verifiedBusinessProfessional.BusinessId.GetValueOrDefault()}");
+                    return Redirect($"/BusinessAdmin/Appointments?businessId={verifiedBusinessProfessional.BusinessId}");
                 }
             }
             catch (Exception ex)
@@ -206,12 +205,17 @@ namespace scheapp.app.Controllers.View
             if (businessId == null)
             {
                 //make sure logged in user has permission to the business profile
-                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername).First();
+                professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername).FirstOrDefault();
             }
             else
             {
                 professionalBusinessDetailDsp = allProfessionalBusinessDetails.Where(p => p.Email == emailUsername && p.BusinessId == businessId).FirstOrDefault();
             }
+            if(professionalBusinessDetailDsp == null)
+            {
+                _logger.LogError($"Either {emailUsername} is not admin or does not have business association with businessId:{businessId}");
+            }
+            
             return professionalBusinessDetailDsp;
         }
     }

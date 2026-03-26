@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using scheapp.app.Helpers;
-using scheapp.data.Db.DbContexts;
-using scheapp.data.Db.TableModels.Images;
-using System;
+﻿using scheapp.app.Helpers;
 
 namespace scheapp.app.DataServices
 {

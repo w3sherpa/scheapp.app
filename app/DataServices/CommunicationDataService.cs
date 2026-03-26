@@ -1,7 +1,6 @@
 ﻿using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
 using scheapp.app.Models.API;
-using scheapp.data.Db.TableModels.Communication;
 
 namespace scheapp.app.DataServices
 {
@@ -16,7 +15,7 @@ namespace scheapp.app.DataServices
         }
 
         public async Task<List<CustomerCall>> GetCustomerCalls() => await _apiHelper.CallGetApi<List<CustomerCall>>("/Communication/GetCustomerCalls");
-        public async Task<List<ProfessionalCall>> GetProfessionalCalls() => await _apiHelper.CallGetApi<List<ProfessionalCall>>("/Communication/GetProfessionalCalls");
+        //public async Task<List<ProfessionalCall>> GetProfessionalCalls() => await _apiHelper.CallGetApi<List<ProfessionalCall>>("/Communication/GetProfessionalCalls");
         public async Task UpdateTwilioCallStatus(TwilioStatusCallback statusCallback) => await _apiHelper.CallPostApi<TwilioStatusCallback>("/Communication/UpdateTwilioCallStatus", statusCallback);
 
     }

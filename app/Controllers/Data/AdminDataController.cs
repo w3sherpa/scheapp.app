@@ -43,7 +43,7 @@ namespace scheapp.app.Controllers.Data
                                                                                                         , RequestDate = s.RequestDate.ToString(dateFormat)
                                                                                                         , ServiceName = s.ServiceName
                                                                                                         , ScheduleAppointmentId = s.ScheduleAppointmentId
-                                                                                                        , Customer = $"{s.CustFrist} {s.CustLast}"
+                                                                                                        , Customer = $"{s.CustFirst} {s.CustLast}"
                                                                                                         , Professional = $"{s.ProFirst} {s.ProLast}"
                 }).ToList();
 

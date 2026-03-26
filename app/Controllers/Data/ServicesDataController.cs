@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.API;
-using scheapp.data.Db.TableModels.Services;
 
 namespace scheapp.app.Controllers.Data
 {

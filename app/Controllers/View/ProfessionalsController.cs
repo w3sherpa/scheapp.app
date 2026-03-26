@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.data.Db.DspModels;
+
 using scheapp.app.Models.View;
 using System.Reflection;
 using SixLabors.ImageSharp;
@@ -48,7 +48,7 @@ namespace scheapp.app.Controllers.View
                         }
                      
                         var professionalsDetails = (await _professionalDataService.GetProfessionalBusinessDetailDsp(professionalId, businessId)).FirstOrDefault();
-                        var professionalSchedules = await _professionalDataService.GetProfessionalSchedules(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(), professionalId);
+                        var professionalSchedules = await _professionalDataService.GetProfessionalSchedules(verifiedBusinessProfessional.BusinessId, professionalId);
                         var filtered = professionalSchedules.Where(s => s.ProfessionalId == professionalId).ToList();
                         ProfessionalScheduleVM vm = new ProfessionalScheduleVM();
                         vm.BusinessId = professionalsDetails.BusinessId;
@@ -135,8 +135,8 @@ namespace scheapp.app.Controllers.View
                     {
                         request.Image.CopyTo(ms);
                         var fileBytes = ms.ToArray();
-                        var result = await _imageDataService.AddProfessionalImageAsync(verifiedBusinessProfessional.BusinessId.GetValueOrDefault()
-                            , verifiedBusinessProfessional.ProfessionalId.GetValueOrDefault()
+                        var result = await _imageDataService.AddProfessionalImageAsync(verifiedBusinessProfessional.BusinessId
+                            , verifiedBusinessProfessional.ProfessionalId
                             , fileBytes
                             , $"{verifiedBusinessProfessional.ProfessionalId}"
                             , "image/png");

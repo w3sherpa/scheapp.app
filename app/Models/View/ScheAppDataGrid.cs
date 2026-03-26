@@ -1,4 +1,5 @@
-﻿using scheapp.data.Db.TableModels.Professionals;
+﻿using scheapp.app.Models.API;
+
 
 namespace scheapp.app.Models.View
 {

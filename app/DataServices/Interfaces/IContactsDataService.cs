@@ -1,5 +1,4 @@
 ﻿using scheapp.app.Models.API;
-using scheapp.data.Db.TableModels.Contacts;
 
 namespace scheapp.app.DataServices.Interfaces
 {

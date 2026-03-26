@@ -1,8 +1,4 @@
-﻿using scheapp.data.Db.TableModels.Professionals;
-using scheapp.data.Db.TableModels.Services;
-using System.ComponentModel.DataAnnotations;
-
-namespace scheapp.app.Models.API
+﻿namespace scheapp.app.Models.API
 {
     public class ProfessionalServiceRS
     {

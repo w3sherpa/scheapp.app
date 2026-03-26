@@ -1,6 +1,6 @@
 ﻿using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.data.Db.TableModels.Customers;
+using scheapp.app.Models.API;
 
 namespace scheapp.app.DataServices
 {

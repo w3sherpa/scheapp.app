@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.View;
-using scheapp.data.Db.TableModels.Professionals;
+
 using scheapp.app.Models.API;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +33,7 @@ namespace scheapp.app.Controllers.Data
                 {
                     if (verifiedBusinessProfessional.BusinessId != null)
                     {
-                        var professionals = await _professionalsDataService.GetProfessionals(verifiedBusinessProfessional.BusinessId.GetValueOrDefault());
+                        var professionals = await _professionalsDataService.GetProfessionals(verifiedBusinessProfessional.BusinessId);
                         return Ok(professionals);
                     }
                     else
@@ -63,7 +63,7 @@ namespace scheapp.app.Controllers.Data
                 {
                     if (verifiedBusinessProfessional.BusinessId != null)
                     {
-                        var professionalSchedules = await _professionalsDataService.GetProfessionalSchedules(verifiedBusinessProfessional.BusinessId.GetValueOrDefault(), professionalId);
+                        var professionalSchedules = await _professionalsDataService.GetProfessionalSchedules(verifiedBusinessProfessional.BusinessId, professionalId);
 
                         ScheAppDataGrid scheAppDataGrid = new ScheAppDataGrid();
                         scheAppDataGrid.Total = professionalSchedules.Count;
@@ -157,9 +157,9 @@ namespace scheapp.app.Controllers.Data
                 scheappApiRQ.BusinessId = req.BusinessId;
                 scheappApiRQ.DaysOfWeek = req.DaysOfWeek;
                 scheappApiRQ.StartDate = DateOnly.Parse(startDateParts[0]);
-                scheappApiRQ.StartTime = startDateParts[1];
+                scheappApiRQ.StartTime = TimeOnly.Parse(startDateParts[1]);
                 scheappApiRQ.EndDate = DateOnly.Parse(endDateParts[0]);
-                scheappApiRQ.EndTime = endDateParts[1];
+                scheappApiRQ.EndTime = TimeOnly.Parse(endDateParts[1]);
                 HttpResponseMessage httpResponseMessage = await _professionalsDataService.SaveProfessionalSchedules(scheappApiRQ);
                 return Ok( new GenericApiResponse { Status = (int)httpResponseMessage.StatusCode, Message = httpResponseMessage.ReasonPhrase});
             }

@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 @using Microsoft.AspNetCore.Identity
-@using scheapp.data.Db.DspModels
+@using scheapp.app.Models.API
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
@@ -9,7 +10,7 @@
     string userRole = "";
     if (businessProfessional.ProfessionalRole.ToUpper() == "BUSINESS_ADMIN") userRole = "Admin";
     string professionalAvatar = $"professional-{businessProfessional.ProfessionalId}.jpg";
-    int professionalsBusinessId = businessProfessional.BusinessId.GetValueOrDefault();
+    int professionalsBusinessId = businessProfessional.BusinessId;
 }
 <html lang="en" data-bs-theme="dark">
 <head>
@@ -26,6 +27,7 @@
     <link href="~/lib/font-awesome/all.css" rel="stylesheet" />
     @* <link href="~/lib/bootstrap-timpicker/bootstrap-timepicker.min.css" rel="stylesheet" /> *@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.24.1/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.24/dist/sweetalert2.min.css">
 </head>
 <body>
 

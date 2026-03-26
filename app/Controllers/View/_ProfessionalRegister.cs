@@ -1,22 +1,13 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Identity.Client;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using scheapp.app.Areas.Identity;
-using scheapp.app.Areas.ScheApp.Pages.BusinessAdmin;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.app.Helpers;
-using scheapp.data.Db.DspModels;
-using scheapp.data.Db.TableModels.Professionals;
+using scheapp.app.Models.API;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 
 namespace scheapp.app.Controllers.View
 {
@@ -63,7 +54,7 @@ namespace scheapp.app.Controllers.View
                 professionalRegistrationModel.BusinessList = allProfessionalBusinessDetails.Select(i => new SelectListItem
                     {
                         Text = i.BusinessName,
-                        Value = i.BusinessId.GetValueOrDefault().ToString()
+                        Value = i.BusinessId.ToString()
                     });
             }
             else

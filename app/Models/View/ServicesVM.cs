@@ -1,4 +1,4 @@
-﻿using scheapp.data.Db.TableModels.Services;
+﻿using scheapp.app.Models.API;
 
 namespace scheapp.app.Models.View
 {

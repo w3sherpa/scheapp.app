@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Elasticsearch.Net.Specification.WatcherApi;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,17 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using scheapp.app.Areas.Identity;
-using scheapp.app.Controllers;
 using scheapp.app.DataServices.Interfaces;
-using scheapp.data.Db.DspModels;
-using scheapp.data.Db.TableModels.Businesses;
-using scheapp.data.Db.TableModels.Professionals;
+using scheapp.app.Models.API;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
 
 namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
 {
@@ -139,7 +131,7 @@ namespace scheapp.app.Areas.ScheApp.Pages.BusinessAdmin
                     BusinessList = allProfessionalBusinessDetails.Select(i => new SelectListItem
                     {
                         Text = i.BusinessName,
-                        Value = i.BusinessId.GetValueOrDefault().ToString()
+                        Value = i.BusinessId.ToString()
                     })
                 };
             }

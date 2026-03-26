@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using scheapp.app.Controllers.Data;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Models.API;
-using scheapp.data.Db.TableModels.Businesses;
 
 namespace scheapp.app.Controllers.View
 {

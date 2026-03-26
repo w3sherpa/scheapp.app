@@ -47,10 +47,4 @@
     <Folder Include="wwwroot\lib\jquery\datatables\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="scheapp.data">
-      <HintPath>Libraries\scheapp.data.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

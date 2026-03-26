@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.SignalR;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.data.Db.TableModels.Professionals;
+using scheapp.app.Models.API;
+
 
 namespace scheapp.app.Controllers.Data
 {
@@ -25,7 +26,7 @@ namespace scheapp.app.Controllers.Data
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveProfessionalScheduleAppointmentRequests([FromBody] ProfessionalScheduleAppointmentRequest professionalScheduleAppointmentRequest )
+        public async Task<IActionResult> SaveProfessionalScheduleAppointmentRequests([FromBody] ProfessionalScheduleAppointmentRequest professionalScheduleAppointmentRequest)
         {
             try
             {

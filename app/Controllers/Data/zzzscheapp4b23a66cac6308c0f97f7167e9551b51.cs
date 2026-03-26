@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
 using scheapp.app.Models.API;
-using scheapp.data.Db.DspModels;
+
 using System.Data.Common;
 using System.Text;
 using System.Web;
@@ -175,7 +175,7 @@ namespace scheapp.app.Controllers.Data
                             scheduleDetail.ProFirst = reader["ProFirst"].ToString();
                             scheduleDetail.ProMiddle = reader["ProMiddle"].ToString();
                             scheduleDetail.ProLast = reader["ProLast"].ToString();
-                            scheduleDetail.CustFrist = reader["CustFrist"].ToString();
+                            scheduleDetail.CustFirst = reader["CustFirst"].ToString();
                             scheduleDetail.CustLast = reader["CustLast"].ToString();
                             scheduleDetail.CustMiddle = reader["CustMiddle"].ToString();
                         }

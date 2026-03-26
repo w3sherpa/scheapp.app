@@ -1,4 +1,4 @@
-﻿@using scheapp.data.Db.DspModels
+﻿
 @using scheapp.app.Models.API;
 @{
     ProfessionalBusinessDetailDsp businessProfessional = (ProfessionalBusinessDetailDsp)ViewBag.BusinessProfessional;
@@ -17,4 +17,4 @@
     ViewData["Title"] = "Professionals";
     Layout = "_BusinessLayout";
 }
-@await Html.PartialAsync("_ProfessionalListTable", new RequestByBusinessId { BusinessId = businessProfessional.BusinessId.GetValueOrDefault()})
+@await Html.PartialAsync("_ProfessionalListTable", new RequestByBusinessId { BusinessId = businessProfessional.BusinessId})

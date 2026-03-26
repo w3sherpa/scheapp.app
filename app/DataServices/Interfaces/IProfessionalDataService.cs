@@ -1,6 +1,6 @@
 ﻿using scheapp.app.Models.API;
-using scheapp.data.Db.DspModels;
-using scheapp.data.Db.TableModels.Professionals;
+
+
 
 namespace scheapp.app.DataServices.Interfaces
 {

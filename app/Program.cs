@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using scheapp.app;
 using scheapp.app.Data;
 using scheapp.app.DataServices;
 using scheapp.app.DataServices.Interfaces;
 using scheapp.app.Helpers;
-using scheapp.data.Db.DbContexts;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 using System.Text;
